@@ -81,6 +81,8 @@ export interface Work {
   big?: boolean;
   maxTitle?: string;
   accent?: boolean;
+  /** Archive entry: the video is the studio's, but its title is described from the frame and awaits the studio's wording. */
+  archive?: boolean;
 }
 
 /** Portfolio — VK id ↔ project pairs confirmed by the client on 17.09.2026. */
@@ -96,6 +98,26 @@ export const works: Work[] = [
   { id: '456239540', title: 'Презентационный фильм о Южно-Российском государственном политехническом университете', type: 'ПРЕЗЕНТАЦИЯ', w: 'min(22vw, 300px)', h: '38vh', align: 'start', offset: '18vh' },
   { id: '456239538', title: 'Рекламное видео для компании «Cattoi»', type: 'РЕКЛАМА', poster: posters['456239538'], w: 'min(34vw, 460px)', h: '48vh', align: 'center' },
 ];
+
+/**
+ * Archive — nine more videos from the studio's VK channel (community −162568874) that came with the export
+ * but without titles or clients. Titles below describe what is in the frame; they are shown with an
+ * «архив» mark and must be replaced with the studio's own wording. TODO(studio): confirm titles/clients.
+ */
+export const archiveWorks: Work[] = [
+  { id: '456239369', title: 'Фильм о строительстве моста через Осипов овраг', type: 'ПРЕЗЕНТАЦИЯ', poster: posters['456239369'], w: 'min(40vw, 540px)', h: '56vh', align: 'center', big: true, maxTitle: '22ch', archive: true },
+  { id: '456239388', title: 'Видео о продукции: коробка УТН-4 для подключения тензодатчиков', type: 'ВИДЕО О ПРОДУКЦИИ', poster: posters['456239388'], w: 'min(26vw, 340px)', h: '44vh', align: 'start', offset: '12vh', archive: true },
+  { id: '456239521', title: 'Репортаж с производства «Wagenmaier»', type: 'РЕПОРТАЖ', poster: posters['456239521'], w: 'min(30vw, 400px)', h: '52vh', align: 'end', offset: '8vh', archive: true },
+  { id: '456239161', title: 'Презентационный ролик о добыче песка: земснаряд и баржи', type: 'ПРЕЗЕНТАЦИЯ', poster: posters['456239161'], w: 'min(34vw, 460px)', h: '48vh', align: 'center', archive: true },
+  { id: '456239519', title: 'Имиджевый ролик автомобиля: ночная городская съёмка', type: 'РЕКЛАМА', poster: posters['456239519'], w: 'min(28vw, 380px)', h: '46vh', align: 'start', offset: '14vh', archive: true },
+  { id: '456239159', title: 'Репортаж с выставочного стенда', type: 'РЕПОРТАЖ', poster: posters['456239159'], w: 'min(24vw, 320px)', h: '42vh', align: 'end', offset: '10vh', archive: true },
+  { id: '456239447', title: 'Интервью с командой IT-компании', type: 'ИНТЕРВЬЮ', poster: posters['456239447'], w: 'min(36vw, 480px)', h: '50vh', align: 'center', accent: true, archive: true },
+  { id: '456239354', title: 'Съёмка трактора «Stavitsky161» в поле', type: 'РЕПОРТАЖ', poster: posters['456239354'], w: 'min(26vw, 340px)', h: '44vh', align: 'start', offset: '8vh', archive: true },
+  { id: '456239353', title: 'Подкаст: запись интервью в студии', type: 'ПОДКАСТ', poster: posters['456239353'], w: 'min(28vw, 380px)', h: '48vh', align: 'end', offset: '12vh', archive: true },
+];
+
+/** Every openable case: confirmed works first, then the archive. Case indices are positions in this list. */
+export const allWorks: Work[] = [...works, ...archiveWorks];
 
 export const heroVideoId = '456239162';
 

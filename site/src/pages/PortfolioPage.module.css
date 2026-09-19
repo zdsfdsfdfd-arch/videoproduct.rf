@@ -76,9 +76,31 @@
   transition: transform 0.5s var(--ease);
 }
 .tile:hover .name { transform: translateX(6px); }
+.archiveMark {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 2px 6px;
+  border: 1px solid var(--line-paper-22);
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  color: var(--grey);
+  vertical-align: middle;
+}
+.divider {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: clamp(20px, 4vh, 50px);
+  padding-top: clamp(20px, 3vh, 34px);
+  border-top: 1px solid var(--line-paper-14);
+}
+.dividerNote { color: var(--grey); opacity: 0.7; }
 
 @media (max-width: 767px) {
   .tile[data-size] { grid-column: span 12; --h: 44vh; }
+  .divider { flex-direction: column; gap: 6px; }
 }
 
 .filters {

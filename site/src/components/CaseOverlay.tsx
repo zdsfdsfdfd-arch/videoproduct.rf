@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Picture } from '@/components/Picture';
 import { VkPlayer } from '@/components/VkPlayer';
-import { caseFallbackFrames, vkVideoUrl, works } from '@/content';
+import { caseFallbackFrames, vkVideoUrl, allWorks } from '@/content';
 import { getEngine } from '@/lib/scroll-engine';
 import styles from './CaseOverlay.module.css';
 
@@ -89,7 +89,7 @@ export function CaseOverlay({ request, onClose }: { request: CaseRequest | null;
   }, [phase, onClose]);
 
   if (!shown || phase === 'closed') return null;
-  const work = works[shown.index];
+  const work = allWorks[shown.index];
   const num = String(shown.index + 1).padStart(2, '0');
 
   return (
@@ -100,7 +100,10 @@ export function CaseOverlay({ request, onClose }: { request: CaseRequest | null;
       <div ref={flyer} aria-hidden="true" className={styles.flyer} />
       <div className={styles.body} data-phase={phase}>
         <div className={styles.page}>
-          <div className={`${styles.index} mono mono-dim`}>КЕЙС {num}</div>
+          <div className={`${styles.index} mono mono-dim`}>
+            КЕЙС {num}
+            {work.archive && ' · ИЗ АРХИВА VK'}
+          </div>
           <h3 className={styles.title}>{work.title}</h3>
           <div className={styles.meta}>
             ТИП
@@ -143,7 +146,11 @@ export function CaseOverlay({ request, onClose }: { request: CaseRequest | null;
             </div>
           </div>
 
-          <p className={styles.note}>Кадры со съёмок — из архива студии. Описание и результаты кейса на исходном сайте не опубликованы.</p>
+          <p className={styles.note}>
+            {work.archive
+              ? 'Ролик из архива VK-канала студии. Название описано по кадру и уточняется у студии; описание и результаты кейса не опубликованы.'
+              : 'Кадры со съёмок — из архива студии. Описание и результаты кейса на исходном сайте не опубликованы.'}
+          </p>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
+import { Link } from 'react-router-dom';
 import { VkPlayer } from '@/components/VkPlayer';
-import { works } from '@/content';
+import { works, allWorks } from '@/content';
 import { useAnchorClick, useIsDesktop } from '@/lib/hooks';
 import styles from './Works.module.css';
 
@@ -81,6 +82,9 @@ export function Works({ onOpen }: Props) {
 
           <div className={styles.outro}>
             <p className="body-copy">На сайте студии — раздел «Портфолио 100+»: ознакомительные ролики, видео о продукции, имиджевые и продающие видео.</p>
+            <Link to="/portfolio" data-cursor="ОТКРЫТЬ" className={`${styles.cta} mono`}>
+              ВСЕ {allWorks.length} РОЛИКОВ →
+            </Link>
             <a href="#sp-09" onClick={onClick} data-cursor="ВПЕРЁД" className={`${styles.cta} mono`}>
               ОБСУДИТЬ ПРОЕКТ →
             </a>

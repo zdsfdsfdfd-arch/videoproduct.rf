@@ -3,36 +3,57 @@ import { Link } from 'react-router-dom';
 import { useOpenCase } from '@/App';
 import { VkPlayer } from '@/components/VkPlayer';
 import { PageShell } from './PageShell';
-import { works, reviews, vkVideoUrl } from '@/content';
+import { works, archiveWorks, allWorks, reviews, vkVideoUrl } from '@/content';
 import { useIsDesktop } from '@/lib/hooks';
 import styles from './PortfolioPage.module.css';
 
-const SIZES = ['xl', 's', 'm', 'l', 's', 'm', 'xl', 's', 'm'];
+const SIZES = ['xl', 's', 'm', 'l', 's', 'm', 'xl', 's', 'm', 'l', 's', 'm', 'xl', 's', 'm', 'l', 'm', 's'];
 
-/** Cinematic wall of every project with a type filter, live muted previews, click → case; then the video reviews as «истории клиентов». */
+/**
+ * Cinematic wall of every project with a type filter, live muted previews, click → case; then the video
+ * reviews as «истории клиентов». The wall is the nine confirmed cases followed by the VK archive (titles
+ * described from the frame, awaiting the studio's wording) — case indices are positions in `allWorks`.
+ */
 export function PortfolioPage() {
   const openCase = useOpenCase();
   const desktop = useIsDesktop();
   const [filter, setFilter] = useState<string | null>(null);
-  const types = useMemo(() => Array.from(new Set(works.map((w) => w.type))), []);
-  const shown = works.map((w, i) => ({ w, i })).filter(({ w }) => !filter || w.type === filter);
+  const types = useMemo(() => Array.from(new Set(allWorks.map((w) => w.type))), []);
+  const shown = allWorks.map((w, i) => ({ w, i })).filter(({ w }) => !filter || w.type === filter);
+  const confirmed = shown.filter(({ w }) => !w.archive);
+  const archive = shown.filter(({ w }) => w.archive);
+  const size = (i: number, k: number) => (filter ? ['xl', 'm', 'm', 'l'][k % 4] : SIZES[i % SIZES.length]);
 
   return (
-    <PageShell index="01" kicker="ПОРТФОЛИО 100+ · 9 ПРОЕКТОВ С ВИДЕО" title={<>Портфо<em>лио</em></>} lead="На сайте студии — раздел «Портфолио 100+»: ознакомительные ролики, видео о продукции, имиджевые и продающие видео. Здесь — девять проектов с видео, по клику открывается кейс.">
+    <PageShell
+      index="01"
+      kicker={`ПОРТФОЛИО 100+ · ${allWorks.length} РОЛИКОВ С ВИДЕО`}
+      title={<>Портфо<em>лио</em></>}
+      lead={`На сайте студии — раздел «Портфолио 100+»: ознакомительные ролики, видео о продукции, имиджевые и продающие видео. Здесь — ${allWorks.length} роликов из VK-канала студии: ${works.length} кейсов с подтверждёнными названиями и ${archiveWorks.length} из архива. По клику открывается кейс.`}
+    >
       <div className={styles.filters} role="tablist" aria-label="Тип проекта">
         <button type="button" role="tab" aria-selected={filter === null} className={`${styles.filter} mono`} onClick={() => setFilter(null)}>
-          ВСЕ <span className={styles.filterCount}>{works.length}</span>
+          ВСЕ <span className={styles.filterCount}>{allWorks.length}</span>
         </button>
         {types.map((t) => (
           <button key={t} type="button" role="tab" aria-selected={filter === t} className={`${styles.filter} mono`} onClick={() => setFilter(t)}>
-            {t} <span className={styles.filterCount}>{works.filter((w) => w.type === t).length}</span>
+            {t} <span className={styles.filterCount}>{allWorks.filter((w) => w.type === t).length}</span>
           </button>
         ))}
       </div>
 
       <section id="sp-02" data-scene className={styles.wall} aria-label="Портфолио">
-        {shown.map(({ w, i }, k) => (
-          <Tile key={w.id} i={i} size={filter ? ['xl', 'm', 'm', 'l'][k % 4] : SIZES[i]} work={w} desktop={desktop} onOpen={openCase} />
+        {confirmed.map(({ w, i }, k) => (
+          <Tile key={w.id} i={i} size={size(i, k)} work={w} desktop={desktop} onOpen={openCase} />
+        ))}
+        {archive.length > 0 && (
+          <div className={`${styles.divider} mono mono-dim`} role="presentation">
+            <span>ЕЩЁ ИЗ АРХИВА VK · {archive.length}</span>
+            <span className={styles.dividerNote}>НАЗВАНИЯ ОПИСАНЫ ПО КАДРУ И УТОЧНЯЮТСЯ У СТУДИИ</span>
+          </div>
+        )}
+        {archive.map(({ w, i }, k) => (
+          <Tile key={w.id} i={i} size={size(i, k + confirmed.length)} work={w} desktop={desktop} onOpen={openCase} />
         ))}
       </section>
 
@@ -58,7 +79,7 @@ export function PortfolioPage() {
   );
 }
 
-function Tile({ i, size, work, desktop, onOpen }: { i: number; size: string; work: (typeof works)[number]; desktop: boolean; onOpen: (i: number, el: HTMLElement) => void }) {
+function Tile({ i, size, work, desktop, onOpen }: { i: number; size: string; work: (typeof allWorks)[number]; desktop: boolean; onOpen: (i: number, el: HTMLElement) => void }) {
   const thumb = useRef<HTMLSpanElement>(null);
   return (
     <button type="button" data-cursor="ОТКРЫТЬ" className={styles.tile} data-size={size} onClick={() => thumb.current && onOpen(i, thumb.current)}>
@@ -76,6 +97,7 @@ function Tile({ i, size, work, desktop, onOpen }: { i: number; size: string; wor
       </span>
       <span className={`${styles.meta} mono`} style={{ color: work.accent ? 'var(--accent)' : undefined }}>
         {String(i + 1).padStart(2, '0')} · {work.type}
+        {work.archive && <span className={styles.archiveMark}>АРХИВ</span>}
       </span>
       <span className={styles.name}>{work.title}</span>
     </button>

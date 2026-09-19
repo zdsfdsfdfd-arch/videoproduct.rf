@@ -81,4 +81,8 @@ functions/api/lead.ts   Telegram handler (Web-standard Request/Response)
 
 - Telegram account link and the privacy-policy link are not published — both are rendered as marked placeholders in 12 / Контакт (`src/content/index.ts` → `contacts`).
 - No still frame was supplied for the university film (work 08) — its VK preview loads directly.
+- The original portfolio page («Портфолио 100+») was not reachable from the build environment. Besides the nine
+  confirmed cases, the export contained nine more VK videos of the studio without titles or clients; they are
+  listed in `src/content/index.ts` → `archiveWorks` with titles described from the frame, marked «архив» on
+  `/portfolio` and in the case overlay. Replace those titles with the studio's own wording when available.
 - Case pages have no text description or results; the note says so.
