@@ -1,0 +1,34 @@
+{
+  "source": "Видеопродакшн.РФ",
+  "portfolio_videos": [
+    {"id": 1, "title": "Рекламный ролик ЖК «Art City»", "type": "РЕКЛАМА", "url": "https://vkvideo.ru/video-162568874_456239162", "cover": true},
+    {"id": 2, "title": "Рекламный ролик «Apple» для кинотеатров", "type": "РЕКЛАМА", "url": "https://vkvideo.ru/video-162568874_456239545"},
+    {"id": 3, "title": "Рекламный видеоролик для маркетплейсов", "type": "МАРКЕТПЛЕЙСЫ", "url": "https://vkvideo.ru/video-162568874_456239539"},
+    {"id": 4, "title": "Рекламный ролик для компании по производству авиационных интерьеров", "type": "ПРОИЗВОДСТВО", "url": "https://vkvideo.ru/video-162568874_456239459"},
+    {"id": 5, "title": "3D-мультипликация об 1C для компании «ICL»", "type": "3D-АНИМАЦИЯ", "url": "https://vkvideo.ru/video-162568874_456239356"},
+    {"id": 6, "title": "Имиджевый ролик о компании «Технодор СК»", "type": "ИМИДЖ", "url": "https://vkvideo.ru/video-162568874_456239359"},
+    {"id": 7, "title": "Документальный фильм о В.Б. Шнеппе для НИИ «Турбокомпрессор»", "type": "ДОКУМЕНТАЛЬНЫЙ ФИЛЬМ", "url": "https://vkvideo.ru/video-162568874_456239518"},
+    {"id": 8, "title": "Презентационный фильм о Южно-Российском государственном политехническом университете", "type": "ПРЕЗЕНТАЦИЯ", "url": "https://vkvideo.ru/video-162568874_456239540"},
+    {"id": 9, "title": "Рекламное видео для компании «Cattoi»", "type": "РЕКЛАМА", "url": "https://vkvideo.ru/video-162568874_456239538"}
+  ],
+  "review_videos": [
+    {"company": "ICL Services", "url": "https://vkvideo.ru/video-162568874_456239482"},
+    {"company": "Волжская судоходная компания", "url": "https://vkvideo.ru/video-162568874_456239473"},
+    {"company": "ФАУ «Росдорнии»", "url": "https://vkvideo.ru/video-162568874_456239479"},
+    {"company": "ООО «МеталлКлинер»", "url": "https://vkvideo.ru/video-162568874_456239475"}
+  ],
+  "note_team": "Файлы команды пересопоставлены 17.09 по оригинальному баннеру сайта.",
+  "note": "Соответствие ссылок проектам подтверждено пользователем 17.09.2026.",
+  "team": [
+    {"name": "Роман", "role": "Режиссёр", "file": "assets/images/team/team-roman-director.webp"},
+    {"name": "Семён", "role": "Кинооператор", "file": "assets/images/team/team-semen-dop.webp"},
+    {"name": "Николай", "role": "Видеооператор", "file": "assets/images/team/team-nikolay-camera.webp"},
+    {"name": "Ирина", "role": "Режиссёр монтажа", "file": "assets/images/team/team-irina-editor.webp"},
+    {"name": "Исхак", "role": "Звукорежиссёр", "file": "assets/images/team/team-iskhak-sound.webp"},
+    {"name": "Аниса", "role": "Гримёр", "file": "assets/images/team/team-anisa-makeup.webp"},
+    {"name": "Алексей", "role": "Пилот квадрокоптера", "file": "assets/images/team/team-aleksey-drone.webp"},
+    {"name": "Булат", "role": "Художник по свету", "file": "assets/images/team/team-bulat-light.webp"}
+  ],
+  "clients_trust": ["ICL Services", "Leroy Merlin", "Avito", "Унистрой", "Автодор", "VK", "Яндекс Еда", "МЕГА", "СИБУР"],
+  "clients_logos_dir": "assets/images/clients/ (вырезаны из скриншота исходного сайта, чёрные на прозрачном)"
+}

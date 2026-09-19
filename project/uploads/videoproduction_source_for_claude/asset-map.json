@@ -1,0 +1,31 @@
+{
+  "source": "Видеопродакшн.РФ",
+  "source_url": "https://xn--80adgaeqsyfakm2i.xn--p1ai/",
+  "local_assets": [],
+  "roles": [
+    {
+      "role": "hero",
+      "description": "creative/decorative production visual"
+    },
+    {
+      "role": "client_logos",
+      "description": "logos shown in trust section"
+    },
+    {
+      "role": "portfolio",
+      "description": "portfolio/case imagery"
+    },
+    {
+      "role": "team",
+      "description": "team portraits"
+    },
+    {
+      "role": "process",
+      "description": "camera, clapperboard, studio and lighting visuals"
+    },
+    {
+      "role": "reviews",
+      "description": "review/testimonial related imagery"
+    }
+  ]
+}
