@@ -29,6 +29,7 @@
 .cell[data-v='basic'] .dot { background: transparent; border: 1px solid var(--accent); }
 .cellLabel { color: var(--grey); letter-spacing: 0.14em; }
 .cell[data-v='none'] .cellLabel { color: rgba(241, 237, 247, 0.3); }
+.cellTariff { display: none; }
 .cellText { align-items: flex-start; line-height: 1.9; letter-spacing: 0.1em; color: var(--grey); font-size: 10px; }
 
 .howTitle {
@@ -76,8 +77,18 @@
   .cornerCell { display: none; }
   .colHead { display: none; }
   .stageRow { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; }
-  .stageName { grid-column: 1 / span 3; }
-  .cell { flex-direction: column; align-items: flex-start; }
-  .cellLabel::before { content: attr(data-t); }
+  .stageName { grid-column: 1 / span 3; padding-top: 22px; }
+  .cell { flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px 10px 14px; }
+  .cell[data-accent] { background: var(--panel); }
+  /* the tariff name sits in every cell — the header row is hidden on phones */
+  .cellTariff {
+    display: block;
+    font-size: 8px;
+    letter-spacing: 0.16em;
+    color: var(--paper);
+  }
+  .cell[data-accent] .cellTariff { color: var(--accent); }
+  .cellLabel { font-size: 9px; }
+  .cellText { font-size: 9px; }
   .steps { grid-template-columns: 1fr; }
 }

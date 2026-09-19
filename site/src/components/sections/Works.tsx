@@ -75,9 +75,13 @@ export function Works({ onOpen }: Props) {
         <div ref={track} className={styles.track}>
           {desktop && <Title />}
 
-          {works.map((w, i) => (
-            <WorkCard key={w.id} index={i} work={w} desktop={desktop} armed={armed} onOpen={onOpen} />
-          ))}
+          {works
+            .map((w, i) => ({ w, i }))
+            // phones show stills only (no VK embed), so a project without a still has nothing to show there
+            .filter(({ w }) => desktop || w.poster)
+            .map(({ w, i }) => (
+              <WorkCard key={w.id} index={i} work={w} desktop={desktop} armed={armed} onOpen={onOpen} />
+            ))}
 
           <div className={styles.outro}>
             <p className="body-copy">На сайте студии — раздел «Портфолио 100+»: ознакомительные ролики, видео о продукции, имиджевые и продающие видео.</p>

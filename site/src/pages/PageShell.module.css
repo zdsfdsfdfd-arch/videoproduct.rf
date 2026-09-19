@@ -52,5 +52,6 @@
 .footLink:hover { color: var(--accent); }
 
 @media (max-width: 767px) {
-  .title { font-size: clamp(40px, 15vw, 80px); }
+  /* «ПОРТФОЛИО» (9 heavy capitals) must fit between the gutters on every phone */
+  .title { font-size: clamp(36px, 12.5vw, 72px); overflow-wrap: anywhere; }
 }

@@ -37,9 +37,11 @@ export function TariffsPage() {
               {tariffs.map((t) => {
                 const v = stageIn(t, st);
                 return (
-                  <div key={t.name} className={styles.cell} data-v={v}>
+                  <div key={t.name} className={styles.cell} data-v={v} data-accent={t.accent ? '1' : undefined}>
+                    {/* phones hide the column header row, so every cell names its tariff */}
+                    <span className={`${styles.cellTariff} mono`}>{t.name.toUpperCase()}</span>
                     <span className={styles.dot} />
-                    <span className={`${styles.cellLabel} mono`}>{v === 'full' ? 'ВХОДИТ' : v === 'basic' ? 'БАЗОВЫЙ' : '—'}</span>
+                    <span className={`${styles.cellLabel} mono`}>{v === 'full' ? 'ВХОДИТ' : v === 'basic' ? 'БАЗОВЫЙ' : 'НЕТ'}</span>
                   </div>
                 );
               })}
@@ -51,7 +53,8 @@ export function TariffsPage() {
               Для каких задач
             </div>
             {tariffs.map((t) => (
-              <div key={t.name} className={`${styles.cell} ${styles.cellText} mono`}>
+              <div key={t.name} className={`${styles.cell} ${styles.cellText} mono`} data-accent={t.accent ? '1' : undefined}>
+                <span className={styles.cellTariff}>{t.name.toUpperCase()}</span>
                 {t.fits}
               </div>
             ))}
