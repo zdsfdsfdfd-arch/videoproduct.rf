@@ -55,6 +55,8 @@
 }
 @media (max-width: 1279px) {
   .menu { display: none; }
+  /* the «МЕНЮ» plate (78px) takes the right corner; the CTA moves left of it */
+  .contact { right: calc(40px + 78px + 8px); }
 }
 .dotAccent {
   width: 7px;
@@ -66,7 +68,7 @@
 
 @media (max-width: 767px) {
   .logo { left: calc(var(--perf) + 8px); padding: 6px 10px 6px 7px; gap: 8px; }
-  .contact { right: calc(var(--perf) + 8px); padding: 9px 12px; gap: 9px; }
+  .contact { right: calc(var(--perf) + 8px + 78px + 8px); padding: 9px 12px; gap: 9px; }
   .brand { display: none; }
   .full { display: none; }
   .short { display: inline; }

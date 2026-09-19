@@ -7,6 +7,7 @@ import { ProgressBar } from '@/components/chrome/ProgressBar';
 import { Cursor } from '@/components/chrome/Cursor';
 import { TopBars } from '@/components/chrome/TopBars';
 import { SideNav, MiniNav } from '@/components/chrome/Nav';
+import { MobileMenu } from '@/components/chrome/MobileMenu';
 import { CaseOverlay, type CaseRequest } from '@/components/CaseOverlay';
 import { Home } from '@/pages/Home';
 import { PortfolioPage } from '@/pages/PortfolioPage';
@@ -57,6 +58,7 @@ export function App() {
         <ProgressBar />
         <Cursor />
         <TopBars />
+        <MobileMenu />
         <SideNav />
         <MiniNav />
 

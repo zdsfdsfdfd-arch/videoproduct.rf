@@ -6,8 +6,8 @@ import { useAnchorClick } from '@/lib/hooks';
 import styles from './TopBars.module.css';
 
 /**
- * Fixed top chrome: the brand plate (left), the page menu (centre, desktop only — phones use the
- * bottom strip) and the consultation CTA (right, scrolls to the contact form).
+ * Fixed top chrome: the brand plate (left), the page menu (centre, ≥1280px — narrower screens get
+ * the «МЕНЮ» plate, see MobileMenu) and the consultation CTA (right, scrolls to the contact form).
  */
 export function TopBars() {
   const onClick = useAnchorClick();
