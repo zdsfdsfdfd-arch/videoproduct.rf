@@ -259,18 +259,35 @@ function Makeup({ box }: SceneProps) {
 }
 
 /* 6 · Исхак — sound: ripples off the boom mic, an equalizer along the floor, a VU meter beside him */
+const EQ_BARS = 22;
+/** The level the bars play up to — the «-12 dB» from Исхак's plate, as a share of the equalizer height. */
+const EQ_PEAK = 0.72;
+
 function Sound({ box }: SceneProps) {
   const { L, T, W, H, cx } = box;
-  const [bars] = useState(() => Array.from({ length: 22 }, (_, n) => ({ dur: 0.5 + Math.random() * 0.6, delay: n * 0.03 })));
+  // a spectrum-shaped envelope: low bands loud, highs quieter, every bar with its own tempo
+  const [bars] = useState(() =>
+    Array.from({ length: EQ_BARS }, (_, n) => {
+      const x = n / (EQ_BARS - 1);
+      const envelope = 0.45 + 0.55 * Math.sin(Math.PI * (0.15 + x * 0.7));
+      return { amp: (EQ_PEAK * envelope).toFixed(3), dur: 0.45 + Math.random() * 0.5, delay: n * 0.035 };
+    }),
+  );
   return (
     <>
       {[0, 1, 2].map((n) => (
         <div key={n} className={fx.ripple} style={{ left: pct(L + W * 0.18), top: pct(T + H * 0.6), width: pct(W * 0.9), animationDelay: `${n * 0.8}s` }} />
       ))}
-      <div className={fx.eq} style={{ left: pct(cx - W * 0.85), width: pct(W * 1.7), top: pct(T + H * 0.8), height: pct(H * 0.19) }}>
+      <div className={fx.eq} style={{ left: pct(cx - W * 0.85), width: pct(W * 1.7), top: pct(T + H * 0.8), height: pct(H * 0.19), '--peak': EQ_PEAK } as CSSProperties}>
         {bars.map((b, n) => (
-          <span key={n} style={{ animationDuration: `${b.dur}s`, animationDelay: `${b.delay}s`, background: n % 7 === 0 ? '#F1EDF7' : 'var(--accent)' }} />
+          <span
+            key={n}
+            style={{ '--amp': b.amp, animationDuration: `${b.dur}s`, animationDelay: `${b.delay}s`, background: n % 7 === 0 ? '#F1EDF7' : 'var(--accent)' } as CSSProperties}
+          />
         ))}
+        <span className={fx.eqPeak}>
+          <i>-12 dB</i>
+        </span>
       </div>
       <div className={fx.vu} style={{ left: pct(L + W * 1.06), top: pct(T + H * 0.22), height: pct(H * 0.5) }}>
         <span className={fx.vuScale}>0</span>

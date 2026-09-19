@@ -168,7 +168,7 @@
   .titleTop {
     margin: 0 0 24px;
     padding: 0 var(--gutter);
-    font-size: clamp(34px, 10vw, 56px);
+    font-size: clamp(30px, 8.4vw, 56px);
   }
   .card {
     width: 78vw !important;

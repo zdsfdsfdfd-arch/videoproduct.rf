@@ -65,6 +65,9 @@ export function Team() {
     if (i != null && findIdx(ev.relatedTarget) == null) deactivate();
   };
   const onFocus = (ev: FocusEvent) => {
+    // On touch screens a tap focuses the figure and then clicks it — letting focus activate would
+    // make the click toggle the effect straight back off. Touch uses the click toggle only.
+    if (coarse) return;
     const i = findIdx(ev.target);
     if (i != null) activate(i);
   };
