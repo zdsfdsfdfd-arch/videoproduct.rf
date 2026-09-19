@@ -35,8 +35,8 @@ function devLeadApi(env: Record<string, string>): Plugin {
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
-    // PREVIEW=1 builds a relocatable bundle (relative asset URLs) for hosting under a sub-path
-    base: process.env.PREVIEW ? './' : '/',
+    // PREVIEW=1 → relative asset URLs (artifact preview); VITE_BASE=/repo/ → GitHub Pages project sub-path
+    base: process.env.PREVIEW ? './' : env.VITE_BASE || '/',
     plugins: [react(), devLeadApi(env)],
     resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
     build: {
