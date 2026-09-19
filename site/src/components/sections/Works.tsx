@@ -69,12 +69,11 @@ export function Works({ onOpen }: Props) {
           <span>ПОРТФОЛИО 100+ · ГОРИЗОНТАЛЬНАЯ ЛЕНТА</span>
         </div>
 
+        {/* phones: the title sits above the swipe track instead of being its first slide */}
+        {!desktop && <Title top />}
+
         <div ref={track} className={styles.track}>
-          <h2 className={styles.title}>
-            Снятое
-            <br />
-            <span className={styles.titleDim}>и смонтированное</span>
-          </h2>
+          {desktop && <Title />}
 
           {works.map((w, i) => (
             <WorkCard key={w.id} index={i} work={w} desktop={desktop} armed={armed} onOpen={onOpen} />
@@ -92,6 +91,16 @@ export function Works({ onOpen }: Props) {
         </div>
       </div>
     </section>
+  );
+}
+
+function Title({ top }: { top?: boolean }) {
+  return (
+    <h2 className={`${styles.title} ${top ? styles.titleTop : ''}`}>
+      Снятое
+      <br />
+      <span className={styles.titleDim}>и смонтированное</span>
+    </h2>
   );
 }
 

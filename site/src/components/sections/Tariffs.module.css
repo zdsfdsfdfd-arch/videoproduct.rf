@@ -84,23 +84,15 @@
 @media (max-width: 767px) {
   .index, .title, .lead { grid-column: 1 / span 12; }
   .lead { margin-top: 16px; }
-  .columns {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    margin-left: calc(var(--gutter) * -1);
-    margin-right: calc(var(--gutter) * -1);
-    padding: 0 var(--gutter);
-  }
-  .columns::-webkit-scrollbar { display: none; }
+  /* phones: the three tariffs stack — nothing is cut off, nothing needs a sideways swipe */
+  .columns { flex-direction: column; margin-top: 36px; }
   .tariff {
-    flex: 0 0 82vw;
+    flex: 1 1 auto;
     min-width: 0;
-    scroll-snap-align: start;
     padding: 22px;
   }
-  .tariff:hover { flex-grow: 0; }
+  .tariff:hover { flex-grow: 1; }
   .price { font-size: 34px; }
+  .stages { line-height: 2.1; }
   .foot { line-height: 1.9; }
 }

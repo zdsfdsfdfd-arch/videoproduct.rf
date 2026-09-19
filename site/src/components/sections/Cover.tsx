@@ -8,12 +8,13 @@ import styles from './Cover.module.css';
 /**
  * 00 / Обложка — magazine cover: full-bleed VK showreel (muted, looping) under the poster frame,
  * the director cut out on the right with mouse parallax, and the title moving the opposite way.
+ * Phones get the same muted showreel (inline, muted autoplay is allowed there); the still frame
+ * stays on top until the player has painted, and stays for good if autoplay is refused.
  */
 export function Cover() {
   const onClick = useAnchorClick();
   const desktop = useIsDesktop();
-  // VK autoplay is desktop-only in practice; phones keep the still.
-  const videoOn = desktop && !getEngine().reduced;
+  const videoOn = !getEngine().reduced;
 
   return (
     <section id="sp-00" data-scene className={styles.section} aria-label="Обложка">
@@ -28,7 +29,7 @@ export function Cover() {
           <div className={styles.video} aria-hidden="true">
             <div className={styles.videoBox}>
               {videoOn ? (
-                <VkPlayer id={heroVideoId} title="Шоурил студии" poster={coverPoster.src} autoplay eager holdMs={2200} className={styles.frame} />
+                <VkPlayer id={heroVideoId} title="Шоурил студии" poster={coverPoster.src} autoplay eager holdMs={desktop ? 2200 : 3000} hd={desktop ? 2 : 1} className={styles.frame} />
               ) : (
                 <Picture photo={coverPoster} alt="" className={styles.poster} loading="eager" fetchPriority="high" />
               )}

@@ -16,6 +16,33 @@ export function Reviews() {
 
   const current = reviews[active];
 
+  // Phones: no pin — the four reviews stack, each with its own (tap-to-play) VK player.
+  if (!desktop) {
+    return (
+      <section id="sp-08" ref={section} data-scene className={`${styles.section} ${styles.stack}`} aria-label="08 Отзывы">
+        <div className={`${styles.head} mono mono-dim`}>
+          <span>08 / ОТЗЫВЫ</span>
+          <span>{String(reviews.length).padStart(2, '0')} ВИДЕО</span>
+        </div>
+        <ul className={styles.list}>
+          {reviews.map((r) => (
+            <li key={r.videoId} className={styles.item}>
+              <div className={styles.company}>{r.company}</div>
+              <div className={styles.name}>{r.name}</div>
+              <div className={styles.position}>{r.position}</div>
+              <div className={styles.player}>
+                <VkPlayer id={r.videoId} title={`Видеоотзыв — ${r.company}`} interactive prewarm="100% 0px" hd={1} className={styles.frame} />
+              </div>
+              <a href={vkVideoUrl(r.videoId)} target="_blank" rel="noopener" className={`${styles.link} mono`}>
+                СМОТРЕТЬ В VK →
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    );
+  }
+
   return (
     <section id="sp-08" ref={section} data-scene className={styles.section} aria-label="08 Отзывы">
       <div className={styles.sticky}>

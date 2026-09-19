@@ -93,9 +93,30 @@
   background: var(--accent);
 }
 
+/* phone layout: stacked list (see Reviews.tsx) */
+.stack {
+  min-height: 0;
+  padding: clamp(50px, 9vh, 90px) var(--gutter) clamp(40px, 7vh, 70px);
+}
+.stack .head { margin-bottom: 26px; }
+.list {
+  display: grid;
+  gap: 34px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.item { padding-top: 18px; border-top: 1px solid var(--line-paper-22); }
+.stack .name { margin-top: 10px; font-size: clamp(28px, 9vw, 40px); }
+.stack .position { margin-top: 8px; font-size: 15px; }
+.stack .player { margin-top: 16px; }
+.link {
+  display: inline-block;
+  margin-top: 12px;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+
 @media (max-width: 767px) {
-  .section { min-height: 240vh; }
   .review { grid-column: 1 / span 12; }
-  .name { font-size: clamp(32px, 11vw, 48px); }
-  .player { display: none; }
 }

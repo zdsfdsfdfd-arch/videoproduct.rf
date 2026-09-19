@@ -144,17 +144,40 @@
 }
 .cta:hover { border-color: var(--accent); color: var(--accent); }
 
+/* Phones: no pin, no scroll-driven transform — the track is a native swipe carousel with snap points. */
 @media (max-width: 767px) {
+  .section { min-height: 0; padding: clamp(50px, 9vh, 90px) 0 clamp(40px, 7vh, 70px); }
+  .sticky { position: static; height: auto; overflow: visible; }
+  .head { position: static; margin: 0 0 26px; padding: 0 var(--gutter); }
   .head span:last-child { display: none; }
-  .track { gap: 22px; }
-  .title { font-size: clamp(40px, 13vw, 64px); margin-right: 8px; }
-  .card {
-    width: 74vw !important;
-    align-self: center !important;
-    margin: 0 !important;
+  .track {
+    position: static;
+    height: auto;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 0 var(--gutter) 6px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--gutter);
+    scrollbar-width: none;
+    will-change: auto;
+    transform: none;
   }
-  .thumb { height: 44vh !important; }
+  .track::-webkit-scrollbar { display: none; }
+  .titleTop {
+    margin: 0 0 24px;
+    padding: 0 var(--gutter);
+    font-size: clamp(34px, 10vw, 56px);
+  }
+  .card {
+    width: 78vw !important;
+    align-self: flex-start !important;
+    margin: 0 !important;
+    scroll-snap-align: start;
+  }
+  .thumb { height: 104vw !important; }
   .name { font-size: 16px; max-width: none !important; }
   .metaRight { display: none; }
-  .outro { width: 74vw; }
+  .outro { width: 78vw; align-self: center; scroll-snap-align: start; }
 }

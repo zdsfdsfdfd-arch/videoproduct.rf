@@ -119,6 +119,7 @@
 .playRing {
   display: grid;
   place-items: center;
+  flex: 0 0 44px;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -188,7 +189,7 @@
     font-size: clamp(38px, 15vw, 64px);
     transform: none;
   }
-  .play { position: static; grid-column: 1 / span 12; margin-top: 22px; }
+  .play { position: static; grid-column: 1 / span 12; margin-top: 22px; font-size: 9px; }
   .footer { grid-template-columns: 1fr auto; gap: 12px; }
   .tagline { grid-column: 1 / span 2; font-size: 14px; max-width: 30ch; }
   .cities { grid-column: 1; gap: 8px; font-size: 9px; }

@@ -33,7 +33,10 @@
 .whereText { margin: 6px 0 0; max-width: 34ch; font-size: clamp(14px, 1.05vw, 17px); line-height: 1.55; color: var(--grey); }
 
 @media (max-width: 767px) {
-  .cards { grid-template-columns: 1fr 1fr; }
-  .card { min-height: 160px; }
+  .cards { grid-template-columns: 1fr; }
+  .card { min-height: 0; gap: 8px; padding: 18px; }
+  .cardValue { font-size: 24px; white-space: nowrap; }
+  .cardMail { font-size: 18px; white-space: normal; overflow-wrap: anywhere; }
+  .cardHint { margin-top: 6px; }
   .whereGrid { grid-template-columns: 1fr; }
 }
