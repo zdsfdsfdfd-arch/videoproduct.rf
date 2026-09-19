@@ -103,6 +103,31 @@
   width: 100%;
   height: 100%;
 }
+/* phone play card (the still + a play ring) → VK app / VK site */
+.playCard {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 12px;
+  color: var(--paper);
+  background: radial-gradient(ellipse at 50% 60%, rgba(140, 92, 255, 0.28), transparent 65%), var(--panel);
+}
+.playCard img { object-fit: cover; opacity: 0.55; }
+.playRing {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid rgba(241, 237, 247, 0.7);
+  background: rgba(10, 7, 20, 0.5);
+  font-size: 14px;
+  padding-left: 3px;
+}
+.playLabel { position: relative; letter-spacing: 0.14em; color: var(--paper); text-shadow: 0 2px 12px rgba(10, 7, 20, 0.9); }
 .note {
   grid-column: 3 / span 6;
   margin: clamp(36px, 5vh, 70px) 0 0;

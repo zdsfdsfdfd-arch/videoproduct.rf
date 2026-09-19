@@ -4,10 +4,15 @@ import { VkPlayer } from '@/components/VkPlayer';
 import { Clients } from '@/components/sections/Clients';
 import { reviews, vkVideoUrl, works, facts } from '@/content';
 import { reviewRelatedWork } from '@/content/pages';
+import { useIsDesktop } from '@/lib/hooks';
 import styles from './ReviewsPage.module.css';
 
-/** Отзывы — four video testimonials with the related project where it's known, the numbers, the clients. */
+/**
+ * Отзывы — four video testimonials with the related project where it's known, the numbers, the clients.
+ * Phones get play cards instead of the VK iframe (mobile browsers block the cookies it needs).
+ */
 export function ReviewsPage() {
+  const desktop = useIsDesktop();
   return (
     <PageShell index="05" kicker="4 ВИДЕООТЗЫВА · 600+ КЛИЕНТОВ · С 2015 ГОДА" title={<>Отзы<em>вы</em></>} lead="Клиенты говорят о работе со студией на камеру — без текстовых цитат, только видео. Рядом с каждым отзывом — проект, о котором идёт речь, если он есть в портфолио.">
       <section className={styles.strip} aria-label="Цифры" data-scene>
@@ -42,7 +47,19 @@ export function ReviewsPage() {
                   )}
                 </div>
               </div>
-              <VkPlayer id={r.videoId} title={`Видеоотзыв — ${r.company}`} interactive prewarm="100% 0px" className={styles.player} />
+              {desktop ? (
+                <VkPlayer id={r.videoId} title={`Видеоотзыв — ${r.company}`} interactive prewarm="100% 0px" className={styles.player} />
+              ) : (
+                <a href={vkVideoUrl(r.videoId)} target="_blank" rel="noopener" className={`${styles.player} ${styles.playCard}`} aria-label={`Смотреть видеоотзыв: ${r.name}, ${r.company}`}>
+                  <span className={styles.playIndex} aria-hidden="true">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span className={styles.playRing} aria-hidden="true">
+                    ▶
+                  </span>
+                  <span className={`${styles.playLabel} mono`}>СМОТРЕТЬ ОТЗЫВ В VK →</span>
+                </a>
+              )}
             </article>
           );
         })}

@@ -16,7 +16,9 @@ export function Reviews() {
 
   const current = reviews[active];
 
-  // Phones: no pin — the four reviews stack, each with its own (tap-to-play) VK player.
+  // Phones: no pin — the four reviews stack. Mobile browsers (Safari above all) block the cookies
+  // VK's embedded player needs and it renders «видео недоступно», so each review is a play card
+  // that opens the video in the VK app or the VK site, where playback is guaranteed.
   if (!desktop) {
     return (
       <section id="sp-08" ref={section} data-scene className={`${styles.section} ${styles.stack}`} aria-label="08 Отзывы">
@@ -25,16 +27,19 @@ export function Reviews() {
           <span>{String(reviews.length).padStart(2, '0')} ВИДЕО</span>
         </div>
         <ul className={styles.list}>
-          {reviews.map((r) => (
+          {reviews.map((r, i) => (
             <li key={r.videoId} className={styles.item}>
               <div className={styles.company}>{r.company}</div>
               <div className={styles.name}>{r.name}</div>
               <div className={styles.position}>{r.position}</div>
-              <div className={styles.player}>
-                <VkPlayer id={r.videoId} title={`Видеоотзыв — ${r.company}`} interactive prewarm="100% 0px" hd={1} className={styles.frame} />
-              </div>
-              <a href={vkVideoUrl(r.videoId)} target="_blank" rel="noopener" className={`${styles.link} mono`}>
-                СМОТРЕТЬ В VK →
+              <a href={vkVideoUrl(r.videoId)} target="_blank" rel="noopener" className={styles.playCard} aria-label={`Смотреть видеоотзыв: ${r.name}, ${r.company}`}>
+                <span className={styles.playIndex} aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span className={styles.playRing} aria-hidden="true">
+                  ▶
+                </span>
+                <span className={`${styles.playLabel} mono`}>СМОТРЕТЬ ОТЗЫВ В VK →</span>
               </a>
             </li>
           ))}

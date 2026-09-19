@@ -128,7 +128,12 @@ function WorkCard({ index, work, desktop, armed, onOpen }: { index: number; work
         ) : work.poster ? (
           <img src={work.poster} alt="" loading="lazy" className={styles.poster} />
         ) : (
-          <span className={styles.placeholder}>{work.title}</span>
+          // no still frame for this project yet — a designed card instead of an empty tile
+          <span className={styles.placeholder}>
+            <span className={styles.placeholderIndex}>{String(index + 1).padStart(2, '0')}</span>
+            <span className={styles.placeholderTitle}>{work.title}</span>
+            <span className={`${styles.placeholderNote} mono`}>КАДР ИЗ ФИЛЬМА · СКОРО</span>
+          </span>
         )}
         <span aria-hidden="true" className={styles.badge}>
           ▶ VK VIDEO

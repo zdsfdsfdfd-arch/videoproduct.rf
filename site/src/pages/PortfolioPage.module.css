@@ -37,15 +37,36 @@
 .placeholder {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 20px;
-  text-align: center;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  color: rgba(241, 237, 247, 0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 22px 20px 52px;
+  background:
+    radial-gradient(ellipse at 20% 15%, rgba(140, 92, 255, 0.4), transparent 55%),
+    linear-gradient(to top, rgba(10, 7, 20, 0.9), rgba(23, 15, 46, 0.4)),
+    var(--panel);
 }
+.placeholderIndex {
+  position: absolute;
+  left: 14px;
+  top: 4px;
+  font-weight: 900;
+  font-size: clamp(90px, 30vw, 160px);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: rgba(241, 237, 247, 0.08);
+}
+.placeholderTitle {
+  position: relative;
+  font-weight: 800;
+  font-size: clamp(18px, 5vw, 26px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  text-wrap: balance;
+}
+.placeholderNote { position: relative; font-size: 9px; letter-spacing: 0.16em; color: var(--grey); }
 .badge {
   position: absolute;
   left: 12px;

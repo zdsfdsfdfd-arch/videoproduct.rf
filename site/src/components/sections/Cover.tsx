@@ -1,6 +1,6 @@
 import { Picture } from '@/components/Picture';
 import { VkPlayer } from '@/components/VkPlayer';
-import { cities, contacts, coverPortrait, coverPoster, heroVideoId } from '@/content';
+import { cities, contacts, coverPortrait, coverPoster, heroVideoId, vkVideoUrl } from '@/content';
 import { useAnchorClick, useIsDesktop } from '@/lib/hooks';
 import { getEngine } from '@/lib/scroll-engine';
 import styles from './Cover.module.css';
@@ -8,13 +8,14 @@ import styles from './Cover.module.css';
 /**
  * 00 / Обложка — magazine cover: full-bleed VK showreel (muted, looping) under the poster frame,
  * the director cut out on the right with mouse parallax, and the title moving the opposite way.
- * Phones get the same muted showreel (inline, muted autoplay is allowed there); the still frame
- * stays on top until the player has painted, and stays for good if autoplay is refused.
+ * Phones keep the still: mobile browsers (Safari above all) block the cookies VK's embedded player
+ * needs and it renders «видео недоступно» instead of the showreel. The play button there opens the
+ * showreel in the VK app / VK site, where it always plays.
  */
 export function Cover() {
   const onClick = useAnchorClick();
   const desktop = useIsDesktop();
-  const videoOn = !getEngine().reduced;
+  const videoOn = desktop && !getEngine().reduced;
 
   return (
     <section id="sp-00" data-scene className={styles.section} aria-label="Обложка">
@@ -29,7 +30,7 @@ export function Cover() {
           <div className={styles.video} aria-hidden="true">
             <div className={styles.videoBox}>
               {videoOn ? (
-                <VkPlayer id={heroVideoId} title="Шоурил студии" poster={coverPoster.src} autoplay eager holdMs={desktop ? 2200 : 3000} hd={desktop ? 2 : 1} className={styles.frame} />
+                <VkPlayer id={heroVideoId} title="Шоурил студии" poster={coverPoster.src} autoplay eager holdMs={2200} className={styles.frame} />
               ) : (
                 <Picture photo={coverPoster} alt="" className={styles.poster} loading="eager" fetchPriority="high" />
               )}
@@ -48,9 +49,15 @@ export function Cover() {
             </span>
           </h1>
 
-          <a href="#sp-02" onClick={onClick} data-cursor="СМОТРЕТЬ" className={`${styles.play} mono`}>
-            <span className={styles.playRing}>▶</span>ШОУРИЛ · 2500+ РОЛИКОВ
-          </a>
+          {desktop ? (
+            <a href="#sp-02" onClick={onClick} data-cursor="СМОТРЕТЬ" className={`${styles.play} mono`}>
+              <span className={styles.playRing}>▶</span>ШОУРИЛ · 2500+ РОЛИКОВ
+            </a>
+          ) : (
+            <a href={vkVideoUrl(heroVideoId)} target="_blank" rel="noopener" className={`${styles.play} mono`}>
+              <span className={styles.playRing}>▶</span>ШОУРИЛ В VK · 2500+ РОЛИКОВ
+            </a>
+          )}
         </div>
 
         <footer className={styles.footer}>

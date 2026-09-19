@@ -86,3 +86,7 @@ functions/api/lead.ts   Telegram handler (Web-standard Request/Response)
   listed in `src/content/index.ts` → `archiveWorks` with titles described from the frame, marked «архив» on
   `/portfolio` and in the case overlay. Replace those titles with the studio's own wording when available.
 - Case pages have no text description or results; the note says so.
+- VK's embedded player (`video_ext.php`) needs third-party cookies, which mobile browsers (Safari
+  above all) block — the embed renders «видео недоступно». On phones the site therefore never mounts
+  the VK iframe: the cover keeps its still, reviews and case pages are play cards that open the video
+  in the VK app / VK site. Desktop keeps the inline players.

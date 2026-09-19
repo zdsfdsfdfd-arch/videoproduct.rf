@@ -3,6 +3,7 @@ import { Picture } from '@/components/Picture';
 import { VkPlayer } from '@/components/VkPlayer';
 import { caseFallbackFrames, vkVideoUrl, allWorks } from '@/content';
 import { getEngine } from '@/lib/scroll-engine';
+import { useIsDesktop } from '@/lib/hooks';
 import styles from './CaseOverlay.module.css';
 
 export interface CaseRequest {
@@ -23,6 +24,7 @@ export function CaseOverlay({ request, onClose }: { request: CaseRequest | null;
   const closeBtn = useRef<HTMLButtonElement>(null);
   const restoreFocus = useRef<HTMLElement | null>(null);
   const reduced = getEngine().reduced;
+  const desktop = useIsDesktop();
 
   // open
   useEffect(() => {
@@ -142,7 +144,19 @@ export function CaseOverlay({ request, onClose }: { request: CaseRequest | null;
               </a>
             </div>
             <div className={styles.player}>
-              <VkPlayer key={work.id} id={work.id} title={`Видео проекта — ${work.title}`} poster={work.poster} interactive eager holdMs={600} className={styles.iframe} />
+              {desktop ? (
+                <VkPlayer key={work.id} id={work.id} title={`Видео проекта — ${work.title}`} poster={work.poster} interactive eager holdMs={600} className={styles.iframe} />
+              ) : (
+                // phones: VK's embedded player needs cookies mobile browsers block («видео недоступно»),
+                // so the still is a play card that opens the video in the VK app / VK site
+                <a href={vkVideoUrl(work.id)} target="_blank" rel="noopener" className={styles.playCard} aria-label={`Смотреть видео в VK: ${work.title}`}>
+                  {work.poster && <img src={work.poster} alt="" className={styles.iframe} />}
+                  <span className={styles.playRing} aria-hidden="true">
+                    ▶
+                  </span>
+                  <span className={`${styles.playLabel} mono`}>СМОТРЕТЬ В VK →</span>
+                </a>
+              )}
             </div>
           </div>
 

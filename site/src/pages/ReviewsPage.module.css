@@ -43,6 +43,41 @@
   grid-column: 7 / span 6;
   aspect-ratio: 16 / 9;
 }
+/* phone play card → VK app / VK site */
+.playCard {
+  position: relative;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 14px;
+  background:
+    radial-gradient(ellipse at 50% 60%, rgba(140, 92, 255, 0.28), transparent 65%),
+    var(--panel);
+  border: 1px solid var(--line-paper-14);
+  color: var(--paper);
+  overflow: hidden;
+}
+.playIndex {
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  font-weight: 900;
+  font-size: 44px;
+  letter-spacing: -0.04em;
+  color: rgba(241, 237, 247, 0.1);
+}
+.playRing {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid rgba(241, 237, 247, 0.6);
+  font-size: 14px;
+  padding-left: 3px;
+}
+.playCard:active .playRing { background: var(--accent); border-color: var(--accent); }
+.playLabel { letter-spacing: 0.14em; color: var(--accent); }
 
 .cta {
   padding: clamp(60px, 10vh, 120px) var(--gutter);
