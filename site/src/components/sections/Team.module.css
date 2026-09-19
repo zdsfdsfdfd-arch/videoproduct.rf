@@ -105,9 +105,20 @@
 .figure[data-on] .img {
   filter: drop-shadow(0 0 46px color-mix(in srgb, var(--glow) 67%, transparent)) drop-shadow(0 30px 40px rgba(0, 0, 0, 0.8));
 }
-.img[data-anim='Алексей'] { animation: fxHover 2.4s ease-in-out infinite; }
-.img[data-anim='Исхак'] { animation: fxHover 1.1s ease-in-out infinite; }
-.img[data-anim='Ирина'] { animation: fxGrade 2.4s ease-in-out infinite; }
+/* per-craft motion of the figure itself */
+.img[data-anim='Алексей'] { animation: fxHover 2.6s ease-in-out infinite; }
+.img[data-anim='Николай'] { animation: teamFocus 3.2s ease-in-out infinite; }
+.img[data-anim='Ирина'] { animation: teamJumpCut 2.4s steps(1) infinite; }
+@keyframes teamFocus {
+  0%, 100% { filter: blur(0) drop-shadow(0 30px 40px rgba(0, 0, 0, 0.8)); }
+  45% { filter: blur(2.5px) drop-shadow(0 30px 40px rgba(0, 0, 0, 0.8)); }
+  60% { filter: blur(0) drop-shadow(0 30px 40px rgba(0, 0, 0, 0.8)); }
+}
+@keyframes teamJumpCut {
+  0% { transform: scale(1.06); }
+  33% { transform: scale(1.12) translateY(2%); }
+  66% { transform: scale(1.03) translateX(-1%); }
+}
 
 .caption {
   position: absolute;
@@ -199,120 +210,6 @@
   font: 10px var(--mono);
   letter-spacing: 0.2em;
   white-space: nowrap;
-}
-
-/* 0 Булат — red light */
-.fxLight {
-  border-radius: 50% 50% 0 0;
-  background: radial-gradient(ellipse at 50% 80%, rgba(255, 59, 59, 0.55), transparent 70%);
-  animation: fxPulse 1.4s ease-in-out infinite;
-}
-.fxBeam {
-  top: 0;
-  background: linear-gradient(to bottom, rgba(255, 59, 59, 0.03), rgba(255, 59, 59, 0.3));
-  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
-  filter: blur(10px);
-  animation: fxPulse 1.6s ease-in-out infinite;
-}
-.fxBeamCore {
-  top: 0;
-  background: linear-gradient(to bottom, rgba(255, 120, 120, 0), rgba(255, 120, 120, 0.5));
-  clip-path: polygon(48% 0, 52% 0, 100% 100%, 0 100%);
-  filter: blur(3px);
-  animation: fxFlicker 1.3s steps(4) infinite;
-}
-/* 1 Алексей — drone */
-.orbit {
-  aspect-ratio: 1;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-}
-.orbitA { border: 1px dashed rgba(232, 255, 58, 0.7); animation: fxSpin 7s linear infinite; }
-.orbitB { border: 1px solid rgba(232, 255, 58, 0.35); animation: fxSpin 4s linear infinite reverse; }
-.spark {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #e8ff3a;
-  box-shadow: 0 0 12px #e8ff3a;
-  animation: fxRise 2s ease-out infinite;
-}
-/* 2 Николай — viewfinder */
-.brackets {
-  border: 2px solid rgba(241,237,247, 0.9);
-  clip-path: polygon(0 0, 18% 0, 18% 3%, 3% 3%, 3% 18%, 0 18%, 0 100%, 18% 100%, 18% 97%, 3% 97%, 3% 82%, 0 82%, 0 0, 100% 0, 100% 18%, 97% 18%, 97% 3%, 82% 3%, 82% 0, 100% 0, 100% 100%, 82% 100%, 82% 97%, 97% 97%, 97% 82%, 100% 82%, 100% 100%, 0 100%);
-  animation: fxIn 0.3s;
-}
-.rec {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font: 11px var(--mono);
-  letter-spacing: 0.2em;
-  color: var(--paper);
-  white-space: nowrap;
-}
-.recDot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #ff2a2a;
-  box-shadow: 0 0 10px #ff2a2a;
-  animation: fxBlink 1s infinite;
-}
-/* 3 Семён — cinema */
-.cine { overflow: hidden; }
-.strobe { position: absolute; inset: 0; background: rgba(241,237,247, 0.7); animation: fxCut 1s steps(1) infinite; }
-.scan { position: absolute; left: 0; right: 0; height: 1px; background: rgba(241,237,247, 0.7); animation: fxScan 2s linear infinite; }
-.matte { background: var(--ink); }
-/* 4 Роман — clapper */
-.clapper {
-  height: 18px;
-  background: repeating-linear-gradient(-45deg, #0A0714 0 12px, #F1EDF7 12px 24px);
-  background-size: 48px 100%;
-  animation: fxStripe 1s linear infinite;
-}
-.clapperRev { animation-direction: reverse; }
-.fxBlue {
-  background: radial-gradient(ellipse at 50% 70%, rgba(140,92,255, 0.45), transparent 70%);
-  animation: fxPulse 1.2s ease-in-out infinite;
-}
-/* 5 Аниса — powder */
-.fxPink {
-  background: radial-gradient(ellipse at 50% 60%, rgba(247, 198, 208, 0.5), transparent 65%);
-  animation: fxPulse 2s ease-in-out infinite;
-}
-.powder {
-  border-radius: 50%;
-  animation-name: fxDrift;
-  animation-timing-function: ease-out;
-  animation-iteration-count: infinite;
-}
-/* 6 Исхак — waveform */
-.wave {
-  display: flex;
-  gap: 3px;
-  mix-blend-mode: screen;
-  opacity: 0.85;
-}
-.bar {
-  flex: 1;
-  height: 100%;
-  transform-origin: 50% 50%;
-  animation-name: fxWave;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-/* 7 Ирина — cuts */
-.cuts { overflow: hidden; }
-.cutBlack { position: absolute; inset: 0; background: var(--ink); animation: fxCut 1.6s steps(1) infinite; }
-.cutLine { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--paper); animation: fxBlink 1.6s infinite; }
-.cutLine2 { animation-delay: 0.8s; }
-.timeline {
-  height: 14px;
-  background: repeating-linear-gradient(90deg, #8C5CFF 0 30px, #170F2E 30px 34px, #F1EDF7 34px 60px, #170F2E 60px 64px);
-  background-size: 96px 100%;
-  animation: fxStripe 1.2s linear infinite;
 }
 
 @media (max-width: 767px) {
