@@ -49,16 +49,21 @@ export const navItems = [
 ] as const;
 
 
+/**
+ * Client marks. The cutouts are monochrome, so each carries its brand fill (a gradient where the
+ * mark is multi-coloured: Avito's four dots, the Yandex «@», МЕГА's letters). `ratio` is the
+ * cutout's width/height — needed because a CSS mask has no intrinsic size.
+ */
 export const clientLogos = [
-  { name: 'ICL Services', src: clients.icl, h: 'clamp(58px, 5.6vw, 106px)' },
-  { name: 'Leroy Merlin', src: clients.leroy, h: 'clamp(52px, 5vw, 97px)' },
-  { name: 'Avito', src: clients.avito, h: 'clamp(38px, 3.5vw, 66px)' },
-  { name: 'Унистрой', src: clients.unistroy, h: 'clamp(58px, 5.6vw, 106px)' },
-  { name: 'Автодор', src: clients.avtodor, h: 'clamp(34px, 3.2vw, 62px)' },
-  { name: 'VK', src: clients.vk, h: 'clamp(44px, 4.1vw, 79px)' },
-  { name: 'Яндекс Еда', src: clients.yandexEda, h: 'clamp(32px, 3vw, 57px)' },
-  { name: 'МЕГА', src: clients.mega, h: 'clamp(42px, 3.9vw, 75px)' },
-  { name: 'СИБУР', src: clients.sibur, h: 'clamp(32px, 3.1vw, 57px)' },
+  { name: 'ICL Services', src: clients.icl, h: 'clamp(58px, 5.6vw, 106px)', ratio: '240 / 190', fill: '#2F80ED' },
+  { name: 'Leroy Merlin', src: clients.leroy, h: 'clamp(52px, 5vw, 97px)', ratio: '240 / 160', fill: '#78BE20' },
+  { name: 'Avito', src: clients.avito, h: 'clamp(38px, 3.5vw, 66px)', ratio: '320 / 130', fill: 'linear-gradient(to right, transparent 0 27%, #F1EDF7 27%), conic-gradient(from 0deg at 13.5% 50%, #FF4053 0 25%, #965EEB 25% 50%, #0AF 50% 75%, #04E061 75%)' },
+  { name: 'Унистрой', src: clients.unistroy, h: 'clamp(58px, 5.6vw, 106px)', ratio: '200 / 180', fill: '#E8B84A' },
+  { name: 'Автодор', src: clients.avtodor, h: 'clamp(34px, 3.2vw, 62px)', ratio: '380 / 120', fill: 'linear-gradient(to right, #1FA2FF 0 22%, #F1EDF7 22%)' },
+  { name: 'VK', src: clients.vk, h: 'clamp(44px, 4.1vw, 79px)', ratio: '140 / 140', fill: '#0077FF' },
+  { name: 'Яндекс Еда', src: clients.yandexEda, h: 'clamp(32px, 3vw, 57px)', ratio: '370 / 100', fill: 'linear-gradient(to right, #F1EDF7 0 50%, #FFCC00 50% 64%, #F1EDF7 64%)' },
+  { name: 'МЕГА', src: clients.mega, h: 'clamp(42px, 3.9vw, 75px)', ratio: '350 / 140', fill: 'linear-gradient(to right, #0058A3 0 30%, #E3000F 30% 52%, #00A651 52% 73%, #FFDA00 73%)' },
+  { name: 'СИБУР', src: clients.sibur, h: 'clamp(32px, 3.1vw, 57px)', ratio: '360 / 110', fill: '#00A651' },
 ];
 
 export interface Work {

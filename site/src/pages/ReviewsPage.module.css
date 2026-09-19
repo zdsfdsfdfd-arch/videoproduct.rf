@@ -1,3 +1,14 @@
+.strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap);
+  padding: clamp(30px, 5vh, 60px) calc(var(--gutter) + var(--corridor)) clamp(30px, 5vh, 60px) var(--gutter);
+  border-top: 1px solid var(--line-paper-14);
+}
+.fact { display: flex; flex-direction: column; gap: 10px; padding-top: 14px; border-top: 1px solid var(--line-paper-22); }
+.factValue { font-weight: 800; font-size: clamp(24px, 2.6vw, 44px); letter-spacing: -0.035em; line-height: 1; }
+.factLabel { color: var(--grey); letter-spacing: 0.14em; }
+
 .list {
   padding: 0 calc(var(--gutter) + var(--corridor)) clamp(60px, 10vh, 120px) var(--gutter);
 }
@@ -24,16 +35,35 @@
   font-size: clamp(15px, 1.3vw, 22px);
   color: var(--grey);
 }
-.link {
-  display: inline-block;
-  margin-top: clamp(20px, 3vh, 34px);
-  color: var(--accent);
-}
+.links { display: flex; flex-direction: column; gap: 10px; margin-top: clamp(20px, 3vh, 34px); }
+.link { color: var(--accent); }
+.related { color: var(--grey); }
+.related:hover { color: var(--paper); }
 .player {
   grid-column: 7 / span 6;
   aspect-ratio: 16 / 9;
 }
 
+.cta {
+  padding: clamp(60px, 10vh, 120px) var(--gutter);
+  border-top: 1px solid var(--line-paper-14);
+}
+.ctaTitle {
+  margin: 0;
+  font-weight: 900;
+  font-size: clamp(40px, 8vw, 140px);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+}
+.ctaTitle em { font-style: normal; color: var(--accent); }
+.ctaActions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: clamp(30px, 5vh, 56px); }
+.ctaBtn { padding: 16px 24px; background: var(--paper); color: var(--ink); letter-spacing: 0.16em; transition: background 0.3s, color 0.3s; }
+.ctaBtn:hover { background: var(--accent); color: var(--paper); }
+.ctaGhost { padding: 16px 24px; border: 1px solid rgba(241, 237, 247, 0.28); color: var(--paper); letter-spacing: 0.16em; transition: border-color 0.3s, color 0.3s; }
+.ctaGhost:hover { border-color: var(--accent); color: var(--accent); }
+
 @media (max-width: 767px) {
+  .strip { grid-template-columns: repeat(2, 1fr); }
   .text, .player { grid-column: 1 / span 12; }
 }

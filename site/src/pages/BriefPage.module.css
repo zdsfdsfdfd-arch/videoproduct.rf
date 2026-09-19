@@ -1,0 +1,31 @@
+.head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: clamp(26px, 4vh, 44px);
+}
+.after, .tariffs, .direct {
+  padding: clamp(50px, 8vh, 100px) calc(var(--gutter) + var(--corridor)) clamp(50px, 8vh, 100px) var(--gutter);
+  border-top: 1px solid var(--line-paper-14);
+}
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); margin: 0; padding: 0; list-style: none; }
+.step { padding-top: 22px; border-top: 1px solid var(--line-paper-22); }
+.stepNum { color: var(--accent); }
+.stepTitle { margin: 14px 0 0; font-weight: 700; font-size: clamp(18px, 1.7vw, 28px); letter-spacing: -0.02em; }
+.stepText { margin: 10px 0 0; max-width: 34ch; font-size: clamp(14px, 1.05vw, 17px); line-height: 1.55; color: var(--grey); }
+
+.tariffRow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line-paper-14); border: 1px solid var(--line-paper-14); }
+.tariff { display: flex; flex-direction: column; gap: 8px; padding: clamp(18px, 2.4vw, 32px); background: var(--ink); }
+.tariff[data-accent] { background: var(--panel); }
+.tariffIndex { color: var(--dim-paper); }
+.tariffName { font-weight: 800; font-size: clamp(18px, 1.8vw, 30px); letter-spacing: -0.02em; }
+.tariffPrice { font-weight: 800; font-size: clamp(22px, 2.4vw, 40px); letter-spacing: -0.04em; white-space: nowrap; }
+.tariffFits { margin-top: 10px; line-height: 1.9; letter-spacing: 0.1em; color: var(--dim-paper); }
+
+.directTitle { margin: 0; font-weight: 800; font-size: clamp(28px, 4vw, 64px); letter-spacing: -0.04em; line-height: 1; }
+.directLinks { display: flex; flex-wrap: wrap; gap: 12px 40px; margin-top: clamp(22px, 4vh, 40px); }
+.directLink { font-weight: 700; font-size: clamp(18px, 1.8vw, 30px); letter-spacing: -0.02em; color: var(--paper); transition: color 0.3s; }
+.directLink:hover { color: var(--accent); }
+
+@media (max-width: 767px) {
+  .steps, .tariffRow { grid-template-columns: 1fr; }
+}

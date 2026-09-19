@@ -1,0 +1,83 @@
+.head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: clamp(26px, 4vh, 44px);
+}
+.roster, .stages {
+  padding: clamp(60px, 10vh, 120px) calc(var(--gutter) + var(--corridor)) clamp(60px, 10vh, 120px) var(--gutter);
+  border-top: 1px solid var(--line-paper-14);
+}
+
+.people {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--line-paper-14);
+  border: 1px solid var(--line-paper-14);
+}
+.person {
+  display: grid;
+  grid-template-columns: 38% 1fr;
+  gap: clamp(16px, 2vw, 30px);
+  padding: clamp(18px, 2.4vw, 34px);
+  background: var(--ink);
+  transition: background 0.4s;
+}
+.person:hover { background: var(--panel); }
+.portraitBox {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  background: radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--glow) 30%, transparent), transparent 65%), var(--ink-2);
+  overflow: hidden;
+}
+.portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 100%;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.7));
+  transition: transform 0.6s var(--ease);
+}
+.person:hover .portrait { transform: scale(1.05); }
+.personText { display: flex; flex-direction: column; }
+.personNum { color: var(--dim-paper); }
+.personName { margin: 10px 0 0; font-weight: 800; font-size: clamp(24px, 2.4vw, 40px); letter-spacing: -0.03em; line-height: 1; }
+.personRole { margin-top: 8px; letter-spacing: 0.16em; }
+.personDuty { margin: 16px 0 0; font-size: clamp(14px, 1.05vw, 17px); line-height: 1.55; color: var(--grey); text-wrap: pretty; }
+.personMeta { margin-top: auto; padding-top: 18px; color: var(--dim-paper); letter-spacing: 0.16em; }
+
+.numbers {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--gap);
+  padding: clamp(40px, 7vh, 80px) calc(var(--gutter) + var(--corridor)) clamp(40px, 7vh, 80px) var(--gutter);
+  border-top: 1px solid var(--line-paper-14);
+}
+.fact { display: flex; flex-direction: column; gap: 10px; padding-top: 14px; border-top: 1px solid var(--line-paper-22); }
+.fact[data-accent] { border-top-color: var(--accent); }
+.factValue { font-weight: 800; font-size: clamp(24px, 2.4vw, 40px); letter-spacing: -0.035em; line-height: 1; white-space: nowrap; }
+.factLabel { color: var(--grey); letter-spacing: 0.14em; }
+
+.stageList { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line-paper-16); }
+.stageRow {
+  display: grid;
+  grid-template-columns: 44px 260px 1fr;
+  gap: 20px;
+  align-items: center;
+  padding: clamp(14px, 2vh, 22px) 0;
+  border-bottom: 1px solid var(--line-paper-16);
+}
+.stageNum { color: var(--accent); }
+.stageName { font-weight: 700; font-size: clamp(17px, 1.5vw, 24px); letter-spacing: -0.02em; }
+.stageRoles { display: flex; flex-wrap: wrap; gap: 8px; }
+.roleTag { padding: 6px 10px; border: 1px solid var(--line-paper-22); color: var(--grey); letter-spacing: 0.12em; }
+
+@media (max-width: 767px) {
+  .people { grid-template-columns: 1fr; }
+  .numbers { grid-template-columns: repeat(2, 1fr); }
+  .stageRow { grid-template-columns: 32px 1fr; }
+  .stageRoles { grid-column: 2; }
+}

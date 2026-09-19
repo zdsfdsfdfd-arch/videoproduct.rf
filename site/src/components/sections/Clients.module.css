@@ -10,7 +10,7 @@
   justify-content: space-between;
   gap: clamp(12px, 1.6vw, 40px);
   margin: clamp(34px, 5vh, 56px) 0 0;
-  padding: 16px var(--gutter);
+  padding: 16px calc(var(--gutter) + var(--corridor)) 16px var(--gutter);
   list-style: none;
 }
 .item {
@@ -19,14 +19,17 @@
   align-items: center;
   min-width: 0;
 }
+/* the monochrome cutout is the mask; the brand colour(s) are the background */
 .logo {
+  display: block;
   height: 100%;
-  width: auto;
-  filter: grayscale(1) invert(1) brightness(1.8);
-  opacity: 0.75;
-  transition: opacity 0.3s;
+  background: var(--fill);
+  -webkit-mask: var(--logo) center / contain no-repeat;
+  mask: var(--logo) center / contain no-repeat;
+  opacity: 0.88;
+  transition: opacity 0.3s, transform 0.5s var(--ease);
 }
-.logo:hover { opacity: 1; }
+.logo:hover { opacity: 1; transform: scale(1.04); }
 
 @media (max-width: 767px) {
   .row {
@@ -36,5 +39,4 @@
     justify-items: center;
   }
   .item { height: 40px !important; transform: none !important; }
-  .logo { max-width: 100%; object-fit: contain; }
 }

@@ -1,0 +1,172 @@
+.toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  margin: 0 calc(var(--gutter) + var(--corridor)) 0 var(--gutter);
+  background: var(--line-paper-14);
+  border-top: 1px solid var(--line-paper-14);
+  border-bottom: 1px solid var(--line-paper-14);
+}
+.tocLink {
+  flex: 1 1 180px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 16px;
+  background: var(--ink);
+  color: var(--grey);
+  letter-spacing: 0.14em;
+  transition: background 0.3s, color 0.3s;
+}
+.tocLink:hover { background: var(--panel); color: var(--paper); }
+.tocNum { color: var(--accent); }
+.tocCount { margin-left: auto; color: var(--dim-paper); }
+
+.catalogue {
+  padding: clamp(40px, 7vh, 90px) calc(var(--gutter) + var(--corridor)) 0 var(--gutter);
+}
+.chapter {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gap);
+  padding: clamp(30px, 5vh, 60px) 0 clamp(50px, 8vh, 110px);
+  border-top: 2px solid var(--paper);
+}
+.chapterHead {
+  grid-column: 1 / span 4;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: calc(var(--sticky-head) + 20px);
+  align-self: start;
+}
+.chapterNum {
+  font-weight: 900;
+  font-size: clamp(64px, 8vw, 140px);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(241, 237, 247, 0.35);
+  transform: translate3d(calc((1 - var(--p, 1)) * -20px), 0, 0);
+  opacity: var(--p, 1);
+}
+.chapterLabel { color: var(--accent); }
+.chapterTitle {
+  margin: 10px 0 0;
+  font-weight: 800;
+  font-size: clamp(26px, 2.8vw, 46px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.chapterIntro {
+  margin: 18px 0 0;
+  max-width: 34ch;
+  font-size: clamp(14px, 1.05vw, 17px);
+  line-height: 1.55;
+  color: var(--grey);
+  text-wrap: pretty;
+}
+
+.rows {
+  grid-column: 5 / span 8;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line-paper-16);
+}
+.row {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) minmax(150px, 210px);
+  gap: 20px;
+  padding: clamp(18px, 2.4vh, 28px) 0;
+  border-bottom: 1px solid var(--line-paper-16);
+  transition: background 0.3s, padding-left 0.4s var(--ease);
+}
+.row:hover {
+  background: linear-gradient(to right, rgba(140, 92, 255, 0.08), transparent 70%);
+  padding-left: 10px;
+}
+.rowNum { color: var(--accent); padding-top: 6px; }
+.rowName {
+  margin: 0;
+  font-weight: 700;
+  font-size: clamp(18px, 1.6vw, 26px);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.rowDesc {
+  margin: 8px 0 0;
+  max-width: 56ch;
+  font-size: clamp(14px, 1.05vw, 17px);
+  line-height: 1.55;
+  color: var(--grey);
+  text-wrap: pretty;
+}
+.rowMeta {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  text-align: right;
+  letter-spacing: 0.12em;
+  color: var(--dim-paper);
+  padding-top: 6px;
+  overflow-wrap: anywhere;
+}
+.rowTariff {
+  padding: 6px 10px;
+  border: 1px solid var(--line-paper-22);
+  color: var(--paper);
+  white-space: nowrap;
+  transition: border-color 0.3s, color 0.3s;
+}
+.rowTariff[data-tariff='КОМБО'] { border-color: rgba(140, 92, 255, 0.6); }
+.rowTariff:hover { border-color: var(--accent); color: var(--accent); }
+
+.matrix {
+  padding: clamp(60px, 10vh, 120px) calc(var(--gutter) + var(--corridor)) clamp(60px, 10vh, 120px) var(--gutter);
+  border-top: 1px solid var(--line-paper-14);
+}
+.matrixHead { display: flex; justify-content: space-between; margin-bottom: clamp(26px, 4vh, 44px); }
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: clamp(15px, 1.2vw, 20px);
+}
+.table th, .table td {
+  padding: clamp(14px, 1.8vh, 22px) 12px;
+  border-bottom: 1px solid var(--line-paper-16);
+  text-align: left;
+}
+.table thead th { vertical-align: bottom; border-bottom: 2px solid var(--paper); }
+.table thead th:not(:first-child), .table td { text-align: center; }
+.thName { display: block; font-weight: 800; font-size: clamp(16px, 1.5vw, 26px); letter-spacing: -0.02em; }
+.thPrice { display: block; margin-top: 6px; color: var(--dim-paper); }
+.table tbody th { font-weight: 600; }
+.tdNum { display: inline-block; width: 36px; color: var(--dim-paper); }
+.table td[data-v='full'] { color: var(--accent); font-size: 1.2em; }
+.table td[data-v='basic'] { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--grey); }
+.table td[data-v='none'] { color: rgba(241, 237, 247, 0.25); }
+.matrixNote {
+  margin: clamp(22px, 3vh, 36px) 0 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  line-height: 2;
+  color: var(--dim-paper);
+}
+
+@media (max-width: 767px) {
+  .chapterHead, .rows { grid-column: 1 / span 12; }
+  .chapterHead { position: static; }
+  .chapterNum { font-size: 56px; }
+  .row { grid-template-columns: 32px 1fr; }
+  .rowMeta { grid-column: 2; align-items: flex-start; text-align: left; flex-direction: row; flex-wrap: wrap; }
+  .table th, .table td { padding: 12px 6px; font-size: 13px; }
+  .thName { font-size: 14px; }
+  .thPrice { font-size: 8px; }
+}

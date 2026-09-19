@@ -1,0 +1,83 @@
+.head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: clamp(26px, 4vh, 44px);
+}
+.compare, .how {
+  padding: clamp(60px, 10vh, 120px) calc(var(--gutter) + var(--corridor)) clamp(60px, 10vh, 120px) var(--gutter);
+  border-top: 1px solid var(--line-paper-14);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line-paper-14);
+  border: 1px solid var(--line-paper-14);
+}
+.cornerCell, .colHead, .stageName, .cell { background: var(--ink); padding: clamp(14px, 2vh, 24px) clamp(12px, 1.5vw, 24px); }
+.colHead { display: flex; flex-direction: column; gap: 6px; }
+.colHead[data-accent] { background: var(--panel); }
+.colName { font-weight: 800; font-size: clamp(16px, 1.6vw, 28px); letter-spacing: -0.02em; }
+.colPrice { color: var(--dim-paper); }
+.stageRow { display: contents; }
+.stageName { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: clamp(15px, 1.2vw, 20px); }
+.stageNum { color: var(--dim-paper); }
+.cell { display: flex; align-items: center; gap: 10px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(241, 237, 247, 0.12); }
+.cell[data-v='full'] .dot { background: var(--accent); box-shadow: 0 0 14px rgba(140, 92, 255, 0.6); }
+.cell[data-v='basic'] .dot { background: transparent; border: 1px solid var(--accent); }
+.cellLabel { color: var(--grey); letter-spacing: 0.14em; }
+.cell[data-v='none'] .cellLabel { color: rgba(241, 237, 247, 0.3); }
+.cellText { align-items: flex-start; line-height: 1.9; letter-spacing: 0.1em; color: var(--grey); font-size: 10px; }
+
+.howTitle {
+  margin: 0;
+  font-weight: 800;
+  font-size: clamp(30px, 4.6vw, 78px);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+  margin: clamp(36px, 6vh, 70px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.step {
+  padding: 22px 0 0;
+  border-top: 1px solid var(--line-paper-22);
+}
+.stepNum { color: var(--accent); }
+.stepTitle { margin: 14px 0 0; font-weight: 700; font-size: clamp(18px, 1.7vw, 28px); letter-spacing: -0.02em; }
+.stepText { margin: 10px 0 0; max-width: 34ch; font-size: clamp(14px, 1.05vw, 17px); line-height: 1.55; color: var(--grey); }
+.howActions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: clamp(30px, 5vh, 56px); }
+.cta {
+  padding: 16px 24px;
+  background: var(--paper);
+  color: var(--ink);
+  letter-spacing: 0.16em;
+  transition: background 0.3s, color 0.3s;
+}
+.cta:hover { background: var(--accent); color: var(--paper); }
+.ctaGhost {
+  padding: 16px 24px;
+  border: 1px solid rgba(241, 237, 247, 0.28);
+  color: var(--paper);
+  letter-spacing: 0.16em;
+  transition: border-color 0.3s, color 0.3s;
+}
+.ctaGhost:hover { border-color: var(--accent); color: var(--accent); }
+
+@media (max-width: 767px) {
+  .grid { grid-template-columns: 1fr; }
+  .cornerCell { display: none; }
+  .colHead { display: none; }
+  .stageRow { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; }
+  .stageName { grid-column: 1 / span 3; }
+  .cell { flex-direction: column; align-items: flex-start; }
+  .cellLabel::before { content: attr(data-t); }
+  .steps { grid-template-columns: 1fr; }
+}
