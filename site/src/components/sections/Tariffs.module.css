@@ -1,0 +1,106 @@
+.section {
+  position: relative;
+  padding: clamp(70px, 12vh, 150px) calc(var(--gutter) + var(--corridor)) clamp(70px, 12vh, 140px) var(--gutter);
+  border-top: 1px solid var(--line-paper-14);
+}
+.head { align-items: end; }
+.index { grid-column: 1 / span 3; }
+.title { grid-column: 4 / span 6; }
+.lead {
+  grid-column: 10 / span 3;
+  margin: 0;
+  font-size: clamp(14px, 1.05vw, 17px);
+  line-height: 1.55;
+  color: var(--grey);
+  text-wrap: pretty;
+}
+
+.columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  margin-top: clamp(46px, 8vh, 100px);
+  background: var(--line-paper-14);
+}
+.tariff {
+  flex: 1 1 260px;
+  min-width: 260px;
+  background: var(--ink);
+  padding: clamp(24px, 3vw, 44px);
+  transition: flex-grow 0.6s var(--ease), background 0.5s;
+}
+.tariff:hover {
+  flex-grow: 2.2;
+  background: var(--panel-hover);
+}
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  color: var(--dim-paper);
+}
+.price {
+  margin: clamp(26px, 4vw, 54px) 0 0;
+  font-weight: 800;
+  font-size: clamp(30px, 3.2vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+}
+.stages {
+  margin: clamp(22px, 3vw, 40px) 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  line-height: 2.3;
+  color: var(--grey);
+  border-top: 1px solid var(--line-paper-14);
+}
+.desc {
+  margin: clamp(22px, 3vw, 38px) 0 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--grey);
+  text-wrap: pretty;
+}
+.fits {
+  margin: 18px 0 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  line-height: 2;
+  color: var(--dim-paper);
+}
+.foot {
+  margin: clamp(26px, 4vh, 48px) 0 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--dim-paper);
+}
+
+@media (max-width: 767px) {
+  .index, .title, .lead { grid-column: 1 / span 12; }
+  .lead { margin-top: 16px; }
+  .columns {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-left: calc(var(--gutter) * -1);
+    margin-right: calc(var(--gutter) * -1);
+    padding: 0 var(--gutter);
+  }
+  .columns::-webkit-scrollbar { display: none; }
+  .tariff {
+    flex: 0 0 82vw;
+    min-width: 0;
+    scroll-snap-align: start;
+    padding: 22px;
+  }
+  .tariff:hover { flex-grow: 0; }
+  .price { font-size: 34px; }
+  .foot { line-height: 1.9; }
+}

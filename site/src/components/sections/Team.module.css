@@ -1,0 +1,317 @@
+.section {
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  padding: clamp(70px, 12vh, 150px) calc(var(--gutter) + var(--corridor)) clamp(60px, 10vh, 120px) var(--gutter);
+}
+.head { align-items: end; }
+.index { grid-column: 1 / span 3; }
+.title { grid-column: 4 / span 7; }
+
+.stage {
+  position: relative;
+  margin: clamp(40px, 7vh, 90px) calc((var(--gutter) + var(--corridor)) * -1) 0 calc(var(--gutter) * -1);
+  height: min(86vh, 820px);
+  background: var(--ink);
+  color: var(--paper);
+  overflow: hidden;
+}
+.bgWord {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 4%;
+  text-align: center;
+  font-weight: 900;
+  font-size: clamp(60px, 15.5vw, 300px);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: rgba(242, 240, 236, 0.07);
+  transform: translate3d(calc(var(--mx, 0) * 24px), 0, 0);
+  pointer-events: none;
+}
+.glow {
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  width: 70%;
+  height: 70%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 100%, rgba(30, 91, 255, 0.28) 0%, rgba(30, 91, 255, 0) 60%);
+  pointer-events: none;
+}
+.floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: rgba(242, 240, 236, 0.25);
+}
+.fx {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  overflow: hidden;
+}
+.stageMeta {
+  position: absolute;
+  top: clamp(16px, 3vh, 30px);
+  left: var(--gutter);
+  right: var(--gutter);
+  display: flex;
+  justify-content: space-between;
+  color: var(--grey);
+  z-index: 5;
+}
+
+.figures {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 0;
+  height: 82%;
+  z-index: 5;
+}
+.figure {
+  position: absolute;
+  left: var(--left);
+  bottom: 0;
+  width: 18%;
+  height: var(--h);
+  margin: 0;
+  z-index: var(--z);
+  transform: translate3d(calc(var(--mx, 0) * var(--mxf)), calc((1 - var(--p, 1)) * var(--lift)), 0);
+  transition: transform 0.2s, opacity 0.5s, filter 0.5s;
+  outline: none;
+}
+.figure[data-dim] {
+  opacity: 0.18;
+  filter: blur(2px) saturate(0);
+}
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 100%;
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.8));
+  transition: transform 0.6s var(--ease), filter 0.6s;
+}
+.figure:hover .img, .figure[data-on] .img {
+  transform: scale(1.06);
+}
+.figure[data-on] .img {
+  filter: drop-shadow(0 0 46px color-mix(in srgb, var(--glow) 67%, transparent)) drop-shadow(0 30px 40px rgba(0, 0, 0, 0.8));
+}
+.img[data-anim='Алексей'] { animation: fxHover 2.4s ease-in-out infinite; }
+.img[data-anim='Исхак'] { animation: fxHover 1.1s ease-in-out infinite; }
+.img[data-anim='Ирина'] { animation: fxGrade 2.4s ease-in-out infinite; }
+
+.caption {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 12px;
+  background: rgba(8, 8, 10, 0.86);
+  border: 1px solid var(--line-paper-22);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  white-space: nowrap;
+  color: var(--paper);
+  transition: opacity 0.3s;
+}
+.figure[data-on] .caption { opacity: 0; }
+.name {
+  font-weight: 700;
+  font-size: clamp(12px, 1.05vw, 17px);
+  letter-spacing: -0.01em;
+}
+.role {
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  color: var(--grey);
+}
+
+/* ---- effects layer ---- */
+.fx > * { position: absolute; pointer-events: none; animation-fill-mode: both; }
+
+.spot { inset: 0; animation: fxIn 0.4s; }
+.word {
+  transform: translate(calc(-50% + var(--shift, 0px)), -100%);
+  z-index: 12;
+  font-weight: 900;
+  font-size: clamp(36px, 6.4vw, 120px);
+  font-family: var(--sans);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: 0 4px 40px rgba(8, 8, 10, 0.6);
+  animation: fxIn 0.35s;
+}
+.plate {
+  transform: translate(calc(-50% + var(--shift, 0px)), -110%);
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 16px;
+  background: var(--ink);
+  border: 1px solid;
+  animation: fxIn 0.4s;
+}
+.plateName {
+  font-weight: 700;
+  font-size: clamp(14px, 1.3vw, 20px);
+  color: var(--paper);
+  letter-spacing: -0.01em;
+}
+.plateMeta {
+  font: 10px var(--mono);
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+}
+
+/* 0 Булат — red light */
+.fxLight {
+  border-radius: 50% 50% 0 0;
+  background: radial-gradient(ellipse at 50% 80%, rgba(255, 59, 59, 0.55), transparent 70%);
+  animation: fxPulse 1.4s ease-in-out infinite;
+}
+.fxBeam {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(255, 59, 59, 0), rgba(255, 59, 59, 0.35));
+  clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%);
+  animation: fxFlicker 1.1s steps(3) infinite;
+}
+/* 1 Алексей — drone */
+.orbit {
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+.orbitA { border: 1px dashed rgba(232, 255, 58, 0.7); animation: fxSpin 7s linear infinite; }
+.orbitB { border: 1px solid rgba(232, 255, 58, 0.35); animation: fxSpin 4s linear infinite reverse; }
+.spark {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e8ff3a;
+  box-shadow: 0 0 12px #e8ff3a;
+  animation: fxRise 2s ease-out infinite;
+}
+/* 2 Николай — viewfinder */
+.brackets {
+  border: 2px solid rgba(242, 240, 236, 0.9);
+  clip-path: polygon(0 0, 18% 0, 18% 3%, 3% 3%, 3% 18%, 0 18%, 0 100%, 18% 100%, 18% 97%, 3% 97%, 3% 82%, 0 82%, 0 0, 100% 0, 100% 18%, 97% 18%, 97% 3%, 82% 3%, 82% 0, 100% 0, 100% 100%, 82% 100%, 82% 97%, 97% 97%, 97% 82%, 100% 82%, 100% 100%, 0 100%);
+  animation: fxIn 0.3s;
+}
+.rec {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: 11px var(--mono);
+  letter-spacing: 0.2em;
+  color: var(--paper);
+  white-space: nowrap;
+}
+.recDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff2a2a;
+  box-shadow: 0 0 10px #ff2a2a;
+  animation: fxBlink 1s infinite;
+}
+/* 3 Семён — cinema */
+.cine { overflow: hidden; }
+.strobe { position: absolute; inset: 0; background: rgba(242, 240, 236, 0.7); animation: fxCut 1s steps(1) infinite; }
+.scan { position: absolute; left: 0; right: 0; height: 1px; background: rgba(242, 240, 236, 0.7); animation: fxScan 2s linear infinite; }
+.matte { background: var(--ink); }
+/* 4 Роман — clapper */
+.clapper {
+  height: 18px;
+  background: repeating-linear-gradient(-45deg, #08080a 0 12px, #f2f0ec 12px 24px);
+  background-size: 48px 100%;
+  animation: fxStripe 1s linear infinite;
+}
+.clapperRev { animation-direction: reverse; }
+.fxBlue {
+  background: radial-gradient(ellipse at 50% 70%, rgba(30, 91, 255, 0.45), transparent 70%);
+  animation: fxPulse 1.2s ease-in-out infinite;
+}
+/* 5 Аниса — powder */
+.fxPink {
+  background: radial-gradient(ellipse at 50% 60%, rgba(247, 198, 208, 0.5), transparent 65%);
+  animation: fxPulse 2s ease-in-out infinite;
+}
+.powder {
+  border-radius: 50%;
+  animation-name: fxDrift;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+/* 6 Исхак — waveform */
+.wave {
+  display: flex;
+  gap: 3px;
+  mix-blend-mode: screen;
+  opacity: 0.85;
+}
+.bar {
+  flex: 1;
+  height: 100%;
+  transform-origin: 50% 50%;
+  animation-name: fxWave;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+/* 7 Ирина — cuts */
+.cuts { overflow: hidden; }
+.cutBlack { position: absolute; inset: 0; background: var(--ink); animation: fxCut 1.6s steps(1) infinite; }
+.cutLine { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--paper); animation: fxBlink 1.6s infinite; }
+.cutLine2 { animation-delay: 0.8s; }
+.timeline {
+  height: 14px;
+  background: repeating-linear-gradient(90deg, #1e5bff 0 30px, #101013 30px 34px, #f2f0ec 34px 60px, #101013 60px 64px);
+  background-size: 96px 100%;
+  animation: fxStripe 1.2s linear infinite;
+}
+
+@media (max-width: 767px) {
+  .index, .title { grid-column: 1 / span 12; }
+  .stage { height: auto; padding: 56px 0 18px; }
+  .bgWord { font-size: clamp(60px, 26vw, 120px); top: 12px; }
+  .stageMeta { font-size: 8px; }
+  .stageMeta span:last-child { display: none; }
+  .figures {
+    position: relative;
+    left: auto;
+    right: auto;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 12px;
+    padding: 0 var(--gutter);
+  }
+  .figure {
+    position: relative;
+    left: auto;
+    width: auto;
+    height: 36vh;
+    transform: none;
+    z-index: 1;
+  }
+  .caption { bottom: 6% !important; }
+  .word { font-size: clamp(28px, 9vw, 44px); }
+  .plate { padding: 6px 10px; }
+  .plateMeta { font-size: 8px; }
+}

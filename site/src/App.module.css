@@ -1,0 +1,10 @@
+.root {
+  position: relative;
+  background: var(--ink);
+  color: var(--paper);
+  overflow-x: clip;
+}
+
+.main {
+  padding: 0 var(--perf) var(--navh);
+}

@@ -1,0 +1,33 @@
+.section {
+  position: relative;
+  padding: clamp(80px, 14vh, 180px) var(--gutter);
+  overflow: hidden;
+}
+.head { display: flex; justify-content: space-between; }
+.cities { margin-top: clamp(40px, 8vh, 110px); }
+.city {
+  font-weight: 900;
+  font-size: clamp(44px, 11vw, 178px);
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+.c1 { transform: translate3d(calc(var(--p, 0) * 6vw - 3vw), 0, 0); }
+.c2 {
+  text-align: right;
+  color: var(--accent);
+  transform: translate3d(calc(3vw - var(--p, 0) * 6vw), 0, 0);
+}
+.c3 { transform: translate3d(calc(var(--p, 0) * 8vw - 4vw), 0, 0); }
+.note {
+  margin: clamp(34px, 6vh, 70px) 0 0;
+  max-width: 40ch;
+  font-size: clamp(16px, 1.3vw, 22px);
+  line-height: 1.5;
+  color: var(--grey);
+  text-wrap: pretty;
+}
+
+@media (max-width: 767px) {
+  .city { font-size: clamp(30px, min(11vw, 7vh), 52px); }
+}

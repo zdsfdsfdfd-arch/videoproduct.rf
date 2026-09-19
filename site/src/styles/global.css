@@ -1,0 +1,155 @@
+/* Design tokens — from the Claude Design prototype (ink / paper / one electric accent). */
+:root {
+  --ink: #08080a;
+  --paper: #f2f0ec;
+  --grey: #c9c7c2;
+  --grey-dark: #4a4a4e;
+  --accent: #1e5bff;
+  --panel: #101013;
+  --panel-hover: #0e0e12;
+  --rec: #ff3b30;
+
+  --line-paper-14: rgba(242, 240, 236, 0.14);
+  --line-paper-16: rgba(242, 240, 236, 0.16);
+  --line-paper-22: rgba(242, 240, 236, 0.22);
+  --dim-paper: rgba(242, 240, 236, 0.5);
+  --line-ink-14: rgba(8, 8, 10, 0.14);
+  --line-ink-16: rgba(8, 8, 10, 0.16);
+  --dim-ink: rgba(8, 8, 10, 0.5);
+
+  --sans: 'Golos Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --gutter: clamp(14px, 3vw, 44px);
+  --gap: clamp(16px, 2vw, 32px);
+  --perf: 26px;
+  --navh: 0px;
+  /* Section labels inside pinned spreads sit below the two fixed plates (top 12px + ~40px). */
+  --sticky-head: 62px;
+  /* Right-hand corridor kept clear of the side index on spreads with right-aligned content. */
+  --corridor: 168px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Written by the scroll engine every frame. */
+  --mx: 0;
+  --my: 0;
+  --sp: 0;
+  --perf-y: 0;
+  --cur-o: 0;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --perf: 14px;
+    --navh: 47px;
+    --corridor: 0px;
+  }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-weight: 500;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.no-cursor, body.no-cursor * { cursor: none !important; }
+body.scroll-locked { overflow: hidden; }
+
+::selection { background: var(--accent); color: var(--paper); }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--paper); }
+
+button { font: inherit; color: inherit; }
+
+img { display: block; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Utilities shared by every spread. */
+.mono {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+}
+.mono-dim { color: var(--dim-paper); }
+.mono-dim-ink { color: var(--dim-ink); }
+
+.grid12 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gap);
+}
+
+.h2 {
+  margin: 0;
+  font-weight: 800;
+  font-size: clamp(32px, 5vw, 86px);
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+}
+
+.body-copy {
+  margin: 0;
+  font-size: clamp(15px, 1.1vw, 18px);
+  line-height: 1.55;
+  color: var(--grey);
+  text-wrap: pretty;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Keyframes used by the team hover effects and the viewfinder. */
+@keyframes btsBlink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: 0.15; } }
+@keyframes fxPulse { 0%, 100% { opacity: 0.35; transform: scale(0.96); } 50% { opacity: 0.9; transform: scale(1.04); } }
+@keyframes fxRise { 0% { transform: translateY(0) scale(1); opacity: 0; } 15% { opacity: 1; } 100% { transform: translateY(-90vh) scale(0.3); opacity: 0; } }
+@keyframes fxHover { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-14px) rotate(1deg); } }
+@keyframes fxWave { 0%, 100% { transform: scaleY(0.15); } 50% { transform: scaleY(1); } }
+@keyframes fxBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.15; } }
+@keyframes fxScan { 0% { top: -4%; } 100% { top: 104%; } }
+@keyframes fxDrift {
+  0% { transform: translate(0, 0) rotate(0deg) scale(0.6); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translate(var(--dx, 200px), var(--dy, -160px)) rotate(var(--rot, 40deg)) scale(1.1); opacity: 0; }
+}
+@keyframes fxGrade {
+  0%, 100% { filter: none; }
+  33% { filter: saturate(0) contrast(1.35); }
+  66% { filter: saturate(1.9) hue-rotate(-18deg) contrast(1.15); }
+}
+@keyframes fxCut { 0%, 46% { opacity: 0; } 47%, 53% { opacity: 1; } 54%, 100% { opacity: 0; } }
+@keyframes fxFlicker { 0%, 100% { opacity: 0.55; } 25% { opacity: 0.9; } 50% { opacity: 0.3; } 75% { opacity: 1; } }
+@keyframes fxSpin { to { transform: rotate(360deg); } }
+@keyframes fxStripe { to { background-position: 96px 0; } }
+@keyframes fxIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Reduced motion: instant state changes, no looping decoration. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,154 @@
+.section {
+  position: relative;
+  padding: clamp(80px, 14vh, 170px) var(--gutter) clamp(30px, 5vh, 50px);
+  overflow: hidden;
+}
+.head { display: flex; justify-content: space-between; }
+
+.title {
+  margin: clamp(40px, 8vh, 110px) 0 0;
+  font-weight: 900;
+  font-size: clamp(50px, 13vw, 220px);
+  line-height: 0.86;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+.t1, .t2 { display: block; }
+.t1 { transform: translate3d(calc(var(--p, 0) * 3vw - 1.5vw), 0, 0); }
+.t2 {
+  padding-left: 0.12em;
+  transform: translate3d(calc(1.5vw - var(--p, 0) * 3vw), 0, 0);
+}
+.dot { color: var(--accent); }
+
+.consult {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gap);
+  align-items: end;
+  margin-top: clamp(44px, 8vh, 100px);
+  padding-top: clamp(22px, 3vh, 36px);
+  border-top: 1px solid var(--line-paper-16);
+}
+.consultLabel { grid-column: 1 / span 3; color: var(--accent); }
+.phoneField { grid-column: 4 / span 4; display: block; }
+.fieldLabel { display: block; letter-spacing: 0.16em; color: var(--dim-paper); }
+.input {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(242, 240, 236, 0.35);
+  border-radius: 0;
+  background: none;
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: clamp(16px, 1.3vw, 20px);
+}
+.input::placeholder { color: rgba(242, 240, 236, 0.3); }
+.input:focus { outline: none; border-bottom-color: var(--accent); }
+.submit {
+  grid-column: 8 / span 5;
+  justify-self: start;
+  padding: 16px 26px;
+  border: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+.submit:hover:not(:disabled) { background: var(--accent); color: var(--paper); }
+.submit:disabled { cursor: default; }
+.agree {
+  grid-column: 4 / span 8;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+  color: rgba(242, 240, 236, 0.55);
+  cursor: pointer;
+}
+.checkbox {
+  width: 14px;
+  height: 14px;
+  margin: 2px 0 0;
+  accent-color: var(--accent);
+}
+.note {
+  grid-column: 4 / span 8;
+  margin: 0;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: clamp(20px, 3vw, 44px);
+  margin-top: clamp(40px, 6vh, 70px);
+  padding-top: clamp(22px, 3vh, 36px);
+  border-top: 1px solid var(--line-paper-16);
+}
+.cellLabel { letter-spacing: 0.16em; color: var(--dim-paper); }
+.link { color: var(--paper); transition: color 0.3s; }
+.link:hover { color: var(--accent); }
+.big {
+  display: inline-block;
+  margin-top: 10px;
+  font-weight: 700;
+  font-size: clamp(19px, 1.9vw, 30px);
+  letter-spacing: -0.02em;
+}
+.mail {
+  display: inline-block;
+  margin-top: 10px;
+  font-weight: 700;
+  font-size: clamp(16px, 1.5vw, 24px);
+  letter-spacing: -0.02em;
+  word-break: break-word;
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+.mid {
+  font-weight: 700;
+  font-size: clamp(16px, 1.4vw, 22px);
+}
+.pending {
+  color: rgba(242, 240, 236, 0.55);
+  border-bottom: 1px dashed rgba(242, 240, 236, 0.3);
+  width: max-content;
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: clamp(40px, 7vh, 90px);
+  padding-top: 18px;
+  border-top: 1px solid var(--line-paper-16);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--grey);
+}
+.footLink { color: var(--grey); }
+.footLink:hover { color: var(--accent); }
+
+@media (max-width: 767px) {
+  .head span:last-child { display: none; }
+  .title { font-size: clamp(44px, 16vw, 90px); }
+  .consultLabel, .phoneField, .submit, .agree, .note { grid-column: 1 / span 12; }
+  .submit { justify-self: stretch; text-align: center; }
+  .foot { flex-direction: column; gap: 10px; line-height: 1.7; }
+}
