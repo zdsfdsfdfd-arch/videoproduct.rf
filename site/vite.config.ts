@@ -35,9 +35,12 @@ function devLeadApi(env: Record<string, string>): Plugin {
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
+    // PREVIEW=1 builds a relocatable bundle (relative asset URLs) for hosting under a sub-path
+    base: process.env.PREVIEW ? './' : '/',
     plugins: [react(), devLeadApi(env)],
     resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
     build: {
+      outDir: process.env.PREVIEW ? 'dist-preview' : 'dist',
       target: 'es2022',
       assetsInlineLimit: 0,
       rollupOptions: {
