@@ -1,21 +1,20 @@
 /* Design tokens — from the Claude Design prototype (ink / paper / one electric accent). */
+/* Design tokens — violet-black rework of the Claude Design prototype (ink / paper text / one electric accent). */
 :root {
-  --ink: #08080a;
-  --paper: #f2f0ec;
-  --grey: #c9c7c2;
-  --grey-dark: #4a4a4e;
-  --accent: #1e5bff;
-  --panel: #101013;
-  --panel-hover: #0e0e12;
+  --ink: #0A0714;          /* violet-black base */
+  --ink-2: #120C22;        /* the former "paper" spreads: a step lighter, still dark */
+  --paper: #F1EDF7;        /* text only — no light backgrounds anywhere */
+  --grey: #C4BBD6;
+  --accent: #8C5CFF;       /* electric violet */
+  --accent-2: #C4A6FF;
+  --panel: #170F2E;
+  --panel-hover: #1B1234;
   --rec: #ff3b30;
 
-  --line-paper-14: rgba(242, 240, 236, 0.14);
-  --line-paper-16: rgba(242, 240, 236, 0.16);
-  --line-paper-22: rgba(242, 240, 236, 0.22);
-  --dim-paper: rgba(242, 240, 236, 0.5);
-  --line-ink-14: rgba(8, 8, 10, 0.14);
-  --line-ink-16: rgba(8, 8, 10, 0.16);
-  --dim-ink: rgba(8, 8, 10, 0.5);
+  --line-paper-14: rgba(241, 237, 247, 0.14);
+  --line-paper-16: rgba(241, 237, 247, 0.16);
+  --line-paper-22: rgba(241, 237, 247, 0.22);
+  --dim-paper: rgba(241, 237, 247, 0.5);
 
   --sans: 'Golos Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -88,7 +87,7 @@ img { display: block; }
   letter-spacing: 0.18em;
 }
 .mono-dim { color: var(--dim-paper); }
-.mono-dim-ink { color: var(--dim-ink); }
+.mono-dim { color: var(--dim-paper); }
 
 .grid12 {
   display: grid;

@@ -1,7 +1,7 @@
 .section {
   position: relative;
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--ink-2);
+  color: var(--paper);
   padding: clamp(60px, 10vh, 120px) calc(var(--gutter) + var(--corridor)) clamp(60px, 10vh, 120px) var(--gutter);
   border-top: 1px solid var(--line-paper-14);
 }
@@ -12,11 +12,11 @@
   align-items: center;
   gap: 18px;
 }
-.stepLabel { color: var(--ink); }
+.stepLabel { color: var(--paper); }
 .bar {
   flex: 1;
   height: 1px;
-  background: var(--line-ink-16);
+  background: var(--line-paper-16);
   position: relative;
 }
 .barFill {
@@ -56,11 +56,11 @@
   display: flex;
   flex-direction: column;
   gap: 1px;
-  background: var(--line-ink-14);
-  border-top: 1px solid var(--line-ink-14);
-  border-bottom: 1px solid var(--line-ink-14);
+  background: var(--line-paper-14);
+  border-top: 1px solid var(--line-paper-14);
+  border-bottom: 1px solid var(--line-paper-14);
 }
-.option { background: var(--paper); }
+.option { background: var(--ink-2); }
 .optionBtn {
   display: flex;
   align-items: center;
@@ -70,7 +70,7 @@
   padding: clamp(14px, 1.7vw, 22px) clamp(10px, 1.4vw, 20px);
   border: 0;
   background: none;
-  color: var(--ink);
+  color: var(--paper);
   font-weight: 600;
   font-size: clamp(16px, 1.5vw, 24px);
   letter-spacing: -0.02em;
@@ -79,8 +79,8 @@
   transition: background 0.3s, color 0.3s, padding 0.4s var(--ease);
 }
 .optionBtn:hover, .optionBtn:focus-visible {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--paper);
+  color: var(--ink);
   padding-left: clamp(18px, 2.6vw, 40px);
 }
 .optionNum {
@@ -93,7 +93,7 @@
   padding: 10px 0;
   border: 0;
   background: none;
-  color: var(--dim-ink);
+  color: var(--dim-paper);
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.16em;
@@ -108,16 +108,16 @@
   margin-top: clamp(30px, 5vh, 54px);
 }
 .field { flex: 1 1 220px; display: block; }
-.fieldLabel { display: block; letter-spacing: 0.16em; color: var(--dim-ink); }
+.fieldLabel { display: block; letter-spacing: 0.16em; color: var(--dim-paper); }
 .input {
   width: 100%;
   margin-top: 10px;
   padding: 12px 0;
   border: 0;
-  border-bottom: 1px solid rgba(8, 8, 10, 0.3);
+  border-bottom: 1px solid rgba(241,237,247, 0.3);
   border-radius: 0;
   background: none;
-  color: var(--ink);
+  color: var(--paper);
   font-family: var(--sans);
   font-size: clamp(16px, 1.3vw, 20px);
 }
@@ -133,8 +133,8 @@
 .submit {
   padding: 18px 28px;
   border: 0;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--paper);
+  color: var(--ink);
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.18em;
@@ -162,7 +162,7 @@
   max-width: 46ch;
   font-size: clamp(15px, 1.15vw, 19px);
   line-height: 1.55;
-  color: var(--grey-dark);
+  color: var(--grey);
   text-wrap: pretty;
 }
 .summary {
@@ -173,7 +173,7 @@
   font-size: 11px;
   letter-spacing: 0.08em;
   line-height: 2.2;
-  color: rgba(8, 8, 10, 0.62);
+  color: rgba(241,237,247, 0.62);
 }
 .resultActions {
   display: flex;
@@ -190,9 +190,9 @@
   letter-spacing: 0.16em;
   transition: background 0.3s, color 0.3s, border-color 0.3s;
 }
-.callBtn { background: var(--ink); color: var(--paper); }
+.callBtn { background: var(--paper); color: var(--ink); }
 .callBtn:hover { background: var(--accent); color: var(--paper); }
-.mailBtn { border: 1px solid rgba(8, 8, 10, 0.28); color: var(--ink); }
+.mailBtn { border: 1px solid rgba(241,237,247, 0.28); color: var(--paper); }
 .mailBtn:hover { border-color: var(--accent); color: var(--accent); }
 
 .note {
@@ -202,7 +202,7 @@
   font-size: 10px;
   letter-spacing: 0.12em;
   line-height: 2;
-  color: var(--grey-dark);
+  color: var(--grey);
 }
 
 @media (max-width: 767px) {

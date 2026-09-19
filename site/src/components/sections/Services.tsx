@@ -10,7 +10,7 @@ export function Services() {
   return (
     <section id="sp-04" data-scene className={styles.section} aria-label="04 Услуги">
       <div className="grid12">
-        <div className={`${styles.index} mono mono-dim-ink`}>
+        <div className={`${styles.index} mono mono-dim`}>
           04 / УСЛУГИ
           <br />
           {servicesTotal} НАПРАВЛЕНИЙ

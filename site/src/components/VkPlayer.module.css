@@ -1,0 +1,36 @@
+.box {
+  position: relative;
+  overflow: hidden;
+  background: var(--panel);
+}
+.box[data-hidden] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.poster, .blank, .frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.poster {
+  object-fit: cover;
+  z-index: 2;
+  transition: opacity 0.9s;
+}
+.blank {
+  z-index: 2;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(140, 92, 255, 0.18), transparent 60%),
+    var(--panel);
+  transition: opacity 0.9s;
+}
+.poster[data-off], .blank[data-off] { opacity: 0; pointer-events: none; }
+.frame {
+  border: 0;
+  z-index: 1;
+  transition: opacity 0.9s;
+}

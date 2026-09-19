@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
 import { Picture } from '@/components/Picture';
-import { cities, contacts, coverPortrait, coverPoster, heroVideoId, vkEmbedUrl } from '@/content';
+import { VkPlayer } from '@/components/VkPlayer';
+import { cities, contacts, coverPortrait, coverPoster, heroVideoId } from '@/content';
 import { useAnchorClick, useIsDesktop } from '@/lib/hooks';
 import { getEngine } from '@/lib/scroll-engine';
 import styles from './Cover.module.css';
@@ -12,14 +12,8 @@ import styles from './Cover.module.css';
 export function Cover() {
   const onClick = useAnchorClick();
   const desktop = useIsDesktop();
-  const frame = useRef<HTMLIFrameElement>(null);
-  const [videoOn, setVideoOn] = useState(false);
-  const [videoReady, setVideoReady] = useState(false);
-
   // VK autoplay is desktop-only in practice; phones keep the still.
-  useEffect(() => {
-    if (desktop && !getEngine().reduced) setVideoOn(true);
-  }, [desktop]);
+  const videoOn = desktop && !getEngine().reduced;
 
   return (
     <section id="sp-00" data-scene className={styles.section} aria-label="Обложка">
@@ -33,17 +27,10 @@ export function Cover() {
         <div className={styles.stage}>
           <div className={styles.video} aria-hidden="true">
             <div className={styles.videoBox}>
-              <Picture photo={coverPoster} alt="" className={styles.poster} loading="eager" fetchPriority="high" />
-              {videoOn && (
-                <iframe
-                  ref={frame}
-                  title="Шоурил студии"
-                  src={vkEmbedUrl(heroVideoId, '&autoplay=1&loop=1&mute=1&js_api=1')}
-                  allow="autoplay; encrypted-media"
-                  className={styles.frame}
-                  style={{ opacity: videoReady ? 1 : 0 }}
-                  onLoad={() => setVideoReady(true)}
-                />
+              {videoOn ? (
+                <VkPlayer id={heroVideoId} title="Шоурил студии" poster={coverPoster.src} autoplay eager holdMs={2200} className={styles.frame} />
+              ) : (
+                <Picture photo={coverPoster} alt="" className={styles.poster} loading="eager" fetchPriority="high" />
               )}
             </div>
             <div className={styles.shade} />

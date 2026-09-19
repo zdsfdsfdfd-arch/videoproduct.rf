@@ -3,9 +3,33 @@
 Production build of the Claude Design prototype in `../project/Videoproduction Magazine.dc.html`:
 an interactive magazine about video production — cover + 12 spreads, scroll-driven.
 
-**Stack:** React 19 · TypeScript · Vite 6 · CSS Modules. No animation library: the prototype's
-requestAnimationFrame scroll engine is ported as `src/lib/scroll-engine.ts` (it writes
+**Stack:** React 19 · TypeScript · Vite 6 · React Router 7 · CSS Modules. No animation library: the
+prototype's requestAnimationFrame scroll engine is ported as `src/lib/scroll-engine.ts` (it writes
 `--p` / `--e` / `--mx` / `--my` / `--sp` custom properties that the stylesheets read).
+
+**Palette:** violet-black (`--ink #0A0714`, `--ink-2 #120C22` for the alternating spreads, accent
+`#8C5CFF`). Off-white is used for text only — there are no light backgrounds.
+
+## Pages
+
+| Path | Page |
+| --- | --- |
+| `/` | the magazine — cover + 12 spreads |
+| `/portfolio` | wall of all projects with live previews → case overlay |
+| `/uslugi` | 27 services + the 7-stage process |
+| `/tarify` | tariffs + FAQ |
+| `/komanda` | team stage + backstage + clients |
+| `/otzyvy` | four video testimonials |
+| `/brif` | the branching brief + tariffs |
+| `/kontakty` | consultation form, contacts, geography |
+
+Routing is client-side (`BrowserRouter`); `public/_redirects` gives Netlify the SPA fallback,
+Cloudflare Pages serves `index.html` for unknown paths automatically. Cross-page anchors
+(`#sp-09` on a page without that section) resolve to the owning page via `src/lib/routes.ts`.
+
+**Video:** every VK embed goes through `src/components/VkPlayer.tsx`, which mounts the iframe one to
+two screens ahead of the viewport, keeps the still frame on top until the player has loaded plus a
+short hold, and never unmounts a loaded player — no black frames while scrolling.
 
 ## Run
 

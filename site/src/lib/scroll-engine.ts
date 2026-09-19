@@ -215,14 +215,14 @@ class ScrollEngine {
     const lb = this.cursorLabel;
     if (!el || !lb) return;
     if (label === '\u0000grow') {
-      this.sizeCursor(el, 26, '#1E5BFF');
+      this.sizeCursor(el, 26, '#8C5CFF');
       lb.style.opacity = '0';
     } else if (label) {
-      this.sizeCursor(el, Math.max(58, label.length * 7 + 26), 'rgba(30,91,255,0.92)');
+      this.sizeCursor(el, Math.max(58, label.length * 7 + 26), 'rgba(140,92,255,0.92)');
       lb.textContent = label;
       lb.style.opacity = '1';
     } else {
-      this.sizeCursor(el, 12, '#1E5BFF');
+      this.sizeCursor(el, 12, '#8C5CFF');
       lb.style.opacity = '0';
     }
   };

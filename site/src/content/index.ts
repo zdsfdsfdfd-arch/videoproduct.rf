@@ -48,8 +48,6 @@ export const navItems = [
   { id: 'sp-12', label: '12 КОНТАКТ' },
 ] as const;
 
-/** Sections rendered on paper (light) background — the side index recolours over them. */
-export const paperSections = new Set([4, 7, 9, 11]);
 
 export const clientLogos = [
   { name: 'ICL Services', src: clients.icl, h: 'clamp(58px, 5.6vw, 106px)' },
@@ -172,12 +170,12 @@ export interface Person {
 export const people: Person[] = [
   { name: 'Булат', role: 'ХУДОЖНИК ПО СВЕТУ', src: team.bulat, left: 2, height: 66, z: 1, captionBottom: 28, mx: -14, lift: 60, fx: { word: 'Свет', color: '#FF3B3B', meta: 'КРАСНЫЙ ФИЛЬТР · 3200K' } },
   { name: 'Алексей', role: 'ПИЛОТ КВАДРОКОПТЕРА', src: team.aleksey, left: 11.5, height: 92, z: 2, captionBottom: 38, mx: 0, lift: 70, fx: { word: 'Дрон', color: '#E8FF3A', meta: 'ALT 42 m · GPS 14 · REC' } },
-  { name: 'Николай', role: 'ВИДЕООПЕРАТОР', src: team.nikolay, left: 23.5, height: 78, z: 1, captionBottom: 28, mx: -14, lift: 80, fx: { word: 'Камера', color: '#F2F0EC', meta: '4K · 50p · STAB ON' } },
-  { name: 'Семён', role: 'КИНООПЕРАТОР', src: team.semen, left: 35, height: 100, z: 3, captionBottom: 38, mx: 14, lift: 90, fx: { word: 'Кино', color: '#F2F0EC', meta: '24 FPS · 2.39:1 · ISO 800' } },
-  { name: 'Роман', role: 'РЕЖИССЁР', src: team.roman, left: 47, height: 86, z: 2, captionBottom: 28, mx: 0, lift: 100, accent: true, fx: { word: 'Мотор!', color: '#1E5BFF', meta: 'SCENE 04 · TAKE 01 · ACTION' } },
+  { name: 'Николай', role: 'ВИДЕООПЕРАТОР', src: team.nikolay, left: 23.5, height: 78, z: 1, captionBottom: 28, mx: -14, lift: 80, fx: { word: 'Камера', color: '#F1EDF7', meta: '4K · 50p · STAB ON' } },
+  { name: 'Семён', role: 'КИНООПЕРАТОР', src: team.semen, left: 35, height: 100, z: 3, captionBottom: 38, mx: 14, lift: 90, fx: { word: 'Кино', color: '#F1EDF7', meta: '24 FPS · 2.39:1 · ISO 800' } },
+  { name: 'Роман', role: 'РЕЖИССЁР', src: team.roman, left: 47, height: 86, z: 2, captionBottom: 28, mx: 0, lift: 100, accent: true, fx: { word: 'Мотор!', color: '#8C5CFF', meta: 'SCENE 04 · TAKE 01 · ACTION' } },
   { name: 'Аниса', role: 'ГРИМЁР', src: team.anisa, left: 58.5, height: 96, z: 3, captionBottom: 38, mx: 14, lift: 110, fx: { word: 'Грим', color: '#F7C6D0', meta: 'SOFT LIGHT · 5600K' } },
-  { name: 'Исхак', role: 'ЗВУКОРЕЖИССЁР', src: team.iskhak, left: 70, height: 80, z: 1, captionBottom: 28, mx: -14, lift: 120, fx: { word: 'Звук', color: '#1E5BFF', meta: '48 kHz · 24 bit · -12 dB' } },
-  { name: 'Ирина', role: 'РЕЖИССЁР МОНТАЖА', src: team.irina, left: 82, height: 94, z: 2, captionBottom: 38, mx: 0, lift: 130, fx: { word: 'Монтаж', color: '#F2F0EC', meta: 'CUT 01:24:12 → 01:26:03' } },
+  { name: 'Исхак', role: 'ЗВУКОРЕЖИССЁР', src: team.iskhak, left: 70, height: 80, z: 1, captionBottom: 28, mx: -14, lift: 120, fx: { word: 'Звук', color: '#8C5CFF', meta: '48 kHz · 24 bit · -12 dB' } },
+  { name: 'Ирина', role: 'РЕЖИССЁР МОНТАЖА', src: team.irina, left: 82, height: 94, z: 2, captionBottom: 38, mx: 0, lift: 130, fx: { word: 'Монтаж', color: '#F1EDF7', meta: 'CUT 01:24:12 → 01:26:03' } },
 ];
 
 export interface Review {

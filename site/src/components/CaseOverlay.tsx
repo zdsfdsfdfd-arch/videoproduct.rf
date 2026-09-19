@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Picture } from '@/components/Picture';
-import { caseFallbackFrames, vkEmbedUrl, vkVideoUrl, works } from '@/content';
+import { VkPlayer } from '@/components/VkPlayer';
+import { caseFallbackFrames, vkVideoUrl, works } from '@/content';
 import { getEngine } from '@/lib/scroll-engine';
 import styles from './CaseOverlay.module.css';
 
@@ -138,9 +139,7 @@ export function CaseOverlay({ request, onClose }: { request: CaseRequest | null;
               </a>
             </div>
             <div className={styles.player}>
-              {phase === 'open' && (
-                <iframe title={`Видео проекта — ${work.title}`} src={vkEmbedUrl(work.id)} allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowFullScreen className={styles.iframe} />
-              )}
+              <VkPlayer key={work.id} id={work.id} title={`Видео проекта — ${work.title}`} poster={work.poster} interactive eager holdMs={600} className={styles.iframe} />
             </div>
           </div>
 

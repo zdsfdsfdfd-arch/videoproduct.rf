@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState, useCallback, type RefObject, type MouseEvent } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getEngine, scrollToSection, type SceneListener } from './scroll-engine';
+import { anchorRoutes } from './routes';
 
 /** Subscribe a [data-scene] section to the engine's per-frame progress. */
 export function useScene(ref: RefObject<HTMLElement | null>, fn: SceneListener) {
@@ -33,14 +35,29 @@ export function useActiveSection() {
   return i;
 }
 
-/** onClick for `href="#sp-NN"` anchors: smooth scroll instead of the jump. */
+/**
+ * onClick for `href="#sp-NN"` anchors. If the section is on this page → smooth scroll;
+ * otherwise go to the page that owns it (or the magazine with the hash).
+ */
 export function useAnchorClick() {
-  return useCallback((ev: MouseEvent<HTMLAnchorElement>) => {
-    const href = ev.currentTarget.getAttribute('href');
-    if (!href?.startsWith('#')) return;
-    ev.preventDefault();
-    scrollToSection(href.slice(1));
-  }, []);
+  const navigate = useNavigate();
+  const location = useLocation();
+  return useCallback(
+    (ev: MouseEvent<HTMLAnchorElement>) => {
+      const href = ev.currentTarget.getAttribute('href');
+      if (!href?.startsWith('#')) return;
+      ev.preventDefault();
+      const id = href.slice(1);
+      if (document.getElementById(id)) {
+        scrollToSection(id);
+        return;
+      }
+      const route = anchorRoutes[id];
+      if (route && route !== location.pathname) navigate(route);
+      else navigate(`/#${id}`);
+    },
+    [navigate, location.pathname],
+  );
 }
 
 export function useMediaQuery(query: string) {

@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
-import { vkEmbedUrl, works } from '@/content';
+import { VkPlayer } from '@/components/VkPlayer';
+import { works } from '@/content';
 import { useAnchorClick, useIsDesktop } from '@/lib/hooks';
-import { getEngine } from '@/lib/scroll-engine';
 import styles from './Works.module.css';
 
 interface Props {
@@ -11,14 +11,33 @@ interface Props {
 /**
  * 02 / Работы — a horizontal portfolio wall driven by vertical scroll. The section is 340vh tall;
  * the pinned track moves by --e × --tw, where --tw is the overflow of the track measured on resize.
- * Cards with a still frame start their VK preview on hover; the one card without a still
- * (university film) loads straight away so it is never empty.
+ * Every card carries a muted VK preview that is pre-loaded two screens ahead, behind its still frame,
+ * so there is never a black card while the player spins up.
  */
 export function Works({ onOpen }: Props) {
   const section = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const onClick = useAnchorClick();
   const desktop = useIsDesktop();
+  const [armed, setArmed] = useState(false);
+
+  // The cards live on a horizontal track, mostly off-screen to the right, so per-card visibility
+  // would arm them too late. Arm all nine as soon as the section is 1.5 screens away.
+  useEffect(() => {
+    const sec = section.current;
+    if (!sec || !desktop) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setArmed(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: '150% 0px' },
+    );
+    io.observe(sec);
+    return () => io.disconnect();
+  }, [desktop]);
 
   useLayoutEffect(() => {
     const sec = section.current;
@@ -57,7 +76,7 @@ export function Works({ onOpen }: Props) {
           </h2>
 
           {works.map((w, i) => (
-            <WorkCard key={w.id} index={i} work={w} desktop={desktop} onOpen={onOpen} />
+            <WorkCard key={w.id} index={i} work={w} desktop={desktop} armed={armed} onOpen={onOpen} />
           ))}
 
           <div className={styles.outro}>
@@ -72,16 +91,8 @@ export function Works({ onOpen }: Props) {
   );
 }
 
-function WorkCard({ index, work, desktop, onOpen }: { index: number; work: (typeof works)[number]; desktop: boolean; onOpen: Props['onOpen'] }) {
+function WorkCard({ index, work, desktop, armed, onOpen }: { index: number; work: (typeof works)[number]; desktop: boolean; armed: boolean; onOpen: Props['onOpen'] }) {
   const thumb = useRef<HTMLSpanElement>(null);
-  const [armed, setArmed] = useState(false);
-  const [ready, setReady] = useState(false);
-  const previews = desktop && !getEngine().reduced && !getEngine().coarse;
-
-  // no still frame → the preview loads immediately (desktop only, like the prototype)
-  useEffect(() => {
-    if (previews && !work.poster) setArmed(true);
-  }, [previews, work.poster]);
 
   const style: CSSProperties = {
     width: work.w,
@@ -97,24 +108,14 @@ function WorkCard({ index, work, desktop, onOpen }: { index: number; work: (type
       className={styles.card}
       style={style}
       onClick={() => thumb.current && onOpen(index, thumb.current)}
-      onPointerEnter={() => previews && setArmed(true)}
     >
       <span ref={thumb} className={styles.thumb} style={{ height: work.h }}>
-        {work.poster ? (
+        {desktop ? (
+          <VkPlayer id={work.id} title={work.title} poster={work.poster} autoplay hd={1} eager={armed} className={styles.player} />
+        ) : work.poster ? (
           <img src={work.poster} alt="" loading="lazy" className={styles.poster} />
         ) : (
           <span className={styles.placeholder}>{work.title}</span>
-        )}
-        {armed && (
-          <iframe
-            title={work.title}
-            src={vkEmbedUrl(work.id, '&autoplay=1&loop=1&mute=1').replace('hd=2', 'hd=1')}
-            loading="lazy"
-            allow="autoplay; encrypted-media"
-            className={styles.frame}
-            style={{ opacity: ready ? 1 : 0 }}
-            onLoad={() => setReady(true)}
-          />
         )}
         <span aria-hidden="true" className={styles.badge}>
           ▶ VK VIDEO

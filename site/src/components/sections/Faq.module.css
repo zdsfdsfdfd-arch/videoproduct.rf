@@ -1,7 +1,7 @@
 .section {
   position: relative;
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--ink-2);
+  color: var(--paper);
   padding: clamp(70px, 12vh, 150px) calc(var(--gutter) + var(--corridor)) clamp(70px, 12vh, 150px) var(--gutter);
 }
 .index { grid-column: 1 / span 3; }
@@ -15,9 +15,9 @@
 }
 .list {
   grid-column: 4 / span 8;
-  border-top: 1px solid var(--line-ink-16);
+  border-top: 1px solid var(--line-paper-16);
 }
-.item { border-bottom: 1px solid var(--line-ink-16); }
+.item { border-bottom: 1px solid var(--line-paper-16); }
 .summary {
   display: flex;
   align-items: center;
@@ -43,7 +43,7 @@
   max-width: 60ch;
   font-size: clamp(15px, 1.1vw, 18px);
   line-height: 1.6;
-  color: var(--grey-dark);
+  color: var(--grey);
   text-wrap: pretty;
 }
 

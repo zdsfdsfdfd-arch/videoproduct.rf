@@ -43,7 +43,7 @@
   text-transform: uppercase;
   color: var(--paper);
 }
-.titleDim { color: rgba(242, 240, 236, 0.22); }
+.titleDim { color: rgba(241,237,247, 0.22); }
 
 .card {
   flex: 0 0 auto;
@@ -81,17 +81,14 @@
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.14em;
-  color: rgba(242, 240, 236, 0.35);
+  color: rgba(241,237,247, 0.35);
 }
-.frame {
+.player {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  pointer-events: none;
-  transition: opacity 0.8s;
+  transition: transform 0.8s var(--ease);
 }
+.card:hover .player { transform: scale(1.04); }
 .badge {
   position: absolute;
   left: 12px;
@@ -100,7 +97,7 @@
   align-items: center;
   gap: 8px;
   padding: 6px 10px;
-  background: rgba(8, 8, 10, 0.7);
+  background: rgba(10,7,20, 0.7);
   font-family: var(--mono);
   font-size: 9px;
   letter-spacing: 0.16em;
@@ -140,7 +137,7 @@
   align-items: center;
   gap: 10px;
   padding: 14px 20px;
-  border: 1px solid rgba(242, 240, 236, 0.28);
+  border: 1px solid rgba(241,237,247, 0.28);
   color: var(--paper);
   transition: border-color 0.3s, color 0.3s;
 }

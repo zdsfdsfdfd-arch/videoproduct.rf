@@ -6,7 +6,7 @@ export function Faq() {
   return (
     <section id="sp-11" data-scene className={styles.section} aria-label="11 Вопросы">
       <div className="grid12">
-        <div className={`${styles.index} mono mono-dim-ink`}>11 / ВОПРОСЫ</div>
+        <div className={`${styles.index} mono mono-dim`}>11 / ВОПРОСЫ</div>
         <h2 className={styles.title}>Коротко и по делу</h2>
         <div className={styles.list}>
           {faq.map((item) => (

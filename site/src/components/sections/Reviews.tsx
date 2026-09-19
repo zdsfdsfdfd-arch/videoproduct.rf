@@ -1,28 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
-import { reviews, vkEmbedUrl, vkVideoUrl } from '@/content';
+import { useRef } from 'react';
+import { VkPlayer } from '@/components/VkPlayer';
+import { reviews, vkVideoUrl } from '@/content';
 import { useIsDesktop, useSceneIndex } from '@/lib/hooks';
 import styles from './Reviews.module.css';
 
 /**
  * 08 / Отзывы — one testimonial fills the viewport; scrolling through the 300vh section swaps
- * them. The client's video review plays beside the name (desktop only) and the VK link follows.
+ * them. All four video reviews are pre-loaded as the section approaches; only the active one is
+ * shown, the others stay mounted so switching is instant (desktop only).
  */
 export function Reviews() {
   const section = useRef<HTMLElement>(null);
   const [active] = useSceneIndex(section, reviews.length);
   const desktop = useIsDesktop();
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = section.current;
-    if (!el) return;
-    const io = new IntersectionObserver(([en]) => setVisible(en.isIntersecting));
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
 
   const current = reviews[active];
-  const playerOn = desktop && visible;
 
   return (
     <section id="sp-08" ref={section} data-scene className={styles.section} aria-label="08 Отзывы">
@@ -43,16 +35,10 @@ export function Reviews() {
             </div>
           ))}
           <div className={styles.player}>
-            {playerOn && (
-              <iframe
-                key={current.videoId}
-                title={`Видеоотзыв — ${current.company}`}
-                src={vkEmbedUrl(current.videoId)}
-                allow="autoplay; encrypted-media; fullscreen"
-                allowFullScreen
-                className={styles.frame}
-              />
-            )}
+            {desktop &&
+              reviews.map((r, i) => (
+                <VkPlayer key={r.videoId} id={r.videoId} title={`Видеоотзыв — ${r.company}`} interactive hidden={i !== active} prewarm="150% 0px" className={styles.frame} />
+              ))}
           </div>
         </div>
 

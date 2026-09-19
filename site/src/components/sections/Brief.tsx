@@ -64,7 +64,7 @@ export function Brief() {
   return (
     <section id="sp-09" data-scene className={styles.section} aria-label="09 Бриф">
       <div className="grid12">
-        <div className={`${styles.index} mono mono-dim-ink`}>
+        <div className={`${styles.index} mono mono-dim`}>
           09 / БРИФ
           <br />
           ~1,5 МИНУТЫ

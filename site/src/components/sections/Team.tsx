@@ -72,7 +72,7 @@ export function Team() {
   return (
     <section id="sp-07" data-scene className={styles.section} aria-label="07 Команда">
       <div className={`grid12 ${styles.head}`}>
-        <div className={`${styles.index} mono mono-dim-ink`}>
+        <div className={`${styles.index} mono mono-dim`}>
           07 / КОМАНДА
           <br />8 ИЗ 15 СПЕЦИАЛИСТОВ
         </div>
@@ -175,18 +175,29 @@ function Effects({ i, person, box, stage }: { i: number; person: Person; box: Bo
 
   return (
     <>
+      {/* the stage dims around the person, tinted in their role colour */}
       <div
         className={styles.spot}
         style={{
-          background: `radial-gradient(ellipse ${W * 1.7}% ${H * 1.3}% at ${cx}% ${T + H * 0.4}%, rgba(8,8,10,0) 0%, rgba(8,8,10,0) 30%, rgba(8,8,10,0.6) 65%, rgba(8,8,10,0.92) 100%)`,
+          background: `radial-gradient(ellipse ${W * 2.2}% ${H * 1.5}% at ${cx}% ${T + H * 0.45}%, rgba(10,7,20,0) 0%, rgba(10,7,20,0.1) 35%, rgba(10,7,20,0.55) 70%, rgba(10,7,20,0.8) 100%)`,
         }}
       />
+      <div className={styles.wash} style={{ background: `radial-gradient(ellipse at ${cx}% 100%, ${color}44 0%, ${color}11 35%, transparent 65%)` }} />
+      {/* floor glow under the feet, role colour */}
+      <div className={styles.floorGlow} style={{ left: pct(cx), top: pct(T + H), width: pct(W * 2.4), background: `radial-gradient(ellipse at 50% 50%, ${color}99, ${color}33 40%, transparent 70%)` }} />
+      {/* the craft, set letter by letter above the head */}
       <div
         ref={wordRef}
         className={styles.word}
-        style={{ left: pct(cx), top: pct(Math.max(6, T - 4)), color, mixBlendMode: color === '#F2F0EC' ? 'difference' : 'normal' }}
+        style={{ left: pct(cx), top: pct(Math.max(5, T - 3)), color, mixBlendMode: color === '#F1EDF7' ? 'difference' : 'normal' }}
       >
-        {word}
+        {[...word].map((ch, n) => (
+          <span key={`${word}-${n}`} className={styles.letterClip}>
+            <span className={styles.letter} style={{ animationDelay: `${n * 45}ms` }}>
+              {ch}
+            </span>
+          </span>
+        ))}
       </div>
       <div ref={plateRef} className={styles.plate} style={{ left: pct(cx), top: pct(T + H), borderColor: color }}>
         <span className={styles.plateName}>{person.name}</span>
@@ -200,7 +211,8 @@ function Effects({ i, person, box, stage }: { i: number; person: Person; box: Bo
           {i === 0 && (
             <>
               <div className={styles.fxLight} style={box_} />
-              <div className={styles.fxBeam} style={{ left: pct(L - W * 0.1), width: pct(W * 1.2), height: pct(Math.max(0, T - 2)) }} />
+              <div className={styles.fxBeam} style={{ left: pct(cx - W * 0.9), width: pct(W * 1.8), height: pct(Math.max(0, T + H * 0.12)) }} />
+              <div className={styles.fxBeamCore} style={{ left: pct(cx - W * 0.35), width: pct(W * 0.7), height: pct(Math.max(0, T + H * 0.1)) }} />
             </>
           )}
           {i === 1 && (
@@ -284,7 +296,7 @@ function Powder({ cx, top, W }: { cx: number; top: number; W: number }) {
   const [parts] = useState(() =>
     Array.from({ length: 16 }, (_, n) => ({
       size: 4 + Math.random() * 8,
-      color: ['#F7C6D0', '#F2F0EC', '#FFD9A0'][n % 3],
+      color: ['#F7C6D0', '#F1EDF7', '#FFD9A0'][n % 3],
       dur: 1.8 + Math.random(),
       delay: Math.random() * 1.8,
       dx: (Math.random() - 0.5) * W * 6,
@@ -323,7 +335,7 @@ function WaveBars() {
   return (
     <>
       {bars.map((b, n) => (
-        <span key={n} className={styles.bar} style={{ background: b.bright ? '#F2F0EC' : '#1E5BFF', animationDuration: `${b.dur}s`, animationDelay: `${b.delay}s` }} />
+        <span key={n} className={styles.bar} style={{ background: b.bright ? '#F1EDF7' : '#8C5CFF', animationDuration: `${b.dur}s`, animationDelay: `${b.delay}s` }} />
       ))}
     </>
   );
