@@ -55,15 +55,15 @@ export const navItems = [
  * cutout's width/height — needed because a CSS mask has no intrinsic size.
  */
 export const clientLogos = [
-  { name: 'ICL Services', src: clients.icl, h: 'clamp(58px, 5.6vw, 106px)', ratio: '240 / 190', fill: '#2F80ED' },
-  { name: 'Leroy Merlin', src: clients.leroy, h: 'clamp(52px, 5vw, 97px)', ratio: '240 / 160', fill: '#78BE20' },
-  { name: 'Avito', src: clients.avito, h: 'clamp(38px, 3.5vw, 66px)', ratio: '320 / 130', fill: 'linear-gradient(to right, transparent 0 27%, #F1EDF7 27%), conic-gradient(from 0deg at 13.5% 50%, #FF4053 0 25%, #965EEB 25% 50%, #0AF 50% 75%, #04E061 75%)' },
-  { name: 'Унистрой', src: clients.unistroy, h: 'clamp(58px, 5.6vw, 106px)', ratio: '200 / 180', fill: '#E8B84A' },
-  { name: 'Автодор', src: clients.avtodor, h: 'clamp(34px, 3.2vw, 62px)', ratio: '380 / 120', fill: 'linear-gradient(to right, #1FA2FF 0 22%, #F1EDF7 22%)' },
-  { name: 'VK', src: clients.vk, h: 'clamp(44px, 4.1vw, 79px)', ratio: '140 / 140', fill: '#0077FF' },
-  { name: 'Яндекс Еда', src: clients.yandexEda, h: 'clamp(32px, 3vw, 57px)', ratio: '370 / 100', fill: 'linear-gradient(to right, #F1EDF7 0 50%, #FFCC00 50% 64%, #F1EDF7 64%)' },
-  { name: 'МЕГА', src: clients.mega, h: 'clamp(42px, 3.9vw, 75px)', ratio: '350 / 140', fill: 'linear-gradient(to right, #0058A3 0 30%, #E3000F 30% 52%, #00A651 52% 73%, #FFDA00 73%)' },
-  { name: 'СИБУР', src: clients.sibur, h: 'clamp(32px, 3.1vw, 57px)', ratio: '360 / 110', fill: '#00A651' },
+  { name: 'ICL Services', src: clients.icl, h: 'clamp(58px, 5.6vw, 106px)', ratio: '240 / 190', fill: '#2F80ED', glow: '#2F80ED' },
+  { name: 'Leroy Merlin', src: clients.leroy, h: 'clamp(52px, 5vw, 97px)', ratio: '240 / 160', fill: '#78BE20', glow: '#78BE20' },
+  { name: 'Avito', src: clients.avito, h: 'clamp(38px, 3.5vw, 66px)', ratio: '320 / 130', fill: 'linear-gradient(to right, transparent 0 27%, #F1EDF7 27%), conic-gradient(from 0deg at 13.5% 50%, #FF4053 0 25%, #965EEB 25% 50%, #0AF 50% 75%, #04E061 75%)', glow: '#965EEB' },
+  { name: 'Унистрой', src: clients.unistroy, h: 'clamp(58px, 5.6vw, 106px)', ratio: '200 / 180', fill: '#E8B84A', glow: '#E8B84A' },
+  { name: 'Автодор', src: clients.avtodor, h: 'clamp(34px, 3.2vw, 62px)', ratio: '380 / 120', fill: 'linear-gradient(to right, #1FA2FF 0 22%, #F1EDF7 22%)', glow: '#1FA2FF' },
+  { name: 'VK', src: clients.vk, h: 'clamp(44px, 4.1vw, 79px)', ratio: '140 / 140', fill: '#0077FF', glow: '#0077FF' },
+  { name: 'Яндекс Еда', src: clients.yandexEda, h: 'clamp(32px, 3vw, 57px)', ratio: '370 / 100', fill: 'linear-gradient(to right, #F1EDF7 0 50%, #FFCC00 50% 64%, #F1EDF7 64%)', glow: '#FFCC00' },
+  { name: 'МЕГА', src: clients.mega, h: 'clamp(42px, 3.9vw, 75px)', ratio: '350 / 140', fill: 'linear-gradient(to right, #0058A3 0 30%, #E3000F 30% 52%, #00A651 52% 73%, #FFDA00 73%)', glow: '#E3000F' },
+  { name: 'СИБУР', src: clients.sibur, h: 'clamp(32px, 3.1vw, 57px)', ratio: '360 / 110', fill: '#00A651', glow: '#00A651' },
 ];
 
 export interface Work {
@@ -125,16 +125,16 @@ export interface ProcessStep {
   title: string;
   description: string;
   tariffs: string;
-  frame: { photo?: Photo; portrait?: string; alt: string };
+  frame: { photo: Photo; alt: string };
 }
 
 export const processSteps: ProcessStep[] = [
   { title: 'Сценарий', description: 'Сценарист, режиссёр и продюсер собирают идею в историю. Каждая сцена расписана до реплики.', tariffs: 'СТАРТ (БАЗОВЫЙ) · СТАНДАРТ · КОМБО', frame: { photo: process.studioSet, alt: 'Сценарий: обсуждение на площадке' } },
-  { title: 'Раскадровка', description: 'Режиссёр рисует кадры и планы. Заказчик видит будущий ролик до съёмочного дня.', tariffs: 'СТАНДАРТ · КОМБО', frame: { portrait: team.roman, alt: 'Раскадровка: режиссёр Роман' } },
+  { title: 'Раскадровка', description: 'Режиссёр рисует кадры и планы. Заказчик видит будущий ролик до съёмочного дня.', tariffs: 'СТАНДАРТ · КОМБО', frame: { photo: process.boardroomSlider, alt: 'Обсуждение раскадровки в переговорной' } },
   { title: 'Видеосъёмка', description: 'Своё оборудование на 5 000 000 ₽, команда до 15 человек, съёмки в 25 городах.', tariffs: 'СТАРТ · СТАНДАРТ · КОМБО', frame: { photo: process.factoryBoom, alt: 'Съёмка: завод, журавль, петличка' } },
-  { title: 'Видеомонтаж', description: 'Ритм, темп и драматургия собираются из отснятого материала.', tariffs: 'СТАРТ · СТАНДАРТ · КОМБО', frame: { portrait: team.irina, alt: 'Монтаж: режиссёр монтажа Ирина' } },
+  { title: 'Видеомонтаж', description: 'Ритм, темп и драматургия собираются из отснятого материала.', tariffs: 'СТАРТ · СТАНДАРТ · КОМБО', frame: { photo: process.loftInterview, alt: 'Отснятый материал на мониторах в студии' } },
   { title: 'Цветокоррекция', description: 'Кадры приводятся к единому кинематографичному изображению.', tariffs: 'СТАНДАРТ · КОМБО', frame: { photo: process.podcastStudio, alt: 'Цветокоррекция: свет и цвет' } },
-  { title: 'Саунд-дизайн', description: 'Чистый диалог, музыка, шумы и эффекты — звук делает половину впечатления.', tariffs: 'СТАНДАРТ · КОМБО', frame: { portrait: team.iskhak, alt: 'Саунд-дизайн: звукорежиссёр Исхак' } },
+  { title: 'Саунд-дизайн', description: 'Чистый диалог, музыка, шумы и эффекты — звук делает половину впечатления.', tariffs: 'СТАНДАРТ · КОМБО', frame: { photo: process.studioCrane, alt: 'Запись на площадке: журавль и микрофон' } },
   { title: 'Графика', description: 'Инфографика, 2D/3D-анимация и логотипы завершают ролик.', tariffs: 'СТАНДАРТ · КОМБО', frame: { photo: { src: posters['456239356'], small: posters['456239356'], width: 1280 }, alt: 'Графика: моушен-дизайн и 3D-анимация' } },
 ];
 
@@ -142,14 +142,19 @@ export interface ServiceChapter {
   title: string;
   side: 'left' | 'right';
   items: string[];
+  /** One of the palette hues (global.css) — the chapter's colour on the page. */
+  hue: 'violet' | 'cyan' | 'coral' | 'amber';
+  /** A still from the studio's own shoots, so the list is not five identical blocks of text. */
+  photo: Photo;
+  photoAlt: string;
 }
 
 export const serviceChapters: ServiceChapter[] = [
-  { title: 'Реклама и продажи', side: 'left', items: ['Рекламный видеоролик', 'Информационный ролик', 'Видео для маркетплейсов', 'Видео для соцсетей', 'Видеоролики для B2B', 'Видеоролик для выставок'] },
-  { title: 'Имидж и компания', side: 'right', items: ['Имиджевый ролик', 'Презентационное видео', 'Корпоративные ролики', 'Видеообращение от CEO', 'HR-видео', 'Создание фильма на юбилей компании', 'Документальный фильм'] },
-  { title: 'Производство и объекты', side: 'left', items: ['Производственные видео', 'Видеосъёмка недвижимости', 'Предметная съёмка', 'Аэросъёмка с дроном', 'Отчётные ролики'] },
-  { title: 'События и эфир', side: 'right', items: ['Видеосъёмка мероприятий', 'Видеосъёмка форумов', 'Съёмка интервью и подкастов', 'Видеосъёмка для YouTube', 'Запись вебинаров'] },
-  { title: 'Обучение и постпродакшн', side: 'left', items: ['Обучающие видео и видеокурсы', 'Видеоинструкции для бизнеса', 'Монтаж видеороликов', '2D-анимация'] },
+  { title: 'Реклама и продажи', side: 'left', items: ['Рекламный видеоролик', 'Информационный ролик', 'Видео для маркетплейсов', 'Видео для соцсетей', 'Видеоролики для B2B', 'Видеоролик для выставок'], hue: 'cyan', photo: process.studioSet, photoAlt: 'Съёмочная площадка в студии' },
+  { title: 'Имидж и компания', side: 'right', items: ['Имиджевый ролик', 'Презентационное видео', 'Корпоративные ролики', 'Видеообращение от CEO', 'HR-видео', 'Создание фильма на юбилей компании', 'Документальный фильм'], hue: 'violet', photo: process.boardroomSlider, photoAlt: 'Съёмка в переговорной со слайдером' },
+  { title: 'Производство и объекты', side: 'left', items: ['Производственные видео', 'Видеосъёмка недвижимости', 'Предметная съёмка', 'Аэросъёмка с дроном', 'Отчётные ролики'], hue: 'amber', photo: process.factoryJib, photoAlt: 'Съёмка на производстве с крана' },
+  { title: 'События и эфир', side: 'right', items: ['Видеосъёмка мероприятий', 'Видеосъёмка форумов', 'Съёмка интервью и подкастов', 'Видеосъёмка для YouTube', 'Запись вебинаров'], hue: 'coral', photo: process.podcastStudio, photoAlt: 'Подкаст-студия во время записи' },
+  { title: 'Обучение и постпродакшн', side: 'left', items: ['Обучающие видео и видеокурсы', 'Видеоинструкции для бизнеса', 'Монтаж видеороликов', '2D-анимация'], hue: 'cyan', photo: process.loftInterview, photoAlt: 'Интервью в лофте, свет и камера' },
 ];
 
 export const servicesTotal = serviceChapters.reduce((n, c) => n + c.items.length, 0);
@@ -197,12 +202,12 @@ export interface Person {
 export const people: Person[] = [
   { name: 'Булат', role: 'ХУДОЖНИК ПО СВЕТУ', src: team.bulat, left: 2, height: 66, z: 1, captionBottom: 28, mx: -14, lift: 60, fx: { word: 'Свет', color: '#FF3B3B', meta: 'КРАСНЫЙ ФИЛЬТР · 3200K' } },
   { name: 'Алексей', role: 'ПИЛОТ КВАДРОКОПТЕРА', src: team.aleksey, left: 11.5, height: 92, z: 2, captionBottom: 38, mx: 0, lift: 70, fx: { word: 'Дрон', color: '#E8FF3A', meta: 'ALT 42 m · GPS 14 · REC' } },
-  { name: 'Николай', role: 'ВИДЕООПЕРАТОР', src: team.nikolay, left: 23.5, height: 78, z: 1, captionBottom: 28, mx: -14, lift: 80, fx: { word: 'Камера', color: '#F1EDF7', meta: '4K · 50p · STAB ON' } },
-  { name: 'Семён', role: 'КИНООПЕРАТОР', src: team.semen, left: 35, height: 100, z: 3, captionBottom: 38, mx: 14, lift: 90, fx: { word: 'Кино', color: '#F1EDF7', meta: '24 FPS · 2.39:1 · ISO 800' } },
-  { name: 'Роман', role: 'РЕЖИССЁР', src: team.roman, left: 47, height: 86, z: 2, captionBottom: 28, mx: 0, lift: 100, accent: true, fx: { word: 'Мотор!', color: '#8C5CFF', meta: 'SCENE 04 · TAKE 01 · ACTION' } },
-  { name: 'Аниса', role: 'ГРИМЁР', src: team.anisa, left: 58.5, height: 96, z: 3, captionBottom: 38, mx: 14, lift: 110, fx: { word: 'Грим', color: '#F7C6D0', meta: 'SOFT LIGHT · 5600K' } },
-  { name: 'Исхак', role: 'ЗВУКОРЕЖИССЁР', src: team.iskhak, left: 70, height: 80, z: 1, captionBottom: 28, mx: -14, lift: 120, fx: { word: 'Звук', color: '#8C5CFF', meta: '48 kHz · 24 bit · -12 dB' } },
-  { name: 'Ирина', role: 'РЕЖИССЁР МОНТАЖА', src: team.irina, left: 82, height: 94, z: 2, captionBottom: 38, mx: 0, lift: 130, fx: { word: 'Монтаж', color: '#F1EDF7', meta: 'CUT 01:24:12 → 01:26:03' } },
+  { name: 'Николай', role: 'ВИДЕООПЕРАТОР', src: team.nikolay, left: 23.5, height: 78, z: 1, captionBottom: 28, mx: -14, lift: 80, fx: { word: 'Камера', color: '#45B8FF', meta: '4K · 50p · STAB ON' } },
+  { name: 'Семён', role: 'КИНООПЕРАТОР', src: team.semen, left: 35, height: 100, z: 3, captionBottom: 38, mx: 14, lift: 90, fx: { word: 'Кино', color: '#FFB14E', meta: '24 FPS · 2.39:1 · ISO 800' } },
+  { name: 'Роман', role: 'РЕЖИССЁР', src: team.roman, left: 47, height: 86, z: 2, captionBottom: 28, mx: 0, lift: 100, accent: true, fx: { word: 'Мотор!', color: '#9B72FF', meta: 'SCENE 04 · TAKE 01 · ACTION' } },
+  { name: 'Аниса', role: 'ГРИМЁР', src: team.anisa, left: 58.5, height: 96, z: 3, captionBottom: 38, mx: 14, lift: 110, fx: { word: 'Грим', color: '#FF6B9D', meta: 'SOFT LIGHT · 5600K' } },
+  { name: 'Исхак', role: 'ЗВУКОРЕЖИССЁР', src: team.iskhak, left: 70, height: 80, z: 1, captionBottom: 28, mx: -14, lift: 120, fx: { word: 'Звук', color: '#3DE0B0', meta: '48 kHz · 24 bit · -12 dB' } },
+  { name: 'Ирина', role: 'РЕЖИССЁР МОНТАЖА', src: team.irina, left: 82, height: 94, z: 2, captionBottom: 38, mx: 0, lift: 130, fx: { word: 'Монтаж', color: '#FF8AE2', meta: 'CUT 01:24:12 → 01:26:03' } },
 ];
 
 export interface Review {
@@ -255,5 +260,4 @@ export const coverPoster = backgrounds.coverPodcastStudio;
 
 /** Frames the phone cover cross-fades through while there is no cover clip. All studio shots. */
 export const coverReel = [backgrounds.coverPodcastStudio, process.studioCrane, process.factoryJib, process.loftInterview];
-export const coverPortrait = team.roman;
 export const caseFallbackFrames = { a: process.boardroomSlider, b: process.factoryJib };

@@ -93,29 +93,16 @@
 .shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(9,7,26, 0.93) 0%, rgba(9,7,26, 0.4) 48%, rgba(9,7,26, 0.55) 100%);
-}
-
-.portrait {
-  position: absolute;
-  right: clamp(170px, 15vw, 260px);
-  bottom: -6vh;
-  width: min(30vw, 420px);
-  height: min(84vh, 760px);
-  z-index: 1;
-  transform: translate3d(calc(var(--mx, 0) * -22px), calc(var(--my, 0) * -10px), 0);
-}
-.portrait img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: 50% 100%;
+  /* down the left edge as well: the pitch sits there and the footage behind it is bright */
+  background:
+    linear-gradient(to right, rgba(9,7,26, 0.88) 0%, rgba(9,7,26, 0.62) 34%, rgba(9,7,26, 0) 64%),
+    linear-gradient(to top, rgba(9,7,26, 0.93) 0%, rgba(9,7,26, 0.35) 48%, rgba(9,7,26, 0.5) 100%);
 }
 
 .pitch {
   position: relative;
   z-index: 2;
-  grid-column: 1 / span 7;
+  grid-column: 1 / span 8;
   align-self: center;
 }
 
@@ -243,13 +230,6 @@
   .brand { visibility: visible; }
   .issue { display: none; }
   .since { text-align: right; }
-  .portrait {
-    right: -8vw;
-    bottom: 0;
-    width: 46vw;
-    height: 56vh;
-    transform: none;
-  }
   /* the text runs the full width here, so the lower half of the frame is darkened under it */
   .shade {
     background: linear-gradient(to top, rgba(9,7,26, 0.96) 0%, rgba(9,7,26, 0.9) 42%, rgba(9,7,26, 0.45) 72%, rgba(9,7,26, 0.6) 100%);

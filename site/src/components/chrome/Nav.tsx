@@ -8,6 +8,10 @@ import styles from './Nav.module.css';
 /**
  * Desktop: the vertical technical index pinned at the right edge. On the magazine it lists the
  * spreads (active line grows and turns violet); on inner pages it lists the pages.
+ *
+ * It used to stand open the whole time and print itself over whatever text ran under it. Now it
+ * rests as a column of ticks with only the current chapter named, and opens — over its own plate,
+ * so nothing shows through — when the pointer reaches it.
  */
 export function SideNav() {
   const active = useActiveSection();
@@ -20,13 +24,15 @@ export function SideNav() {
         ? navItems.map((it, i) => (
             <a key={it.id} href={`#${it.id}`} onClick={onClick} className={styles.sideLink} aria-current={i === active ? 'true' : undefined}>
               <span className={styles.tick} />
-              {it.label}
+              <span className={styles.label}>{it.label}</span>
             </a>
           ))
         : pages.map((p, i) => (
             <NavLink key={p.path} to={p.path} end className={styles.sideLink}>
               <span className={styles.tick} />
-              {String(i).padStart(2, '0')} {p.label}
+              <span className={styles.label}>
+                {String(i).padStart(2, '0')} {p.label}
+              </span>
             </NavLink>
           ))}
     </nav>

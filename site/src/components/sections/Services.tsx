@@ -1,3 +1,4 @@
+import { Picture } from '@/components/Picture';
 import { serviceChapters, servicesTotal } from '@/content';
 import styles from './Services.module.css';
 
@@ -5,6 +6,10 @@ import styles from './Services.module.css';
  * 04 / Услуги — twenty-seven services in five chapters. One reading direction: the chapter title
  * on the left, its services under one another on the right, every line starting at the same edge.
  * (The earlier zigzag of loose tiles looked like a spread but could not be read.)
+ *
+ * Читаемо ещё не значит интересно: five identical blocks of grey rows put the studio to sleep.
+ * So each chapter takes one of the palette hues and one still from their own shoots into the
+ * column that was standing empty, and its number is set large behind the title.
  */
 export function Services() {
   let n = 0;
@@ -22,13 +27,21 @@ export function Services() {
         </p>
 
         {serviceChapters.map((ch, ci) => (
-          <div key={ch.title} className={styles.chapter}>
+          <div key={ch.title} className={styles.chapter} data-hue={ch.hue}>
             <div className={styles.chapterHead}>
-              <span aria-hidden="true" className={styles.chapterNum}>
-                {String(ci + 1).padStart(2, '0')}
-              </span>
-              <h3 className={styles.chapterTitle}>{ch.title}</h3>
-              <span className={styles.chapterLabel}>{ch.items.length} НАПРАВЛЕНИЙ</span>
+              <div className={styles.chapterTop}>
+                <span aria-hidden="true" className={styles.chapterGhost}>
+                  {String(ci + 1).padStart(2, '0')}
+                </span>
+                <div>
+                  <span className={styles.chapterNum}>ГЛАВА {String(ci + 1).padStart(2, '0')}</span>
+                  <h3 className={styles.chapterTitle}>{ch.title}</h3>
+                  <span className={styles.chapterLabel}>{ch.items.length} НАПРАВЛЕНИЙ</span>
+                </div>
+              </div>
+              <figure className={styles.shot}>
+                <Picture photo={ch.photo} alt={ch.photoAlt} sizes="(max-width: 767px) 92vw, 30vw" className={styles.shotImg} />
+              </figure>
             </div>
             <ul className={styles.list}>
               {ch.items.map((item) => {

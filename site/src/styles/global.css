@@ -35,8 +35,9 @@
   --navh: 0px;
   /* Section labels inside pinned spreads sit below the two fixed plates (top 12px + ~40px). */
   --sticky-head: 62px;
-  /* Right-hand corridor kept clear of the side index on spreads with right-aligned content. */
-  --corridor: 168px;
+  /* Right-hand corridor kept clear of the side index. It only has to clear the closed index
+     (ticks plus the current chapter's name); the open one draws over its own plate. */
+  --corridor: 108px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Written by the scroll engine every frame. */

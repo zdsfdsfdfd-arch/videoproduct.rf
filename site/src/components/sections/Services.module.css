@@ -27,6 +27,13 @@
 }
 .chapter:first-of-type { margin-top: clamp(46px, 8vh, 100px); }
 
+/* each chapter takes one of the palette hues, so the five blocks stop looking alike */
+.chapter[data-hue='violet'] { --accent: var(--violet); }
+.chapter[data-hue='cyan'] { --accent: var(--cyan); }
+.chapter[data-hue='coral'] { --accent: var(--coral); }
+.chapter[data-hue='amber'] { --accent: var(--amber); }
+.chapter { border-top-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+
 /* the head stays with its list while the list scrolls past */
 .chapterHead {
   grid-column: 1 / span 4;
@@ -34,16 +41,31 @@
   top: calc(var(--sticky-head) + 16px);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: clamp(14px, 1.8vw, 22px);
+}
+.chapterTop {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(10px, 1.2vw, 18px);
+}
+.chapterGhost {
+  flex: 0 0 auto;
+  font-weight: 900;
+  font-size: clamp(40px, 4.4vw, 74px);
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--accent) 70%, transparent);
 }
 .chapterNum {
+  display: block;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 0.18em;
   color: var(--accent);
 }
 .chapterTitle {
-  margin: 0;
+  margin: 4px 0 6px;
   font-weight: 800;
   font-size: clamp(21px, 2.1vw, 34px);
   line-height: 1.05;
@@ -56,6 +78,30 @@
   letter-spacing: 0.16em;
   color: var(--dim-paper);
 }
+
+/* the column under the title used to be empty; now it carries a frame from the studio's shoots */
+.shot {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.shot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(140deg, color-mix(in srgb, var(--accent) 26%, transparent), transparent 62%);
+  pointer-events: none;
+}
+.shotImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: var(--photo-dim);
+  transition: transform 0.7s var(--ease);
+}
+.chapter:hover .shotImg { transform: scale(1.04); }
 
 /* rows, not loose tiles: the eye follows one left edge down the list. Two columns where there
    is room, so a chapter of six services is three lines tall instead of six. */

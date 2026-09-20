@@ -6,6 +6,7 @@ import styles from './Clients.module.css';
  * «Нам доверяют» — nine client marks in a single staggered row. The source cutouts are
  * monochrome, so each is drawn as a CSS mask filled with the brand colour (multi-colour marks
  * get a gradient fill split at the right places); original vector logos can replace them 1:1.
+ * Each mark carries its own glow colour, so the row lifts off the black instead of sinking into it.
  */
 export function Clients() {
   return (
@@ -18,7 +19,7 @@ export function Clients() {
               role="img"
               aria-label={c.name}
               className={styles.logo}
-              style={{ '--logo': `url(${c.src})`, '--fill': c.fill, aspectRatio: c.ratio } as CSSProperties}
+              style={{ '--logo': `url(${c.src})`, '--fill': c.fill, '--glow': c.glow, aspectRatio: c.ratio } as CSSProperties}
             />
           </li>
         ))}

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Picture } from '@/components/Picture';
 import { VkPlayer } from '@/components/VkPlayer';
-import { cities, contacts, coverPortrait, coverPoster, coverReel, coverVideo, heroVideoId, tariffs, vkVideoUrl } from '@/content';
+import { cities, contacts, coverPoster, coverReel, coverVideo, heroVideoId, tariffs, vkVideoUrl } from '@/content';
 import { useAnchorClick, useIsDesktop } from '@/lib/hooks';
 import { getEngine } from '@/lib/scroll-engine';
 import styles from './Cover.module.css';
@@ -11,6 +11,8 @@ import styles from './Cover.module.css';
  * studio is, what it can make for you, and what to do next. So the cover keeps its footage and its
  * line, but underneath sits a plain sentence about the work, the two things a visitor actually
  * wants (the reel and a quote), and the three numbers that matter — including the entry price.
+ * The director's cut-out that used to stand on the right is gone: it crowded the text on a phone
+ * and said nothing a first-time visitor needed.
  *
  * What plays where:
  *   • a self-hosted clip (content → coverVideo), inline and muted — works on every device;
@@ -60,10 +62,6 @@ export function Cover() {
               )}
             </div>
             <div className={styles.shade} />
-          </div>
-
-          <div className={styles.portrait}>
-            <img src={coverPortrait} alt="Роман, режиссёр" width={460} height={690} loading="eager" fetchPriority="high" />
           </div>
 
           <div className={styles.pitch}>

@@ -53,12 +53,8 @@ export function Process() {
         <div className={styles.frameCol}>
           <div className={styles.frameBox} aria-hidden="true">
             {processSteps.map((s, i) => (
-              <div key={s.title} className={`${styles.frame} ${s.frame.portrait ? styles.framePortrait : ''}`} data-on={i === active ? '1' : undefined}>
-                {s.frame.photo ? (
-                  <Picture photo={s.frame.photo} alt="" className={styles.photo} />
-                ) : (
-                  <img src={s.frame.portrait} alt="" loading="lazy" className={styles.portrait} />
-                )}
+              <div key={s.title} className={styles.frame} data-on={i === active ? '1' : undefined}>
+                <Picture photo={s.frame.photo} alt="" className={styles.photo} />
               </div>
             ))}
             <div className={styles.frameShade} />

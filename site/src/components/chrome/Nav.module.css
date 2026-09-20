@@ -1,4 +1,4 @@
-/* Side index (≥768px) */
+/* Side index (≥768px) — closed to ticks, opens under the pointer */
 .side {
   position: fixed;
   right: var(--perf);
@@ -7,12 +7,29 @@
   z-index: 55;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: 9px;
-  padding: 14px 18px 14px 14px;
+  padding: 14px 14px;
 }
+/* the plate only appears with the labels, so the closed index adds nothing over the page */
+.side::before {
+  content: '';
+  position: absolute;
+  inset: 4px 0;
+  background: rgba(9, 7, 26, 0.92);
+  border: 1px solid var(--line-paper-14);
+  border-right: 0;
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+.side:hover::before, .side:focus-within::before { opacity: 1; }
+
 .sideLink {
+  position: relative;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 10px;
   font-family: var(--mono);
   font-size: 10px;
@@ -21,11 +38,30 @@
   transition: color 0.3s;
 }
 .tick {
+  order: 2;
   width: 14px;
   height: 1px;
   background: currentColor;
   transition: width 0.4s var(--ease);
 }
+/* every label but the current one is folded away until the index is opened */
+.label {
+  order: 1;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(6px);
+  transition: max-width 0.35s var(--ease), opacity 0.25s, transform 0.35s var(--ease);
+}
+.side:hover .label,
+.side:focus-within .label,
+.sideLink[aria-current] .label {
+  max-width: 190px;
+  opacity: 1;
+  transform: none;
+}
+.sideLink:hover { color: var(--paper); }
 .sideLink[aria-current] { color: var(--accent); }
 .sideLink[aria-current] .tick { width: 30px; }
 

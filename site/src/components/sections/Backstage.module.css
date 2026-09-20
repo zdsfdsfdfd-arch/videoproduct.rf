@@ -14,13 +14,15 @@
 .layer {
   position: absolute;
   inset: 0;
-  filter: brightness(0.8);
+  filter: brightness(0.7);
   transform: scale(calc(1.02 + var(--e, 0) * 0.07));
   transform-origin: 50% 40%;
 }
-/* second frame wipes up from the bottom from e≈0.22, third wipes down from the top from e≈0.58 */
-.layer2 { clip-path: inset(calc(100% - clamp(0%, (var(--e, 0) - 0.22) * 320%, 100%)) 0 0 0); }
-.layer3 { clip-path: inset(0 0 calc(100% - clamp(0%, (var(--e, 0) - 0.58) * 320%, 100%)) 0); }
+/* The frames used to wipe across each other, which left the screen cut in half between two
+   different photographs — it read as a rendering fault, not as an edit. They dissolve now:
+   each new frame simply rises over the one before it. */
+.layer2 { opacity: clamp(0, (var(--e, 0) - 0.32) * 26, 1); }
+.layer3 { opacity: clamp(0, (var(--e, 0) - 0.66) * 26, 1); }
 .photo {
   width: 100%;
   height: 100%;
@@ -30,6 +32,8 @@
 .finder {
   position: absolute;
   inset: clamp(52px, 9vh, 96px) clamp(20px, 4.5vw, 72px) clamp(118px, 20vh, 200px);
+  /* above the word's scrim, or the bottom row of the viewfinder washes out under it */
+  z-index: 2;
   pointer-events: none;
 }
 .corner {
@@ -104,21 +108,31 @@
 
 .wordWrap {
   position: absolute;
+  z-index: 1;
   inset: 0 0 clamp(118px, 20vh, 200px) 0;
   display: flex;
   align-items: flex-end;
   padding: 0 clamp(34px, 6.5vw, 102px) clamp(44px, 7vh, 74px);
   pointer-events: none;
 }
+/* the word sat straight on the photograph and disappeared into it; this is its ground */
+.wordWrap::before {
+  content: '';
+  position: absolute;
+  inset: 40% 0 0;
+  background: linear-gradient(to top, rgba(9,7,26, 0.88) 0%, rgba(9,7,26, 0.45) 55%, rgba(9,7,26, 0) 100%);
+}
 .word {
+  position: relative;
   font-weight: 900;
-  font-size: clamp(48px, 11vw, 190px);
+  font-size: clamp(48px, 10vw, 168px);
   line-height: 0.86;
   letter-spacing: 0.015em;
   text-transform: uppercase;
   color: transparent;
-  -webkit-text-stroke: 3px var(--paper);
-  mix-blend-mode: difference;
+  /* difference blending against a busy frame made the word unreadable half the time */
+  -webkit-text-stroke: 3px color-mix(in srgb, var(--accent) 55%, var(--paper));
+  text-shadow: 0 8px 46px rgba(9, 7, 26, 0.95);
 }
 .letterClip {
   display: inline-block;

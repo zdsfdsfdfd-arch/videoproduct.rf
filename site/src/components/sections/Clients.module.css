@@ -26,10 +26,19 @@
   background: var(--fill);
   -webkit-mask: var(--logo) center / contain no-repeat;
   mask: var(--logo) center / contain no-repeat;
-  opacity: 0.88;
-  transition: opacity 0.3s, transform 0.5s var(--ease);
+  opacity: 1;
+  /* the marks sat flat on the black; a halo in the brand's own colour lifts each one out */
+  filter:
+    drop-shadow(0 0 10px color-mix(in srgb, var(--glow, #F4F1FA) 55%, transparent))
+    drop-shadow(0 0 34px color-mix(in srgb, var(--glow, #F4F1FA) 30%, transparent));
+  transition: filter 0.35s, transform 0.5s var(--ease);
 }
-.logo:hover { opacity: 1; transform: scale(1.04); }
+.logo:hover {
+  transform: scale(1.04);
+  filter:
+    drop-shadow(0 0 12px color-mix(in srgb, var(--glow, #F4F1FA) 80%, transparent))
+    drop-shadow(0 0 46px color-mix(in srgb, var(--glow, #F4F1FA) 45%, transparent));
+}
 
 @media (max-width: 767px) {
   .row {
