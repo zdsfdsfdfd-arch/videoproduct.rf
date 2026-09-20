@@ -17,7 +17,15 @@
   color: var(--paper);
   letter-spacing: 0.16em;
   cursor: pointer;
-  transition: border-color 0.3s, background 0.3s;
+  transition: border-color 0.3s, background 0.3s, transform 0.35s var(--ease), opacity 0.25s;
+}
+/* scrolling down lifts the plate off the text (see useAutoHideChrome) */
+:global(:root[data-chrome='up']) .btn {
+  transform: translateY(-170%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: transform 0.35s var(--ease), opacity 0.25s, visibility 0s 0.35s;
 }
 .btn:hover, .btn:active { border-color: var(--accent); background: rgba(10, 7, 20, 0.85); }
 .burger { display: flex; flex-direction: column; gap: 3px; width: 14px; }

@@ -14,7 +14,7 @@ export function TopBars() {
   return (
     <>
       <Link to="/" data-cursor="ГЛАВНАЯ" aria-label="Видеопродакшн.РФ — на главную" className={`${styles.bar} ${styles.logo}`}>
-        <img src={logo} alt="" width={26} height={26} className={styles.mark} />
+        <img src={logo} alt="" width={30} height={23} className={styles.mark} />
         <span className={styles.brand}>{contacts.brand}</span>
       </Link>
 

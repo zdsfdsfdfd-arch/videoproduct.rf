@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { getEngine, scrollToSection } from '@/lib/scroll-engine';
 import { pageTitle } from '@/lib/routes';
+import { useAutoHideChrome } from '@/lib/hooks';
 import { Perforation } from '@/components/chrome/Perforation';
 import { ProgressBar } from '@/components/chrome/ProgressBar';
 import { Cursor } from '@/components/chrome/Cursor';
@@ -27,6 +28,7 @@ export const useOpenCase = () => useContext(CaseContext);
 export function App() {
   const [caseReq, setCaseReq] = useState<CaseRequest | null>(null);
   const location = useLocation();
+  useAutoHideChrome();
 
   useEffect(() => {
     const engine = getEngine();

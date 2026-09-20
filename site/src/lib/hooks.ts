@@ -60,6 +60,34 @@ export function useAnchorClick() {
   );
 }
 
+/**
+ * Phones and tablets: the fixed top plates (logo, consultation, menu) sit over the page, so while
+ * reading they can cover a line of text. Scrolling down hides them, scrolling up or returning to the
+ * top brings them back — the state is a `data-chrome` attribute on <html> the plates' styles read.
+ */
+export function useAutoHideChrome() {
+  useEffect(() => {
+    const root = document.documentElement;
+    let last = scrollY;
+    let hidden = false;
+    const onScroll = () => {
+      const y = Math.max(0, scrollY);
+      const dy = y - last;
+      if (Math.abs(dy) < 8) return; // ignore jitter and rubber-banding
+      last = y;
+      const next = dy > 0 && y > 160;
+      if (next === hidden) return;
+      hidden = next;
+      root.dataset.chrome = hidden ? 'up' : 'down';
+    };
+    addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      removeEventListener('scroll', onScroll);
+      delete root.dataset.chrome;
+    };
+  }, []);
+}
+
 export function useMediaQuery(query: string) {
   const [matches, setMatches] = useState(() => (typeof matchMedia === 'function' ? matchMedia(query).matches : false));
   useEffect(() => {

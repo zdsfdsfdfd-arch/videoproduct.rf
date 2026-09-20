@@ -12,7 +12,7 @@
   font-size: 10px;
   letter-spacing: 0.16em;
   color: var(--paper);
-  transition: border-color 0.3s, background 0.3s;
+  transition: border-color 0.3s, background 0.3s, transform 0.35s var(--ease), opacity 0.25s;
 }
 .bar:hover {
   border-color: var(--accent);
@@ -25,7 +25,8 @@
   gap: 12px;
   padding: 7px 14px 7px 9px;
 }
-.mark { width: 26px; height: 26px; }
+/* the mark is wider than tall (615 × 470 in its own units) */
+.mark { width: 30px; height: 23px; }
 
 .contact {
   right: 40px;
@@ -57,6 +58,14 @@
   .menu { display: none; }
   /* the «МЕНЮ» plate (78px) takes the right corner; the CTA moves left of it */
   .contact { right: calc(40px + 78px + 8px); }
+  /* scrolling down lifts the plates off the text (see useAutoHideChrome) */
+  :global(:root[data-chrome='up']) .bar {
+    transform: translateY(-170%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 0.35s var(--ease), opacity 0.25s, visibility 0s 0.35s;
+  }
 }
 .dotAccent {
   width: 7px;
