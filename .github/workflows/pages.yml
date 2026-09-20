@@ -1,11 +1,15 @@
-# Builds site/ and publishes it to GitHub Pages on every push to main.
+# Builds site/ and publishes it to GitHub Pages on every push to the branch Pages is bound to.
 # The site lives at https://<owner>.github.io/<repo>/, so Vite gets that sub-path as base
 # and 404.html is a copy of index.html so client-side routes survive a direct load / refresh.
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main, feat/site]
+    # Only feat/site. GitHub Pages only accepts a deployment from the repository's default
+    # branch, which is feat/site here; a run started by the mirror push to main builds fine but
+    # fails at the deploy step — and, sharing the `pages` concurrency group, it cancelled the
+    # real deploy on its way down. (If the default branch is ever switched to main, add it back.)
+    branches: [feat/site]
   workflow_dispatch:
 
 permissions:
