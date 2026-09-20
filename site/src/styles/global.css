@@ -10,6 +10,13 @@
   --panel: #170F2E;
   --panel-hover: #1B1234;
   --rec: #ff3b30;
+  /* secondary hues — the same violet in the strict palette, real colours in the colour one */
+  --accent-warm: var(--accent);
+  --accent-cool: var(--accent);
+  --tint-a: transparent;
+  --tint-b: transparent;
+  --accent-grad: var(--accent);
+  --photo-dim: brightness(0.72);
 
   --line-paper-14: rgba(241, 237, 247, 0.14);
   --line-paper-16: rgba(241, 237, 247, 0.16);
@@ -35,6 +42,106 @@
   --sp: 0;
   --perf-y: 0;
   --cur-o: 0;
+}
+
+/**
+ * Second palette — «ЦВЕТ». The strict violet-black reads as austere; this one keeps the cinematic
+ * dark base (the photography needs it) but warms it, brightens the accent and brings the studio's
+ * own red and blue in as second and third hues, with a coloured wash on every spread.
+ * Switched at runtime by the palette chip (chrome/PaletteSwitch.tsx) — nothing else changes.
+ */
+:root[data-palette='colour'] {
+  --ink: #0B0A1C;
+  --ink-2: #171236;
+  --paper: #F6F3FC;
+  --grey: #CFC6E6;
+  --accent: #A56BFF;
+  --accent-2: #D3B8FF;
+  --accent-warm: #FF4D6D;
+  --accent-cool: #38A9FF;
+  --panel: #241A52;
+  --panel-hover: #2C2064;
+  --line-paper-14: rgba(246, 243, 252, 0.16);
+  --line-paper-16: rgba(246, 243, 252, 0.2);
+  --line-paper-22: rgba(246, 243, 252, 0.28);
+  --dim-paper: rgba(246, 243, 252, 0.62);
+  --accent-grad: linear-gradient(90deg, var(--accent-cool) 0%, var(--accent) 48%, var(--accent-warm) 100%);
+  --photo-dim: brightness(0.88) saturate(1.12);
+}
+
+/* the primary buttons stop being flat white plates */
+:root[data-palette='colour'] button[type='submit'] {
+  background: var(--accent-grad);
+  color: var(--paper);
+}
+
+/* two coloured washes per spread: the page stops being one flat black column */
+:root[data-palette='colour'] #sp-01 {
+  background: radial-gradient(90% 70% at 88% -10%, rgba(56, 169, 255, 0.34), transparent 62%),
+    radial-gradient(70% 60% at 0% 110%, rgba(165, 107, 255, 0.26), transparent 60%), var(--ink-2);
+}
+:root[data-palette='colour'] #sp-04 {
+  background: radial-gradient(85% 60% at 2% -5%, rgba(165, 107, 255, 0.34), transparent 60%),
+    radial-gradient(70% 60% at 100% 105%, rgba(56, 169, 255, 0.24), transparent 60%), var(--ink-2);
+}
+:root[data-palette='colour'] #sp-06 {
+  background: radial-gradient(85% 60% at 98% 0%, rgba(255, 77, 109, 0.32), transparent 60%),
+    radial-gradient(70% 60% at 0% 100%, rgba(165, 107, 255, 0.26), transparent 62%), var(--ink-2);
+}
+:root[data-palette='colour'] #sp-07 {
+  background: radial-gradient(80% 70% at 50% 105%, rgba(56, 169, 255, 0.3), transparent 62%), var(--ink-2);
+}
+:root[data-palette='colour'] #sp-09 {
+  background: radial-gradient(80% 70% at 0% 100%, rgba(255, 77, 109, 0.28), transparent 60%),
+    radial-gradient(70% 60% at 100% 0%, rgba(56, 169, 255, 0.22), transparent 60%), var(--ink-2);
+}
+:root[data-palette='colour'] #sp-11 {
+  background: radial-gradient(80% 60% at 100% -5%, rgba(165, 107, 255, 0.32), transparent 60%), var(--ink-2);
+}
+:root[data-palette='colour'] #sp-12 {
+  background: radial-gradient(70% 60% at 8% 100%, rgba(255, 77, 109, 0.26), transparent 62%),
+    radial-gradient(60% 50% at 100% 0%, rgba(56, 169, 255, 0.2), transparent 60%), var(--ink);
+}
+/* a hairline of colour on the seam between spreads */
+:root[data-palette='colour'] section[id^='sp-'] { border-top-color: transparent; position: relative; }
+:root[data-palette='colour'] section[id^='sp-']::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent-grad);
+  opacity: 0.55;
+  z-index: 4;
+  pointer-events: none;
+}
+/* photography carries the mood: less crushed, a touch warmer */
+:root[data-palette='colour'] [class*='photo'],
+:root[data-palette='colour'] [class*='poster'],
+:root[data-palette='colour'] [class*='playFrame'],
+:root[data-palette='colour'] [class*='reelFrame'] { filter: saturate(1.14) brightness(1.06); }
+:root[data-palette='colour'] [class*='playFrame'] { opacity: 0.62; }
+/* the cover gets a colour cast instead of flat black */
+:root[data-palette='colour'] #sp-00 [class*='shade'] {
+  background: linear-gradient(to top, rgba(11, 10, 28, 0.9) 0%, rgba(80, 30, 120, 0.4) 45%, rgba(20, 30, 90, 0.55) 100%);
+}
+/* the numbers row reads as the studio's proof — give it the brand gradient */
+:root[data-palette='colour'] #sp-01 [class*='factValue'],
+:root[data-palette='colour'] [class*='storyName'] {
+  background: linear-gradient(100deg, var(--accent-cool), var(--accent) 55%, var(--accent-warm));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* the accented half of every big headline runs violet → red instead of flat violet */
+:root[data-palette='colour'] h1 em,
+:root[data-palette='colour'] h2 em {
+  background: linear-gradient(100deg, var(--accent) 0%, var(--accent-warm) 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 @media (max-width: 767px) {

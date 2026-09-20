@@ -1,0 +1,38 @@
+/* review chip: bottom-left, above the phone page strip */
+.chip {
+  position: fixed;
+  left: calc(var(--perf) + 14px);
+  bottom: calc(var(--navh) + 16px);
+  z-index: 58;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--line-paper-22);
+  background: rgba(10, 7, 20, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--paper);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  cursor: pointer;
+  opacity: 0.82;
+  transition: border-color 0.3s, background 0.3s, opacity 0.3s;
+}
+.chip:hover, .chip:active { border-color: var(--accent); opacity: 1; }
+.dots { display: inline-flex; gap: 4px; }
+.dots > i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  transition: background 0.4s;
+}
+.dots > i:nth-child(2) { background: var(--accent-warm); }
+.dots > i:nth-child(3) { background: var(--accent-cool); }
+
+@media (max-width: 767px) {
+  /* the left bottom corner carries the cover's city line — sit on the right instead */
+  .chip { left: auto; right: calc(var(--perf) + 8px); bottom: calc(var(--navh) + 10px); padding: 0 11px; gap: 8px; }
+}

@@ -10,7 +10,7 @@
 .bar {
   height: 100%;
   width: 100%;
-  background: var(--accent);
+  background: var(--accent-grad);
   transform: scaleX(var(--sp, 0));
   transform-origin: 0 50%;
 }

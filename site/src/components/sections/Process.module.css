@@ -53,7 +53,7 @@
   height: 100%;
   object-fit: cover;
   object-position: 50% 50%;
-  filter: brightness(0.72);
+  filter: var(--photo-dim);
 }
 .portrait {
   width: 100%;
