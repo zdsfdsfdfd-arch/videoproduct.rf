@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Picture } from '@/components/Picture';
+import { SkipPin } from '@/components/chrome/SkipPin';
 import { backstage } from '@/content';
 import { useScene, useSceneIndex } from '@/lib/hooks';
 import { getEngine } from '@/lib/scroll-engine';
@@ -82,6 +83,8 @@ export function Backstage() {
             ))}
           </div>
         </div>
+
+        <SkipPin from="sp-05" className={styles.skip} />
       </div>
     </section>
   );

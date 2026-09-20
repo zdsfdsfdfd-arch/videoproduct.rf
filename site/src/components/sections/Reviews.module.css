@@ -1,6 +1,6 @@
 .section {
   position: relative;
-  min-height: 300vh;
+  min-height: 180vh;
   border-top: 1px solid var(--line-paper-14);
 }
 .sticky {
@@ -185,3 +185,6 @@
 @media (max-width: 767px) {
   .review { grid-column: 1 / span 12; }
 }
+
+/* above the footnote and the progress rule */
+.skip { bottom: clamp(58px, 9vh, 86px); }

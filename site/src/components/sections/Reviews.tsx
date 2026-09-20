@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { Picture } from '@/components/Picture';
+import { SkipPin } from '@/components/chrome/SkipPin';
 import { VkPlayer } from '@/components/VkPlayer';
 import { reviews, reviewFrames, vkVideoUrl } from '@/content';
 import { useIsDesktop, useSceneIndex } from '@/lib/hooks';
@@ -88,6 +89,8 @@ export function Reviews() {
             <div className={styles.lineFill} />
           </div>
         </div>
+
+        <SkipPin from="sp-08" className={styles.skip} />
       </div>
     </section>
   );

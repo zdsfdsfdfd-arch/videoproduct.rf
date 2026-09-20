@@ -2,8 +2,9 @@ import { serviceChapters, servicesTotal } from '@/content';
 import styles from './Services.module.css';
 
 /**
- * 04 / Услуги — paper spread. Twenty-seven services in five chapters, each opened by a heavy rule,
- * an outlined giant number and a title; chapters alternate left/right so the page reads as a zigzag.
+ * 04 / Услуги — twenty-seven services in five chapters. One reading direction: the chapter title
+ * on the left, its services under one another on the right, every line starting at the same edge.
+ * (The earlier zigzag of loose tiles looked like a spread but could not be read.)
  */
 export function Services() {
   let n = 0;
@@ -21,23 +22,21 @@ export function Services() {
         </p>
 
         {serviceChapters.map((ch, ci) => (
-          <div key={ch.title} className={styles.chapter} data-side={ch.side}>
+          <div key={ch.title} className={styles.chapter}>
             <div className={styles.chapterHead}>
-              <span className={styles.chapterLabel}>
-                ГЛАВА {String(ci + 1).padStart(2, '0')} · {ch.items.length} НАПРАВЛЕНИЙ
-              </span>
               <span aria-hidden="true" className={styles.chapterNum}>
                 {String(ci + 1).padStart(2, '0')}
               </span>
               <h3 className={styles.chapterTitle}>{ch.title}</h3>
+              <span className={styles.chapterLabel}>{ch.items.length} НАПРАВЛЕНИЙ</span>
             </div>
-            <ul className={styles.tiles}>
+            <ul className={styles.list}>
               {ch.items.map((item) => {
                 n += 1;
                 return (
-                  <li key={item} data-cursor-grow className={styles.tile}>
-                    <span className={styles.tileNum}>{String(n).padStart(2, '0')}</span>
-                    <span className={styles.tileName}>{item}</span>
+                  <li key={item} className={styles.row}>
+                    <span className={styles.rowNum}>{String(n).padStart(2, '0')}</span>
+                    <span className={styles.rowName}>{item}</span>
                   </li>
                 );
               })}

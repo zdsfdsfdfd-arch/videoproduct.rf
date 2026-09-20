@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
+import { SkipPin } from '@/components/chrome/SkipPin';
 import { VkPlayer } from '@/components/VkPlayer';
 import { works, allWorks } from '@/content';
 import { useAnchorClick, useIsDesktop } from '@/lib/hooks';
@@ -93,6 +94,8 @@ export function Works({ onOpen }: Props) {
             </a>
           </div>
         </div>
+
+        {desktop && <SkipPin from="sp-02" className={styles.skip} />}
       </div>
     </section>
   );

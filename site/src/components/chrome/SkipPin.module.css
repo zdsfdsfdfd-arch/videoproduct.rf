@@ -1,0 +1,26 @@
+.skip {
+  position: absolute;
+  right: var(--gutter);
+  bottom: 14px;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--line-paper-22);
+  background: rgba(9, 7, 26, 0.82);
+  color: var(--paper);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: opacity 0.25s, border-color 0.25s, color 0.25s;
+}
+.skip:hover, .skip:focus-visible { opacity: 1; border-color: var(--accent); color: var(--accent); }
+
+.arrow { font-size: 12px; line-height: 1; }
+
+@media (max-width: 767px) {
+  .skip { min-height: 38px; padding: 0 12px; font-size: 8px; letter-spacing: 0.16em; }
+}

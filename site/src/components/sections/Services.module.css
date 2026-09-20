@@ -10,7 +10,7 @@
   transform: translate3d(0, calc((1 - var(--p, 1)) * 24px), 0);
 }
 .lead {
-  grid-column: 4 / span 4;
+  grid-column: 4 / span 5;
   margin-top: clamp(26px, 3.4vw, 52px);
   color: var(--grey);
 }
@@ -21,102 +21,91 @@
   grid-template-columns: repeat(12, 1fr);
   gap: var(--gap);
   align-items: start;
-  padding-top: clamp(22px, 3vw, 40px);
-  margin-top: clamp(30px, 4.5vw, 64px);
-  border-top: 2px solid var(--paper);
+  padding-top: clamp(20px, 2.4vw, 34px);
+  margin-top: clamp(26px, 3vw, 44px);
+  border-top: 1px solid var(--line-paper-22);
 }
 .chapter:first-of-type { margin-top: clamp(46px, 8vh, 100px); }
 
+/* the head stays with its list while the list scrolls past */
 .chapterHead {
   grid-column: 1 / span 4;
-  grid-row: 1;
+  position: sticky;
+  top: calc(var(--sticky-head) + 16px);
   display: flex;
   flex-direction: column;
-  gap: 10px;
-}
-.chapter[data-side='right'] .chapterHead {
-  grid-column: 9 / span 4;
-  text-align: right;
-  align-items: flex-end;
-}
-.chapterLabel {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  color: var(--accent);
+  gap: 8px;
 }
 .chapterNum {
-  font-weight: 900;
-  font-size: clamp(56px, 6.5vw, 110px);
-  line-height: 0.8;
-  letter-spacing: -0.04em;
-  color: transparent;
-  -webkit-text-stroke: 2px rgba(241,237,247, 0.35);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
 }
 .chapterTitle {
   margin: 0;
   font-weight: 800;
-  font-size: clamp(22px, 2.4vw, 40px);
-  line-height: 1;
+  font-size: clamp(21px, 2.1vw, 34px);
+  line-height: 1.05;
   letter-spacing: -0.03em;
   text-wrap: balance;
 }
+.chapterLabel {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--dim-paper);
+}
 
-.tiles {
-  grid-column: 5 / span 8;
-  grid-row: 1;
+/* rows, not loose tiles: the eye follows one left edge down the list. Two columns where there
+   is room, so a chapter of six services is three lines tall instead of six. */
+.list {
+  grid-column: 6 / span 7;
   margin: 0;
   padding: 0;
   list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(8px, 1vw, 14px);
+  columns: 2;
+  column-gap: clamp(20px, 2.6vw, 44px);
 }
-.chapter[data-side='right'] .tiles {
-  grid-column: 1 / span 8;
-  justify-content: flex-end;
-}
-.tile {
-  display: flex;
+.list > li { break-inside: avoid; }
+.row {
+  display: grid;
+  grid-template-columns: 34px 1fr;
   align-items: baseline;
-  gap: 10px;
-  padding: clamp(10px, 1.1vw, 15px) clamp(14px, 1.5vw, 22px);
-  border: 1px solid rgba(241,237,247, 0.3);
-  transition: background 0.3s, color 0.3s, border-color 0.3s;
+  gap: 6px;
+  padding: clamp(10px, 1.1vw, 14px) 0;
+  border-bottom: 1px solid var(--line-paper-14);
+  transition: color 0.25s, border-color 0.25s;
 }
-.tile:hover {
-  background: var(--paper);
-  color: var(--ink);
-  border-color: var(--paper);
-}
-.tileNum {
+.row:first-child { border-top: 1px solid var(--line-paper-14); }
+.row:hover { color: var(--accent); border-color: var(--accent); }
+.rowNum {
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0.14em;
-  opacity: 0.5;
+  color: var(--dim-paper);
 }
-.tileName {
+.rowName {
   font-weight: 600;
-  font-size: clamp(15px, 1.25vw, 21px);
+  font-size: clamp(16px, 1.3vw, 22px);
+  line-height: 1.25;
   letter-spacing: -0.02em;
-  line-height: 1.2;
+}
+
+@media (max-width: 1100px) {
+  .chapterHead { position: static; }
+  .list { columns: 1; }
 }
 
 @media (max-width: 767px) {
   /* PHONE-TRIM: the desktop vertical rhythm reads as dead black bands on a phone */
-  .section, .strip, .stories, .where, .matrix, .compare, .how { padding-top: clamp(46px, 7vh, 80px); padding-bottom: clamp(46px, 7vh, 80px); }
+  .section { padding-top: clamp(46px, 7vh, 80px); padding-bottom: clamp(46px, 7vh, 80px); }
 
   .index, .title, .lead { grid-column: 1 / span 12; }
-  .lead { margin-top: 20px; }
-  .chapterHead, .chapter[data-side='right'] .chapterHead {
-    grid-column: 1 / span 12;
-    text-align: left;
-    align-items: flex-start;
-  }
-  .tiles, .chapter[data-side='right'] .tiles {
-    grid-column: 1 / span 12;
-    grid-row: 2;
-    justify-content: flex-start;
-  }
-  .tileName { font-size: 14px; }
+  .lead { margin-top: 18px; }
+  .chapter { margin-top: 26px; padding-top: 16px; gap: 12px; }
+  .chapter:first-of-type { margin-top: 32px; }
+  .chapterHead, .list { grid-column: 1 / span 12; }
+  .row { padding: 11px 0; grid-template-columns: 28px 1fr; }
+  .rowName { font-size: 15px; }
 }

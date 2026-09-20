@@ -1,6 +1,6 @@
 .section {
   position: relative;
-  min-height: 340vh;
+  min-height: 190vh;
   border-top: 1px solid var(--line-paper-14);
   --tw: 0px;
 }
@@ -203,3 +203,6 @@
   .metaRight { display: none; }
   .outro { width: 78vw; align-self: center; scroll-snap-align: start; }
 }
+
+/* the way out of the pinned track (chrome/SkipPin) */
+.skip { bottom: 18px; }

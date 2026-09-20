@@ -1,6 +1,6 @@
 .section {
   position: relative;
-  min-height: 360vh;
+  min-height: 180vh;
 }
 .sticky {
   position: sticky;
@@ -175,10 +175,17 @@
 
 @media (max-width: 767px) {
   .head { flex-direction: column; align-items: flex-start; gap: 4px; }
-  .section { min-height: 250vh; }
+  .section { min-height: 150vh; }
   .headRight { display: none; }
   .finder { inset: 96px 14px 136px; }
   .word { font-size: clamp(40px, 14vw, 64px); -webkit-text-stroke-width: 2px; }
   .wordWrap { padding: 0 24px 50px; }
   .stripTrack { transform: translate3d(calc(var(--e, 0) * -90vw), 0, 0); }
+}
+
+/* above the film strip along the bottom edge */
+.skip { bottom: calc(clamp(64px, 11vh, 108px) + 14px); }
+@media (max-width: 767px) {
+  /* the viewfinder fills the frame down to the strip: the only free corner is the top right */
+  .skip { top: calc(var(--sticky-head) - 8px); bottom: auto; }
 }

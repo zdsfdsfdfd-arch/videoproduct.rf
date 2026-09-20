@@ -9,7 +9,6 @@ import { Cursor } from '@/components/chrome/Cursor';
 import { TopBars } from '@/components/chrome/TopBars';
 import { SideNav, MiniNav } from '@/components/chrome/Nav';
 import { MobileMenu } from '@/components/chrome/MobileMenu';
-import { PaletteSwitch } from '@/components/chrome/PaletteSwitch';
 import { CaseOverlay, type CaseRequest } from '@/components/CaseOverlay';
 import { Home } from '@/pages/Home';
 import { PortfolioPage } from '@/pages/PortfolioPage';
@@ -75,7 +74,6 @@ export function App() {
         <Cursor />
         <TopBars />
         <MobileMenu />
-        <PaletteSwitch />
         <SideNav />
         <MiniNav />
 
