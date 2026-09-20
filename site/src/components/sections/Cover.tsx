@@ -1,13 +1,16 @@
+import { Link } from 'react-router-dom';
 import { Picture } from '@/components/Picture';
 import { VkPlayer } from '@/components/VkPlayer';
-import { cities, contacts, coverPortrait, coverPoster, coverReel, coverVideo, heroVideoId, vkVideoUrl } from '@/content';
+import { cities, contacts, coverPortrait, coverPoster, coverReel, coverVideo, heroVideoId, tariffs, vkVideoUrl } from '@/content';
 import { useAnchorClick, useIsDesktop } from '@/lib/hooks';
 import { getEngine } from '@/lib/scroll-engine';
 import styles from './Cover.module.css';
 
 /**
- * 00 / Обложка — magazine cover: moving footage full-bleed, the director cut out on the right with
- * mouse parallax, and the title moving the opposite way.
+ * 00 / Обложка — the first screen has to answer three questions before anything else: what this
+ * studio is, what it can make for you, and what to do next. So the cover keeps its footage and its
+ * line, but underneath sits a plain sentence about the work, the two things a visitor actually
+ * wants (the reel and a quote), and the three numbers that matter — including the entry price.
  *
  * What plays where:
  *   • a self-hosted clip (content → coverVideo), inline and muted — works on every device;
@@ -28,7 +31,7 @@ export function Cover() {
       <div className={styles.sticky}>
         <header className={`${styles.header} mono`}>
           <span className={styles.brand}>{contacts.brand}</span>
-          <span className={styles.issue}>ЖУРНАЛ О ПРОИЗВОДСТВЕ ВИДЕО · ВЫПУСК 01</span>
+          <span className={styles.issue}>ВИДЕОПРОДАКШН ПОЛНОГО ЦИКЛА</span>
           <span className={styles.since}>КАЗАНЬ · С {contacts.since} ГОДА</span>
         </header>
 
@@ -63,26 +66,48 @@ export function Cover() {
             <img src={coverPortrait} alt="Роман, режиссёр" width={460} height={690} loading="eager" fetchPriority="high" />
           </div>
 
-          <h1 className={styles.title}>
-            <span className={styles.line}>От идеи</span>
-            <span className={`${styles.line} ${styles.line2}`}>
-              до кадра<span className={styles.dot}>.</span>
-            </span>
-          </h1>
+          <div className={styles.pitch}>
+            <h1 className={styles.title}>
+              <span className={styles.line}>От идеи</span>
+              <span className={`${styles.line} ${styles.line2}`}>
+                до кадра<span className={styles.dot}>.</span>
+              </span>
+            </h1>
 
-          {desktop ? (
-            <a href="#sp-02" onClick={onClick} data-cursor="СМОТРЕТЬ" className={`${styles.play} mono`}>
-              <span className={styles.playRing}>▶</span>ШОУРИЛ · 2500+ РОЛИКОВ
-            </a>
-          ) : (
-            <a href={vkVideoUrl(heroVideoId)} target="_blank" rel="noopener" className={`${styles.play} mono`}>
-              <span className={styles.playRing}>▶</span>ШОУРИЛ В VK · 2500+ РОЛИКОВ
-            </a>
-          )}
+            <p className={styles.sub}>
+              Снимаем рекламные, имиджевые и корпоративные ролики для бизнеса. Сценарий, съёмка, монтаж, цвет, звук и графика — под
+              ключ, своей командой и на своём оборудовании.
+            </p>
+
+            <div className={styles.actions}>
+              <Link to="/portfolio" data-cursor="СМОТРЕТЬ" className={styles.cta}>
+                Смотреть работы
+              </Link>
+              <a href="#sp-09" onClick={onClick} data-cursor="ЗАПОЛНИТЬ" className={`${styles.cta} ${styles.ctaGhost}`}>
+                Рассчитать стоимость
+              </a>
+              {desktop ? (
+                <a href="#sp-02" onClick={onClick} data-cursor="СМОТРЕТЬ" className={`${styles.play} mono`}>
+                  <span className={styles.playRing}>▶</span>ШОУРИЛ
+                </a>
+              ) : (
+                <a href={vkVideoUrl(heroVideoId)} target="_blank" rel="noopener" className={`${styles.play} mono`}>
+                  <span className={styles.playRing}>▶</span>ШОУРИЛ В VK
+                </a>
+              )}
+            </div>
+
+            <ul className={`${styles.marks} mono`}>
+              <li>2500+ РОЛИКОВ</li>
+              <li>25 ГОРОДОВ СЪЁМОК</li>
+              <li>
+                РОЛИК <span className={styles.markAccent}>{tariffs[0].price.toUpperCase()}</span>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <footer className={styles.footer}>
-          <p className={styles.tagline}>Создаем видеоролики, которые работают на рост вашей компании</p>
           <div className={`${styles.cities} mono`}>
             {cities.map((c, i) => (
               <span key={c} className={styles.city}>

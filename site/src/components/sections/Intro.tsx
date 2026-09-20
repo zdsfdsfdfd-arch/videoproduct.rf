@@ -1,8 +1,25 @@
-import { facts } from '@/content';
+import { Link } from 'react-router-dom';
+import { allWorks, facts, processSteps, reviews, servicesTotal, tariffs } from '@/content';
+import { useAnchorClick } from '@/lib/hooks';
 import styles from './Intro.module.css';
 
-/** 01 / Начало — editorial statement; the two lines settle into place as the spread scrolls in. */
+/**
+ * 01 / Начало — who the studio is, and then, plainly, what is on this site. The six cards are the
+ * page's table of contents: a first-time visitor sees the sections, the counts and the entry price
+ * without scrolling through the whole magazine to find them.
+ */
+const sections = [
+  { to: '/portfolio', name: 'Портфолио', note: `${allWorks.length} роликов в подборке, 2500+ в архиве` },
+  { to: '/uslugi', name: 'Услуги', note: `${servicesTotal} направлений съёмки` },
+  { to: '/tarify', name: 'Тарифы', note: `Ролик ${tariffs[0].price.toLowerCase()}` },
+  { to: '#sp-03', name: 'Как мы работаем', note: `${processSteps.length} этапов производства` },
+  { to: '/komanda', name: 'Команда', note: 'Съёмочная группа до 15 человек' },
+  { to: '/otzyvy', name: 'Отзывы', note: `${reviews.length} видеоотзыва клиентов` },
+] as const;
+
 export function Intro() {
+  const onClick = useAnchorClick();
+
   return (
     <section id="sp-01" data-scene className={styles.section} aria-label="01 Начало">
       <div className="grid12">
@@ -30,7 +47,38 @@ export function Intro() {
             </div>
           ))}
         </dl>
+
+        <nav className={styles.map} aria-label="Разделы сайта">
+          <p className={`${styles.mapHead} mono`}>ЧТО ЗДЕСЬ ЕСТЬ</p>
+          <ul className={styles.cards}>
+            {sections.map((s) => (
+              <li key={s.name}>
+                {s.to.startsWith('#') ? (
+                  <a href={s.to} onClick={onClick} data-cursor="ОТКРЫТЬ" className={styles.card}>
+                    <Card {...s} />
+                  </a>
+                ) : (
+                  <Link to={s.to} data-cursor="ОТКРЫТЬ" className={styles.card}>
+                    <Card {...s} />
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     </section>
+  );
+}
+
+function Card({ name, note }: { name: string; note: string }) {
+  return (
+    <>
+      <span className={styles.cardName}>{name}</span>
+      <span className={styles.cardNote}>{note}</span>
+      <span aria-hidden="true" className={styles.cardArrow}>
+        →
+      </span>
+    </>
   );
 }
