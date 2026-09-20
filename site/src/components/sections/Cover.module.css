@@ -61,6 +61,27 @@
   height: 100%;
   object-fit: cover;
 }
+/* the phone cover reel: four studio frames, each held for a beat with a slow push-in */
+.reelFrame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  will-change: opacity, transform;
+  animation: coverReel 18s linear infinite;
+}
+@keyframes coverReel {
+  0% { opacity: 0; transform: scale(1.03); }
+  3% { opacity: 1; }
+  22% { opacity: 1; }
+  25% { opacity: 0; transform: scale(1.12); }
+  100% { opacity: 0; transform: scale(1.03); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reelFrame { animation: none; opacity: 1; }
+}
 .frame {
   position: absolute;
   inset: 0;

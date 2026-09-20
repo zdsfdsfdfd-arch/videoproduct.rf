@@ -243,6 +243,17 @@ export const faq = [
   { q: 'Как начать работу?', a: 'Заполнить бриф, позвонить или написать в WhatsApp либо Telegram — мы обсудим проект и подготовим расчёт.' },
 ];
 
+/**
+ * A self-hosted cover clip. VK's embedded player does not run inside mobile browsers, so the only
+ * way to have real moving footage on a phone is a file we serve ourselves: drop a muted, ~10-second
+ * H.264 MP4 (1080p or 720p, a few MB) into `site/public/video/` and put its path here — the cover
+ * plays it inline on every device and falls back to the frame reel below while it is null.
+ */
+export const coverVideo: string | null = null;
+
 export const coverPoster = backgrounds.coverPodcastStudio;
+
+/** Frames the phone cover cross-fades through while there is no cover clip. All studio shots. */
+export const coverReel = [backgrounds.coverPodcastStudio, process.studioCrane, process.factoryJib, process.loftInterview];
 export const coverPortrait = team.roman;
 export const caseFallbackFrames = { a: process.boardroomSlider, b: process.factoryJib };

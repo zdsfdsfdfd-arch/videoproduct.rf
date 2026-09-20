@@ -1,21 +1,27 @@
 import { Picture } from '@/components/Picture';
 import { VkPlayer } from '@/components/VkPlayer';
-import { cities, contacts, coverPortrait, coverPoster, heroVideoId, vkVideoUrl } from '@/content';
+import { cities, contacts, coverPortrait, coverPoster, coverReel, coverVideo, heroVideoId, vkVideoUrl } from '@/content';
 import { useAnchorClick, useIsDesktop } from '@/lib/hooks';
 import { getEngine } from '@/lib/scroll-engine';
 import styles from './Cover.module.css';
 
 /**
- * 00 / Обложка — magazine cover: full-bleed VK showreel (muted, looping) under the poster frame,
- * the director cut out on the right with mouse parallax, and the title moving the opposite way.
- * Phones keep the still: mobile browsers (Safari above all) block the cookies VK's embedded player
- * needs and it renders «видео недоступно» instead of the showreel. The play button there opens the
- * showreel in the VK app / VK site, where it always plays.
+ * 00 / Обложка — magazine cover: moving footage full-bleed, the director cut out on the right with
+ * mouse parallax, and the title moving the opposite way.
+ *
+ * What plays where:
+ *   • a self-hosted clip (content → coverVideo), inline and muted — works on every device;
+ *   • otherwise, on desktop, the VK showreel in an iframe;
+ *   • otherwise, on phones, a slow cross-fade through studio frames — VK's embedded player does not
+ *     run inside mobile browsers (it renders «видео недоступно»), and a motionless cover reads as a
+ *     video that failed to load. The play button there opens the real showreel in the VK app.
  */
 export function Cover() {
   const onClick = useAnchorClick();
   const desktop = useIsDesktop();
-  const videoOn = desktop && !getEngine().reduced;
+  const reduced = getEngine().reduced;
+  const vkOn = !coverVideo && desktop && !reduced;
+  const reelOn = !coverVideo && !desktop && !reduced;
 
   return (
     <section id="sp-00" data-scene className={styles.section} aria-label="Обложка">
@@ -29,8 +35,23 @@ export function Cover() {
         <div className={styles.stage}>
           <div className={styles.video} aria-hidden="true">
             <div className={styles.videoBox}>
-              {videoOn ? (
+              {coverVideo ? (
+                <video className={styles.poster} poster={coverPoster.src} src={coverVideo} autoPlay muted loop playsInline preload="auto" />
+              ) : vkOn ? (
                 <VkPlayer id={heroVideoId} title="Шоурил студии" poster={coverPoster.src} autoplay eager holdMs={2200} className={styles.frame} />
+              ) : reelOn ? (
+                coverReel.map((photo, i) => (
+                  <Picture
+                    key={photo.src}
+                    photo={photo}
+                    alt=""
+                    className={styles.reelFrame}
+                    style={{ animationDelay: `${i * 4.5}s` }}
+                    sizes="100vw"
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    fetchPriority={i === 0 ? 'high' : 'low'}
+                  />
+                ))
               ) : (
                 <Picture photo={coverPoster} alt="" className={styles.poster} loading="eager" fetchPriority="high" />
               )}
