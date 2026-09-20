@@ -220,6 +220,18 @@ export const reviews: Review[] = [
   { company: 'ООО «МЕТАЛЛКЛИНЕР»', name: 'Тимур Рустамов', position: 'Руководитель отдела продаж ООО «МеталлКлинер»', videoId: '456239475' },
 ];
 
+/**
+ * Phones never mount the VK player, so a review is a play card — it needs a frame behind it.
+ * The studio's own interview and studio shots stand in (labelled as such on the card); VK does not
+ * publish a still for these videos. TODO(studio): replace with a frame from each testimonial.
+ */
+export const reviewFrames: Record<string, Photo> = {
+  '456239482': process.loftInterview,
+  '456239473': process.boardroomSlider,
+  '456239479': process.studioSet,
+  '456239475': process.podcastStudio,
+};
+
 export const faq = [
   { q: 'С какого года работает студия?', a: 'Студия работает в сфере видеосъёмок для бизнеса с 2015 года.' },
   { q: 'В каких городах вы снимаете?', a: 'Москва, Казань, Санкт-Петербург и по всей России. Съёмки проводили в 25 городах.' },

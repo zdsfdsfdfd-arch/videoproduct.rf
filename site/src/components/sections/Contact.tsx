@@ -12,11 +12,13 @@ export function Contact() {
   const [phone, setPhone] = useState('');
   const [agree, setAgree] = useState(false);
   const [note, setNote] = useState('');
+  const [failed, setFailed] = useState(false);
   const [status, setStatus] = useState<Status>('idle');
 
   const submit = async (ev: FormEvent) => {
     ev.preventDefault();
     if (status !== 'idle') return;
+    setFailed(false);
     if (phone.replace(/\D/g, '').length < 10) {
       setNote('УКАЖИТЕ НОМЕР ТЕЛЕФОНА');
       return;
@@ -32,8 +34,9 @@ export function Contact() {
       setStatus('sent');
       setNote('ЗАЯВКА ПРИНЯТА — МЫ ПЕРЕЗВОНИМ');
     } catch {
+      // the form is only as good as the backend — on a failure give a way to reach the studio by hand
       setStatus('idle');
-      setNote(`НЕ УДАЛОСЬ ОТПРАВИТЬ — ПОЗВОНИТЕ ${contacts.phoneDisplay}`);
+      setFailed(true);
     }
   };
 
@@ -76,10 +79,23 @@ export function Contact() {
           <input type="checkbox" name="agree" checked={agree} onChange={(e) => setAgree(e.target.checked)} className={styles.checkbox} disabled={status === 'sent'} />
           <span>Я ДАЮ СОГЛАСИЕ НА ОБРАБОТКУ МОИХ ПЕРСОНАЛЬНЫХ ДАННЫХ</span>
         </label>
-        {note && (
+        {failed ? (
           <p className={`${styles.note} mono`} role="status">
-            {note}
+            НЕ УДАЛОСЬ ОТПРАВИТЬ · НАПИШИТЕ ИЛИ ПОЗВОНИТЕ{' '}
+            <a href={contacts.phoneHref} className={styles.noteLink}>
+              {contacts.phoneDisplay}
+            </a>{' '}
+            ·{' '}
+            <a href={contacts.whatsapp} target="_blank" rel="noopener" className={styles.noteLink}>
+              WHATSAPP
+            </a>
           </p>
+        ) : (
+          note && (
+            <p className={`${styles.note} mono`} role="status">
+              {note}
+            </p>
+          )
         )}
       </form>
 
@@ -102,14 +118,11 @@ export function Contact() {
             <a href={contacts.whatsapp} target="_blank" rel="noopener" data-cursor="ОТКРЫТЬ" className={`${styles.mid} ${styles.link}`}>
               WhatsApp
             </a>
-            {contacts.telegram ? (
+            {/* The studio has not given a Telegram link yet — the line appears as soon as contacts.telegram is set. */}
+            {contacts.telegram && (
               <a href={contacts.telegram} target="_blank" rel="noopener" data-cursor="ОТКРЫТЬ" className={`${styles.mid} ${styles.link}`}>
                 Telegram
               </a>
-            ) : (
-              <span className={`${styles.mid} ${styles.pending}`} title="Нужна ссылка на аккаунт">
-                Telegram
-              </span>
             )}
           </div>
         </div>
@@ -129,12 +142,11 @@ export function Contact() {
       <div className={styles.foot}>
         <span>{contacts.brand} · ВИДЕОПРОДАКШН ПОЛНОГО ЦИКЛА</span>
         <span>ПОРТФОЛИО 100+ · СТАТЬИ 200+ · ВСТУПИТЬ В КОМАНДУ</span>
-        {contacts.privacyPolicy ? (
+        {/* No privacy-policy document was supplied; the link appears as soon as contacts.privacyPolicy is set. */}
+        {contacts.privacyPolicy && (
           <a href={contacts.privacyPolicy} className={styles.footLink}>
             ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ
           </a>
-        ) : (
-          <span title="Нужна ссылка на документ">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ — НУЖНА ССЫЛКА</span>
         )}
       </div>
     </section>

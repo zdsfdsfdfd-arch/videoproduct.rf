@@ -86,6 +86,11 @@
   letter-spacing: 0.12em;
   color: var(--accent);
 }
+.noteLink {
+  color: var(--paper);
+  border-bottom: 1px solid var(--line-paper-22);
+  white-space: nowrap;
+}
 
 .grid {
   display: grid;
@@ -123,12 +128,6 @@
   font-weight: 700;
   font-size: clamp(16px, 1.4vw, 22px);
 }
-.pending {
-  color: rgba(241,237,247, 0.55);
-  border-bottom: 1px dashed rgba(241,237,247, 0.3);
-  width: max-content;
-}
-
 .foot {
   display: flex;
   flex-wrap: wrap;

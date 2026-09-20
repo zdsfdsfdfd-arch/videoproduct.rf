@@ -148,6 +148,11 @@
   letter-spacing: 0.12em;
   color: var(--accent);
 }
+.errorLink {
+  color: var(--paper);
+  border-bottom: 1px solid var(--line-paper-22);
+  white-space: nowrap;
+}
 
 .resultLabel { color: var(--accent); }
 .resultTitle {

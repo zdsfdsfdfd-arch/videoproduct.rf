@@ -1,6 +1,7 @@
 import { useRef } from 'react';
+import { Picture } from '@/components/Picture';
 import { VkPlayer } from '@/components/VkPlayer';
-import { reviews, vkVideoUrl } from '@/content';
+import { reviews, reviewFrames, vkVideoUrl } from '@/content';
 import { useIsDesktop, useSceneIndex } from '@/lib/hooks';
 import styles from './Reviews.module.css';
 
@@ -33,6 +34,7 @@ export function Reviews() {
               <div className={styles.name}>{r.name}</div>
               <div className={styles.position}>{r.position}</div>
               <a href={vkVideoUrl(r.videoId)} target="_blank" rel="noopener" className={styles.playCard} aria-label={`Смотреть видеоотзыв: ${r.name}, ${r.company}`}>
+                {reviewFrames[r.videoId] && <Picture photo={reviewFrames[r.videoId]} alt="" className={styles.playFrame} sizes="100vw" />}
                 <span className={styles.playIndex} aria-hidden="true">
                   {String(i + 1).padStart(2, '0')}
                 </span>
@@ -40,6 +42,7 @@ export function Reviews() {
                   ▶
                 </span>
                 <span className={`${styles.playLabel} mono`}>СМОТРЕТЬ ОТЗЫВ В VK →</span>
+                <span className={`${styles.playNote} mono`}>КАДР СО СЪЁМКИ СТУДИИ</span>
               </a>
             </li>
           ))}

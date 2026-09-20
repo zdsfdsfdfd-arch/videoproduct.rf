@@ -53,8 +53,9 @@ export function Brief() {
       setStatus('idle');
       setStep(flow.length + 1);
     } catch {
+      // the form is only as good as the backend — on a failure give a way to reach the studio by hand
       setStatus('error');
-      setError(`НЕ УДАЛОСЬ ОТПРАВИТЬ — ПОЗВОНИТЕ ${contacts.phoneDisplay}`);
+      setError('НЕ УДАЛОСЬ ОТПРАВИТЬ · НАПИШИТЕ ИЛИ ПОЗВОНИТЕ');
     }
   };
 
@@ -124,6 +125,18 @@ export function Brief() {
               {error && (
                 <p className={`${styles.error} mono`} role="alert">
                   {error}
+                  {status === 'error' && (
+                    <>
+                      {' · '}
+                      <a href={contacts.phoneHref} className={styles.errorLink}>
+                        {contacts.phoneDisplay}
+                      </a>
+                      {' · '}
+                      <a href={contacts.whatsapp} target="_blank" rel="noopener" className={styles.errorLink}>
+                        WHATSAPP
+                      </a>
+                    </>
+                  )}
                 </p>
               )}
             </form>

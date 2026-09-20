@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom';
 import { PageShell } from './PageShell';
 import { VkPlayer } from '@/components/VkPlayer';
 import { Clients } from '@/components/sections/Clients';
-import { reviews, vkVideoUrl, works, facts } from '@/content';
+import { Picture } from '@/components/Picture';
+import { reviews, reviewFrames, vkVideoUrl, works, facts } from '@/content';
 import { reviewRelatedWork } from '@/content/pages';
 import { useIsDesktop } from '@/lib/hooks';
 import styles from './ReviewsPage.module.css';
@@ -51,6 +52,7 @@ export function ReviewsPage() {
                 <VkPlayer id={r.videoId} title={`Видеоотзыв — ${r.company}`} interactive prewarm="100% 0px" className={styles.player} />
               ) : (
                 <a href={vkVideoUrl(r.videoId)} target="_blank" rel="noopener" className={`${styles.player} ${styles.playCard}`} aria-label={`Смотреть видеоотзыв: ${r.name}, ${r.company}`}>
+                  {reviewFrames[r.videoId] && <Picture photo={reviewFrames[r.videoId]} alt="" className={styles.playFrame} sizes="100vw" />}
                   <span className={styles.playIndex} aria-hidden="true">
                     {String(i + 1).padStart(2, '0')}
                   </span>
@@ -58,6 +60,7 @@ export function ReviewsPage() {
                     ▶
                   </span>
                   <span className={`${styles.playLabel} mono`}>СМОТРЕТЬ ОТЗЫВ В VK →</span>
+                  <span className={`${styles.playNote} mono`}>КАДР СО СЪЁМКИ СТУДИИ</span>
                 </a>
               )}
             </article>
