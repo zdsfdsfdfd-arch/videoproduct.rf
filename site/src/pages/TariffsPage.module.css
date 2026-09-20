@@ -8,6 +8,13 @@
   border-top: 1px solid var(--line-paper-14);
 }
 
+.compareTitle {
+  margin: 14px 0 clamp(24px, 4vh, 40px);
+  font-weight: 800;
+  font-size: clamp(26px, 3.6vw, 56px);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
 .grid {
   display: grid;
   grid-template-columns: 1.4fr repeat(3, 1fr);
@@ -73,6 +80,10 @@
 .ctaGhost:hover { border-color: var(--accent); color: var(--accent); }
 
 @media (max-width: 767px) {
+  .head { flex-direction: column; align-items: flex-start; gap: 4px; }
+  /* PHONE-TRIM: the desktop vertical rhythm reads as dead black bands on a phone */
+  .section, .strip, .stories, .where, .matrix, .compare, .how { padding-top: clamp(46px, 7vh, 80px); padding-bottom: clamp(46px, 7vh, 80px); }
+
   .grid { grid-template-columns: 1fr; }
   .cornerCell { display: none; }
   .colHead { display: none; }
@@ -83,12 +94,13 @@
   /* the tariff name sits in every cell — the header row is hidden on phones */
   .cellTariff {
     display: block;
-    font-size: 8px;
-    letter-spacing: 0.16em;
+    font-size: 9px;
+    letter-spacing: 0.14em;
     color: var(--paper);
   }
   .cell[data-accent] .cellTariff { color: var(--accent); }
-  .cellLabel { font-size: 9px; }
-  .cellText { font-size: 9px; }
+  .cellLabel { font-size: 10px; }
+  .cell[data-v='none'] .cellLabel { color: rgba(241, 237, 247, 0.5); }
+  .cellText { font-size: 10px; line-height: 1.7; }
   .steps { grid-template-columns: 1fr; }
 }

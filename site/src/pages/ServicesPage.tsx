@@ -89,8 +89,10 @@ export function ServicesPage() {
                 </th>
                 {tariffs.map((t) => {
                   const v = stageIn(t, st);
+                  // data-t carries the tariff name: on phones the header row is dropped and each
+                  // cell labels itself, so «входит» always says what it belongs to
                   return (
-                    <td key={t.name} data-v={v}>
+                    <td key={t.name} data-v={v} data-t={t.name.toUpperCase()}>
                       {v === 'full' ? '●' : v === 'basic' ? 'базовый' : '—'}
                     </td>
                   );

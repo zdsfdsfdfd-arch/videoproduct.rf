@@ -214,9 +214,11 @@
 
 @media (max-width: 767px) {
   .index, .title { grid-column: 1 / span 12; }
+  .section { padding-top: clamp(50px, 8vh, 90px); padding-bottom: clamp(30px, 5vh, 60px); }
   .stage { height: auto; padding: 56px 0 18px; }
   .bgWord { font-size: clamp(60px, 26vw, 120px); top: 12px; }
-  .stageMeta { font-size: 8px; }
+  .stageMeta { font-size: 9px; }
+  .role { font-size: 9px; }
   .stageMeta span:last-child { display: none; }
   .figures {
     position: relative;

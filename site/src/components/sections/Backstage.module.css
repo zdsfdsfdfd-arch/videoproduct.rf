@@ -173,6 +173,7 @@
 }
 
 @media (max-width: 767px) {
+  .head { flex-direction: column; align-items: flex-start; gap: 4px; }
   .section { min-height: 250vh; }
   .headRight { display: none; }
   .finder { inset: 96px 14px 136px; }

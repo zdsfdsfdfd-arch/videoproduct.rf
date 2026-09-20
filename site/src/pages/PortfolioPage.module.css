@@ -120,6 +120,7 @@
 .dividerNote { color: var(--grey); opacity: 0.7; }
 
 @media (max-width: 767px) {
+  .storiesHead { flex-direction: column; align-items: flex-start; gap: 4px; }
   .tile[data-size] { grid-column: span 12; --h: 44vh; }
   .divider { flex-direction: column; gap: 6px; }
 }
@@ -134,6 +135,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  min-height: 42px;
   padding: 10px 14px;
   border: 1px solid var(--line-paper-22);
   background: none;
@@ -160,5 +162,9 @@
 .storyLink:hover { color: var(--accent); }
 
 @media (max-width: 767px) {
-  .storyList { grid-template-columns: 1fr 1fr; }
+  .storyList { grid-template-columns: 1fr; gap: 26px; }
+  .storyLink { min-height: 44px; display: inline-flex; align-items: center; }
+  .storiesHead a { min-height: 44px; display: inline-flex; align-items: center; }
+  .archiveMark { font-size: 9px; }
+  .filterCount { opacity: 0.75; }
 }

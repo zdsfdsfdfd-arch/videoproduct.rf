@@ -40,9 +40,13 @@ export function MiniNav() {
   const { pathname } = useLocation();
   const home = pathname === '/';
   const scroller = useRef<HTMLDivElement>(null);
+  // centre the active item instead of pinning it near the left edge, so the neighbours on both
+  // sides stay readable and the strip never opens on a half-cut word
   useEffect(() => {
-    const el = scroller.current?.querySelector<HTMLElement>('[aria-current]');
-    if (el && scroller.current) scroller.current.scrollLeft = Math.max(0, el.offsetLeft - 40);
+    const box = scroller.current;
+    const el = box?.querySelector<HTMLElement>('[aria-current]');
+    if (!box || !el) return;
+    box.scrollLeft = Math.max(0, el.offsetLeft - (box.clientWidth - el.offsetWidth) / 2);
   }, [active, pathname]);
   return (
     <nav aria-label={home ? 'Разделы журнала' : 'Страницы сайта'} className={styles.mini}>

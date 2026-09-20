@@ -35,8 +35,11 @@
 @media (max-width: 767px) {
   .cards { grid-template-columns: 1fr; }
   .card { min-height: 0; gap: 8px; padding: 18px; }
-  .cardValue { font-size: 24px; white-space: nowrap; }
-  .cardMail { font-size: 18px; white-space: normal; overflow-wrap: anywhere; }
+  /* the studio address is two lines long — it must wrap, not run off the screen */
+  .cardValue { font-size: 22px; overflow-wrap: anywhere; }
+  .cardMail { font-size: 18px; }
   .cardHint { margin-top: 6px; }
-  .whereGrid { grid-template-columns: 1fr; }
+  .head { flex-direction: column; gap: 4px; }
+  .where { padding-top: clamp(40px, 6vh, 64px); padding-bottom: clamp(40px, 6vh, 64px); }
+  .whereGrid { grid-template-columns: 1fr; gap: 26px; }
 }

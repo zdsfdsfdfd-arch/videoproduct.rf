@@ -48,7 +48,12 @@
   display: flex;
   gap: 2px;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-padding: 0 18px;
   scrollbar-width: none;
+  /* the strip scrolls sideways: fade both edges so a half-cut word reads as "there is more" */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
 }
 .miniScroll::-webkit-scrollbar { display: none; }
 .miniLink {

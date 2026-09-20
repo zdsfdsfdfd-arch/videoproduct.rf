@@ -28,6 +28,16 @@ export function PortfolioPage() {
   const nArchive = pool.length - nConfirmed;
   const size = (i: number, k: number) => (filter ? ['xl', 'm', 'm', 'l'][k % 4] : SIZES[i % SIZES.length]);
 
+  // on a phone the wall starts below the fold, so a filter tap would look like nothing happened
+  const choose = (next: string | null) => {
+    setFilter(next);
+    if (desktop) return;
+    requestAnimationFrame(() => {
+      const wall = document.getElementById('sp-02');
+      if (wall) scrollTo({ top: wall.getBoundingClientRect().top + scrollY - 70, behavior: 'smooth' });
+    });
+  };
+
   return (
     <PageShell
       index="01"
@@ -36,11 +46,11 @@ export function PortfolioPage() {
       lead={`На сайте студии — раздел «Портфолио 100+»: ознакомительные ролики, видео о продукции, имиджевые и продающие видео. Здесь — ${pool.length} роликов из VK-канала студии: ${nConfirmed} кейсов с подтверждёнными названиями и ${nArchive} из архива. По клику открывается кейс.`}
     >
       <div className={styles.filters} role="tablist" aria-label="Тип проекта">
-        <button type="button" role="tab" aria-selected={filter === null} className={`${styles.filter} mono`} onClick={() => setFilter(null)}>
+        <button type="button" role="tab" aria-selected={filter === null} className={`${styles.filter} mono`} onClick={() => choose(null)}>
           ВСЕ <span className={styles.filterCount}>{pool.length}</span>
         </button>
         {types.map((t) => (
-          <button key={t} type="button" role="tab" aria-selected={filter === t} className={`${styles.filter} mono`} onClick={() => setFilter(t)}>
+          <button key={t} type="button" role="tab" aria-selected={filter === t} className={`${styles.filter} mono`} onClick={() => choose(t)}>
             {t} <span className={styles.filterCount}>{pool.filter(({ w }) => w.type === t).length}</span>
           </button>
         ))}
@@ -48,7 +58,7 @@ export function PortfolioPage() {
 
       <section id="sp-02" data-scene className={styles.wall} aria-label="Портфолио">
         {confirmed.map(({ w, i }, k) => (
-          <Tile key={w.id} i={i} size={size(i, k)} work={w} desktop={desktop} onOpen={openCase} />
+          <Tile key={w.id} i={i} n={k + 1} size={size(i, k)} work={w} desktop={desktop} onOpen={openCase} />
         ))}
         {archive.length > 0 && (
           <div className={`${styles.divider} mono mono-dim`} role="presentation">
@@ -57,7 +67,7 @@ export function PortfolioPage() {
           </div>
         )}
         {archive.map(({ w, i }, k) => (
-          <Tile key={w.id} i={i} size={size(i, k + confirmed.length)} work={w} desktop={desktop} onOpen={openCase} />
+          <Tile key={w.id} i={i} n={confirmed.length + k + 1} size={size(i, k + confirmed.length)} work={w} desktop={desktop} onOpen={openCase} />
         ))}
       </section>
 
@@ -83,7 +93,9 @@ export function PortfolioPage() {
   );
 }
 
-function Tile({ i, size, work, desktop, onOpen }: { i: number; size: string; work: (typeof allWorks)[number]; desktop: boolean; onOpen: (i: number, el: HTMLElement) => void }) {
+/** `i` is the case index in allWorks (what the overlay opens); `n` is what the visitor sees, so the
+ *  wall is numbered 01…N without gaps even when a project is left out on phones. */
+function Tile({ i, n, size, work, desktop, onOpen }: { i: number; n: number; size: string; work: (typeof allWorks)[number]; desktop: boolean; onOpen: (i: number, el: HTMLElement) => void }) {
   const thumb = useRef<HTMLSpanElement>(null);
   return (
     <button type="button" data-cursor="ОТКРЫТЬ" className={styles.tile} data-size={size} onClick={() => thumb.current && onOpen(i, thumb.current)}>
@@ -94,7 +106,7 @@ function Tile({ i, size, work, desktop, onOpen }: { i: number; size: string; wor
           <img src={work.poster} alt="" loading="lazy" className={styles.poster} />
         ) : (
           <span className={styles.placeholder}>
-            <span className={styles.placeholderIndex}>{String(i + 1).padStart(2, '0')}</span>
+            <span className={styles.placeholderIndex}>{String(n).padStart(2, '0')}</span>
             <span className={styles.placeholderTitle}>{work.title}</span>
             <span className={`${styles.placeholderNote} mono`}>КАДР ИЗ ФИЛЬМА · СКОРО</span>
           </span>
@@ -104,7 +116,7 @@ function Tile({ i, size, work, desktop, onOpen }: { i: number; size: string; wor
         </span>
       </span>
       <span className={`${styles.meta} mono`} style={{ color: work.accent ? 'var(--accent)' : undefined }}>
-        {String(i + 1).padStart(2, '0')} · {work.type}
+        {String(n).padStart(2, '0')} · {work.type}
         {work.archive && <span className={styles.archiveMark}>АРХИВ</span>}
       </span>
       <span className={styles.name}>{work.title}</span>

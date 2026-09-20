@@ -88,9 +88,9 @@
   left: 12px;
   bottom: 10px;
   z-index: 2;
-  font-size: 8px;
+  font-size: 9px;
   letter-spacing: 0.16em;
-  color: rgba(241, 237, 247, 0.55);
+  color: rgba(241, 237, 247, 0.7);
 }
 .playRing {
   position: relative;
@@ -134,6 +134,12 @@
 .ctaGhost:hover { border-color: var(--accent); color: var(--accent); }
 
 @media (max-width: 767px) {
+  .head { flex-direction: column; align-items: flex-start; gap: 4px; }
+  /* PHONE-TRIM: the desktop vertical rhythm reads as dead black bands on a phone */
+  .section, .strip, .stories, .where, .matrix, .compare, .how { padding-top: clamp(46px, 7vh, 80px); padding-bottom: clamp(46px, 7vh, 80px); }
+
   .strip { grid-template-columns: repeat(2, 1fr); }
   .text, .player { grid-column: 1 / span 12; }
+  .link, .related { min-height: 44px; display: inline-flex; align-items: center; }
+  .links { gap: 0 18px; }
 }

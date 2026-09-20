@@ -161,12 +161,46 @@
 }
 
 @media (max-width: 767px) {
+  /* PHONE-TRIM: the desktop vertical rhythm reads as dead black bands on a phone */
+  .section, .strip, .stories, .where, .matrix, .compare, .how { padding-top: clamp(46px, 7vh, 80px); padding-bottom: clamp(46px, 7vh, 80px); }
+
   .chapterHead, .rows { grid-column: 1 / span 12; }
   .chapterHead { position: static; }
   .chapterNum { font-size: 56px; }
   .row { grid-template-columns: 32px 1fr; }
-  .rowMeta { grid-column: 2; align-items: flex-start; text-align: left; flex-direction: row; flex-wrap: wrap; }
-  .table th, .table td { padding: 12px 6px; font-size: 13px; }
-  .thName { font-size: 14px; }
-  .thPrice { font-size: 8px; }
+  .rowMeta { grid-column: 2; align-items: center; text-align: left; flex-direction: row; flex-wrap: wrap; gap: 10px; }
+  .rowTariff { display: inline-flex; align-items: center; min-height: 40px; padding: 6px 12px; }
+  /* four columns do not fit a phone: the table becomes a list of stages, each with three labelled
+     cells, instead of scrolling the КОМБО column off the screen */
+  .table, .table tbody, .table tr, .table th, .table td { display: block; }
+  .table thead { display: none; }
+  .table tbody tr {
+    margin-bottom: 14px;
+    border: 1px solid var(--line-paper-16);
+  }
+  .table tbody th {
+    padding: 12px 12px 10px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line-paper-16);
+  }
+  .table tbody td {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 12px;
+    font-size: 13px;
+    text-align: right;
+    border-bottom: 1px solid var(--line-paper-14);
+  }
+  .table tbody td:last-child { border-bottom: 0; }
+  .table tbody td::before {
+    content: attr(data-t);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    color: var(--grey);
+  }
+  .table td[data-v='none'] { color: rgba(241, 237, 247, 0.5); }
+  .matrixHead { flex-direction: column; gap: 4px; }
 }

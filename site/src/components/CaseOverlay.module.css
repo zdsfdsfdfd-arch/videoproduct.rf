@@ -143,6 +143,18 @@
   .close { top: 14px; right: 14px; }
   .page { padding: 70px 18px 50px; gap: 12px; }
   .index, .title, .note { grid-column: 1 / span 12; }
-  .meta, .meta:nth-of-type(1) { grid-column: span 4; margin-top: 18px; }
+  /* «ВИДЕОПРОДАКШН.РФ» does not fit a third of a phone screen — one row per fact */
+  .meta, .meta:nth-of-type(1) {
+    grid-column: 1 / span 12;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 0;
+    padding: 9px 0;
+    line-height: 1.5;
+    border-bottom: 1px solid var(--line-paper-14);
+  }
+  .meta:nth-of-type(1) { margin-top: 20px; border-top: 1px solid var(--line-paper-14); }
+  .meta br { display: none; }
   .frameA, .frameB { grid-column: 1 / span 12; height: 40vh; }
 }

@@ -13,6 +13,10 @@ export function TopBars() {
   const onClick = useAnchorClick();
   return (
     <>
+      {/* phones: a strip behind the plates, so text scrolling up disappears behind the bar
+          instead of being sliced between three floating pills */}
+      <div aria-hidden="true" className={styles.scrim} />
+
       <Link to="/" data-cursor="ГЛАВНАЯ" aria-label="Видеопродакшн.РФ — на главную" className={`${styles.bar} ${styles.logo}`}>
         <img src={logo} alt="" width={30} height={23} className={styles.mark} />
         <span className={styles.brand}>{contacts.brand}</span>

@@ -4,7 +4,9 @@
   z-index: 58;
   display: flex;
   align-items: center;
-  background: rgba(10,7,20, 0.6);
+  min-height: 42px;
+  /* nearly opaque: page text used to bleed through the plates and make both unreadable */
+  background: rgba(10,7,20, 0.92);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--line-paper-22);
@@ -16,7 +18,7 @@
 }
 .bar:hover {
   border-color: var(--accent);
-  background: rgba(10,7,20, 0.85);
+  background: rgba(10,7,20, 0.96);
   color: var(--paper);
 }
 
@@ -43,7 +45,7 @@
 .menuLink {
   display: flex;
   align-items: center;
-  height: 38px;
+  height: 40px;
   padding: 0 11px;
   color: var(--grey);
   transition: color 0.3s, background 0.3s;
@@ -54,6 +56,8 @@
   color: var(--accent);
   background: rgba(140, 92, 255, 0.12);
 }
+.scrim { display: none; }
+
 @media (max-width: 1279px) {
   .menu { display: none; }
   /* the «МЕНЮ» plate (78px) takes the right corner; the CTA moves left of it */
@@ -76,6 +80,19 @@
 .short { display: none; }
 
 @media (max-width: 767px) {
+  .scrim {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 66px;
+    z-index: 57;
+    background: linear-gradient(to bottom, var(--ink) 0 72%, rgba(10, 7, 20, 0.88) 88%, rgba(10, 7, 20, 0) 100%);
+    pointer-events: none;
+    transition: transform 0.35s var(--ease), opacity 0.25s;
+  }
+  :global(:root[data-chrome='up']) .scrim { transform: translateY(-100%); opacity: 0; }
   .logo { left: calc(var(--perf) + 8px); padding: 6px 10px 6px 7px; gap: 8px; }
   .contact { right: calc(var(--perf) + 8px + 78px + 8px); padding: 9px 12px; gap: 9px; }
   .brand { display: none; }

@@ -60,7 +60,8 @@ export function Brief() {
   };
 
   const shownStep = Math.min(step + 1, BRIEF_TOTAL);
-  const width = `${Math.round((Math.min(step, BRIEF_TOTAL) / BRIEF_TOTAL) * 100)}%`;
+  // the bar shows the step you are on, not the steps behind you: 1/5 reads as 20 %, the result as 100 %
+  const width = `${Math.round((Math.min(done ? BRIEF_TOTAL : step + 1, BRIEF_TOTAL) / BRIEF_TOTAL) * 100)}%`;
 
   return (
     <section id="sp-09" data-scene className={styles.section} aria-label="09 Бриф">
@@ -144,6 +145,9 @@ export function Brief() {
 
           {done && (
             <div className={styles.panel}>
+              <p className={`${styles.sent} mono`} role="status">
+                ✓ БРИФ ОТПРАВЛЕН КОМАНДЕ СТУДИИ — МЫ СВЯЖЕМСЯ С ВАМИ
+              </p>
               <div className={`${styles.resultLabel} mono`}>ОРИЕНТИР ПО ВАШИМ ОТВЕТАМ</div>
               <h2 className={styles.resultTitle}>{result.title}</h2>
               <p className={styles.resultNote}>{result.note}</p>

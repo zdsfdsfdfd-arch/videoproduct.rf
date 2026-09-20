@@ -50,6 +50,19 @@ export function App() {
 
   const openCase = useCallback<OpenCase>((index, thumb) => {
     setCaseReq({ index, rect: thumb.getBoundingClientRect() });
+    // an open case is a screen of its own: Back should close it, not leave the page
+    history.pushState({ caseOpen: true }, '');
+  }, []);
+
+  const closeCase = useCallback(() => {
+    setCaseReq(null);
+    if (history.state?.caseOpen) history.back();
+  }, []);
+
+  useEffect(() => {
+    const onPop = () => setCaseReq(null);
+    addEventListener('popstate', onPop);
+    return () => removeEventListener('popstate', onPop);
   }, []);
 
   return (
@@ -78,7 +91,7 @@ export function App() {
           </Routes>
         </main>
 
-        <CaseOverlay request={caseReq} onClose={() => setCaseReq(null)} />
+        <CaseOverlay request={caseReq} onClose={closeCase} />
       </div>
     </CaseContext.Provider>
   );

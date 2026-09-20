@@ -103,6 +103,9 @@
 }
 
 @media (max-width: 767px) {
+  /* PHONE-TRIM: the desktop vertical rhythm reads as dead black bands on a phone */
+  .section, .strip, .stories, .where, .matrix, .compare, .how { padding-top: clamp(46px, 7vh, 80px); padding-bottom: clamp(46px, 7vh, 80px); }
+
   .index, .title, .lead { grid-column: 1 / span 12; }
   .lead { margin-top: 20px; }
   .chapterHead, .chapter[data-side='right'] .chapterHead {

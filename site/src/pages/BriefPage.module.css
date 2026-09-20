@@ -27,5 +27,10 @@
 .directLink:hover { color: var(--accent); }
 
 @media (max-width: 767px) {
+  .head { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .head a { display: inline-flex; align-items: center; min-height: 44px; }
+  /* PHONE-TRIM: the desktop vertical rhythm reads as dead black bands on a phone */
+  .section, .strip, .stories, .where, .matrix, .compare, .how { padding-top: clamp(46px, 7vh, 80px); padding-bottom: clamp(46px, 7vh, 80px); }
+
   .steps, .tariffRow { grid-template-columns: 1fr; }
 }

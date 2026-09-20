@@ -48,7 +48,8 @@ export function ContactsPage() {
           </div>
           <div className={styles.whereCol}>
             <span className={`${styles.whereLabel} mono`}>ПОСТОЯННО</span>
-            <span className={styles.whereValue}>{cities.map((c) => c[0] + c.slice(1).toLowerCase()).join(' · ')}</span>
+            {/* «САНКТ-ПЕТЕРБУРГ» is hyphenated: capitalise after every hyphen, not just at the start */}
+            <span className={styles.whereValue}>{cities.map((c) => c.toLowerCase().replace(/(^|-)(\p{L})/gu, (_, sep, ch) => sep + ch.toUpperCase())).join(' · ')}</span>
             <p className={styles.whereText}>Съёмочные группы регулярно работают в трёх городах — без наценки за «командировку в столицу».</p>
           </div>
           <div className={styles.whereCol}>
@@ -59,8 +60,9 @@ export function ContactsPage() {
         </div>
       </section>
 
-      <Contact />
+      {/* geography (10) before the closing contact spread (12), so the section numbers keep rising */}
       <Geography />
+      <Contact />
     </PageShell>
   );
 }

@@ -44,6 +44,9 @@
   gap: 8px 22px;
 }
 .footLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.16em;
@@ -52,6 +55,7 @@
 .footLink:hover { color: var(--accent); }
 
 @media (max-width: 767px) {
-  /* «ПОРТФОЛИО» (9 heavy capitals) must fit between the gutters on every phone */
-  .title { font-size: clamp(36px, 12.5vw, 72px); overflow-wrap: anywhere; }
+  /* «ПОРТФОЛИО» (9 heavy capitals) must fit between the gutters on every phone, unbroken */
+  .title { font-size: clamp(30px, 11vw, 64px); }
+  .footNav { gap: 0 20px; }
 }

@@ -18,7 +18,7 @@ const pct = (n: number) => `${n}%`;
 export function Effects({ i, person, box, stage }: { i: number; person: Person; box: Box; stage: HTMLDivElement }) {
   const { T, H, W, cx } = box;
   const { word, color, meta } = person.fx;
-  const reduced = getEngine().reduced;
+  const { reduced, coarse } = getEngine();
   const wordRef = useRef<HTMLDivElement>(null);
   const plateRef = useRef<HTMLDivElement>(null);
 
@@ -65,7 +65,9 @@ export function Effects({ i, person, box, stage }: { i: number; person: Person; 
           {meta}
         </span>
       </div>
-      {!reduced && Scene && <Scene box={box} color={color} />}
+      {/* the per-craft HUDs are drawn around a desktop-size figure; on a phone they would hang off
+          the screen edges, so a tap there lights the person and names the craft, without the HUD */}
+      {!reduced && !coarse && Scene && <Scene box={box} color={color} />}
     </>
   );
 }

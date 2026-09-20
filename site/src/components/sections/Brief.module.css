@@ -89,11 +89,14 @@
   opacity: 0.5;
 }
 .back {
-  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 18px;
   padding: 10px 0;
   border: 0;
   background: none;
-  color: var(--dim-paper);
+  color: var(--grey);
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.16em;
@@ -212,7 +215,22 @@
 
 @media (max-width: 767px) {
   .index, .progress, .stage, .note { grid-column: 1 / span 12; }
-  .stage { min-height: 0; }
+  /* the panel was centred inside a 56vh box — on a phone that is a screen of empty black */
+  .stage { min-height: 0; padding: 22px 0 10px; }
+  .section { padding-top: clamp(44px, 7vh, 80px); padding-bottom: clamp(44px, 7vh, 80px); }
   .question { max-width: none; }
   .optionBtn { font-size: 16px; }
+  .submit, .callBtn, .mailBtn { min-height: 48px; display: inline-flex; align-items: center; }
 }
+
+/* the brief was actually delivered — say so above the estimate */
+.sent {
+  margin: 0 0 18px;
+  padding: 10px 12px;
+  border: 1px solid rgba(140, 92, 255, 0.5);
+  background: rgba(140, 92, 255, 0.12);
+  letter-spacing: 0.14em;
+  font-size: 10px;
+  color: var(--paper);
+}
+.summary li { padding-left: 34px; text-indent: -34px; }

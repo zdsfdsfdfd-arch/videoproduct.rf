@@ -79,14 +79,14 @@ export function Works({ onOpen }: Props) {
             .map((w, i) => ({ w, i }))
             // phones show stills only (no VK embed), so a project without a still has nothing to show there
             .filter(({ w }) => desktop || w.poster)
-            .map(({ w, i }) => (
-              <WorkCard key={w.id} index={i} work={w} desktop={desktop} armed={armed} onOpen={onOpen} />
+            .map(({ w, i }, k) => (
+              <WorkCard key={w.id} index={i} n={k + 1} work={w} desktop={desktop} armed={armed} onOpen={onOpen} />
             ))}
 
           <div className={styles.outro}>
             <p className="body-copy">На сайте студии — раздел «Портфолио 100+»: ознакомительные ролики, видео о продукции, имиджевые и продающие видео.</p>
             <Link to="/portfolio" data-cursor="ОТКРЫТЬ" className={`${styles.cta} mono`}>
-              ВСЕ {allWorks.length} РОЛИКОВ →
+              ВСЕ {desktop ? allWorks.length : allWorks.filter((w) => w.poster).length} РОЛИКОВ →
             </Link>
             <a href="#sp-09" onClick={onClick} data-cursor="ВПЕРЁД" className={`${styles.cta} mono`}>
               ОБСУДИТЬ ПРОЕКТ →
@@ -108,7 +108,8 @@ function Title({ top }: { top?: boolean }) {
   );
 }
 
-function WorkCard({ index, work, desktop, armed, onOpen }: { index: number; work: (typeof works)[number]; desktop: boolean; armed: boolean; onOpen: Props['onOpen'] }) {
+/** `index` opens the right case; `n` is the number the visitor sees, so the track reads 01…N. */
+function WorkCard({ index, n, work, desktop, armed, onOpen }: { index: number; n: number; work: (typeof works)[number]; desktop: boolean; armed: boolean; onOpen: Props['onOpen'] }) {
   const thumb = useRef<HTMLSpanElement>(null);
 
   const style: CSSProperties = {
@@ -134,7 +135,7 @@ function WorkCard({ index, work, desktop, armed, onOpen }: { index: number; work
         ) : (
           // no still frame for this project yet — a designed card instead of an empty tile
           <span className={styles.placeholder}>
-            <span className={styles.placeholderIndex}>{String(index + 1).padStart(2, '0')}</span>
+            <span className={styles.placeholderIndex}>{String(n).padStart(2, '0')}</span>
             <span className={styles.placeholderTitle}>{work.title}</span>
             <span className={`${styles.placeholderNote} mono`}>КАДР ИЗ ФИЛЬМА · СКОРО</span>
           </span>
@@ -144,8 +145,8 @@ function WorkCard({ index, work, desktop, armed, onOpen }: { index: number; work
         </span>
       </span>
       <span className={`${styles.meta} mono`} style={{ color: work.accent ? 'var(--accent)' : undefined }}>
-        {String(index + 1).padStart(2, '0')} · {work.type}
-        {index === 0 && <span className={styles.metaRight}>2500+ РОЛИКОВ В АРХИВЕ</span>}
+        {String(n).padStart(2, '0')} · {work.type}
+        {n === 1 && <span className={styles.metaRight}>2500+ РОЛИКОВ В АРХИВЕ</span>}
       </span>
       <span className={`${styles.name} ${work.big ? styles.nameBig : ''}`} style={{ maxWidth: work.maxTitle }}>
         {work.title}

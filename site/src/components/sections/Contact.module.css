@@ -45,7 +45,7 @@
   font-family: var(--sans);
   font-size: clamp(16px, 1.3vw, 20px);
 }
-.input::placeholder { color: rgba(241,237,247, 0.3); }
+.input::placeholder { color: rgba(241,237,247, 0.5); }
 .input:focus { outline: none; border-bottom-color: var(--accent); }
 .submit {
   grid-column: 8 / span 5;
@@ -65,8 +65,10 @@
 .agree {
   grid-column: 4 / span 8;
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  cursor: pointer;
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.08em;
@@ -75,9 +77,10 @@
   cursor: pointer;
 }
 .checkbox {
-  width: 14px;
-  height: 14px;
-  margin: 2px 0 0;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  margin: 0;
   accent-color: var(--accent);
 }
 .note {
@@ -146,8 +149,27 @@
 
 @media (max-width: 767px) {
   .head span:last-child { display: none; }
-  .title { font-size: clamp(44px, 16vw, 90px); }
+  .title { font-size: clamp(40px, 14vw, 80px); }
   .consultLabel, .phoneField, .submit, .agree, .note { grid-column: 1 / span 12; }
-  .submit { justify-self: stretch; text-align: center; }
+  /* a bare underline reads as decoration on a phone — give the field a box */
+  .input {
+    padding: 13px 12px;
+    border: 1px solid rgba(241,237,247, 0.35);
+    background: rgba(241,237,247, 0.04);
+  }
+  .submit {
+    justify-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 52px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .section { padding-top: clamp(50px, 8vh, 90px); padding-bottom: clamp(40px, 6vh, 70px); }
   .foot { flex-direction: column; gap: 10px; line-height: 1.7; }
+  /* the contact column was a list of 19px text links — give every one a real tap row */
+  .link, .mail, .mid { display: inline-flex; align-items: center; min-height: 44px; }
+  .stack { gap: 0; }
 }

@@ -80,4 +80,9 @@
   .numbers { grid-template-columns: repeat(2, 1fr); }
   .stageRow { grid-template-columns: 32px 1fr; }
   .stageRoles { grid-column: 2; }
+  /* the sections were spaced for a desktop column; on a phone that reads as dead black bands */
+  .roster, .stages { padding-top: clamp(40px, 6vh, 64px); padding-bottom: clamp(40px, 6vh, 64px); }
+  .head { flex-direction: column; gap: 4px; }
+  .personMeta { font-size: 9px; line-height: 1.8; }
+  .personRole { font-size: 9px; }
 }

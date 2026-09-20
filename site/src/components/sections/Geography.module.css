@@ -29,5 +29,10 @@
 }
 
 @media (max-width: 767px) {
-  .city { font-size: clamp(30px, min(11vw, 7vh), 52px); }
+  /* three display lines stacked at 0.92 leading nearly touched on a phone */
+  .city { font-size: clamp(30px, min(10.5vw, 6.6vh), 52px); line-height: 1.05; }
+  .section { padding-top: clamp(50px, 8vh, 90px); padding-bottom: clamp(40px, 6vh, 70px); }
+  .cities { margin-top: clamp(26px, 4vh, 50px); }
+  .note { margin-top: clamp(24px, 4vh, 44px); }
+  .head { flex-direction: column; gap: 4px; }
 }

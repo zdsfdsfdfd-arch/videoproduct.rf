@@ -21,7 +21,8 @@ export function Process() {
         <div className={`${styles.head} mono mono-dim`}>
           <span>03 / ПРОЦЕСС</span>
           <span>
-            ЭТАПЫ ПРОИЗВОДСТВА · <span className={styles.num}>{String(active + 1).padStart(2, '0')}</span> / {String(COUNT).padStart(2, '0')}
+            <span className={styles.headLong}>ЭТАПЫ ПРОИЗВОДСТВА · </span>
+            <span className={styles.num}>{String(active + 1).padStart(2, '0')}</span> / {String(COUNT).padStart(2, '0')}
           </span>
         </div>
 

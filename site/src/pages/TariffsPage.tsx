@@ -20,6 +20,7 @@ export function TariffsPage() {
           <span>ЧЕМ ОТЛИЧАЮТСЯ</span>
           <span>ЭТАПЫ ПРОИЗВОДСТВА × ТАРИФЫ</span>
         </div>
+        <h2 className={styles.compareTitle}>Что входит в каждый тариф</h2>
         <div className={styles.grid}>
           <div className={styles.cornerCell} />
           {tariffs.map((t) => (
