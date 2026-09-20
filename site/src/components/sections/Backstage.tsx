@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Picture } from '@/components/Picture';
 import { backstage } from '@/content';
-import { useSceneIndex } from '@/lib/hooks';
+import { useScene, useSceneIndex } from '@/lib/hooks';
 import { getEngine } from '@/lib/scroll-engine';
 import styles from './Backstage.module.css';
 
@@ -24,13 +24,14 @@ function timecode(e: number) {
  */
 export function Backstage() {
   const section = useRef<HTMLElement>(null);
-  const [idx, e] = useSceneIndex(section, WORDS.length);
+  const idx = useSceneIndex(section, WORDS.length);
   const tc = useRef<HTMLDivElement>(null);
 
-  // timecode is high-frequency: written straight to the DOM, not through state
-  useEffect(() => {
-    if (tc.current) tc.current.textContent = timecode(e);
-  }, [e]);
+  // timecode is high-frequency: written straight to the DOM, never through state
+  useScene(section, (e) => {
+    const next = timecode(e);
+    if (tc.current && tc.current.textContent !== next) tc.current.textContent = next;
+  });
 
   return (
     <section id="sp-05" ref={section} data-scene className={styles.section} aria-label="05 За кадром">

@@ -6,6 +6,7 @@
   position: sticky;
   top: 0;
   height: calc(100vh - var(--navh));
+  height: calc(100svh - var(--navh));
   overflow: hidden;
   background: var(--ink);
 }

@@ -99,3 +99,9 @@
   .full { display: none; }
   .short { display: inline; }
 }
+
+/* Touch devices: a blurred backdrop under a fixed plate is re-rastered on every scroll frame.
+   The plates are all but opaque anyway, so on phones they go fully opaque and the blur goes. */
+@media (pointer: coarse) {
+  .bar { background: #0a0714; backdrop-filter: none; -webkit-backdrop-filter: none; }
+}

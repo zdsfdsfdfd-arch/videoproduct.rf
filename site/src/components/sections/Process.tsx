@@ -13,7 +13,7 @@ const COUNT = processSteps.length;
  */
 export function Process() {
   const section = useRef<HTMLElement>(null);
-  const [active] = useSceneIndex(section, COUNT);
+  const active = useSceneIndex(section, COUNT);
 
   return (
     <section id="sp-03" ref={section} data-scene className={styles.section} aria-label="03 Процесс">

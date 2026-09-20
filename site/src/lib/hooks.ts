@@ -17,16 +17,17 @@ export function useScene(ref: RefObject<HTMLElement | null>, fn: SceneListener) 
 /**
  * Derive a discrete index (0…count-1) from a pinned scene's --e, the way the prototype's
  * tickSticky / tickProcess did: floor(e * (count + 0.02)) so the last state is reachable.
+ *
+ * Only the index is state: --e itself changes every frame, and putting that in state re-rendered
+ * the whole section sixty times a second. Anything that needs the raw value subscribes with
+ * useScene and writes to the DOM directly.
  */
 export function useSceneIndex(ref: RefObject<HTMLElement | null>, count: number) {
   const [idx, setIdx] = useState(0);
-  const [e, setE] = useState(0);
   useScene(ref, (eVal) => {
-    const i = Math.min(count - 1, Math.floor(eVal * (count + 0.02)));
-    setIdx(i);
-    setE(eVal);
+    setIdx(Math.min(count - 1, Math.floor(eVal * (count + 0.02))));
   });
-  return [idx, e] as const;
+  return idx;
 }
 
 export function useActiveSection() {
@@ -89,7 +90,7 @@ export function useAutoHideChrome() {
 }
 
 export function useMediaQuery(query: string) {
-  const [matches, setMatches] = useState(() => (typeof matchMedia === 'function' ? matchMedia(query).matches : false));
+  const [matches, setMatches] = useState(() => matchMedia(query).matches);
   useEffect(() => {
     const mq = matchMedia(query);
     const on = () => setMatches(mq.matches);

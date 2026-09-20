@@ -12,7 +12,7 @@ import styles from './Reviews.module.css';
  */
 export function Reviews() {
   const section = useRef<HTMLElement>(null);
-  const [active] = useSceneIndex(section, reviews.length);
+  const active = useSceneIndex(section, reviews.length);
   const desktop = useIsDesktop();
 
   const current = reviews[active];
