@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { pages } from '@/lib/routes';
+import { delay } from '@/lib/reveal';
 import styles from './PageShell.module.css';
 
 interface Props {
@@ -16,12 +17,18 @@ export function PageShell({ index, kicker, title, lead, children }: Props) {
   return (
     <>
       <header className={styles.head} data-scene>
-        <div className={`${styles.meta} mono mono-dim`}>
+        <div data-reveal="soft" className={`${styles.meta} mono mono-dim`}>
           <span>{index}</span>
           <span>{kicker}</span>
         </div>
-        <h1 className={styles.title}>{title}</h1>
-        {lead && <p className={styles.lead}>{lead}</p>}
+        <h1 data-reveal="display" className={styles.title}>
+          {title}
+        </h1>
+        {lead && (
+          <p data-reveal style={delay(110)} className={styles.lead}>
+            {lead}
+          </p>
+        )}
       </header>
       {children}
       <footer className={styles.foot}>

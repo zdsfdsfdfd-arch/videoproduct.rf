@@ -11,10 +11,15 @@ import styles from './Clients.module.css';
 export function Clients() {
   return (
     <section aria-label="Нам доверяют" className={styles.section}>
-      <div className={`${styles.label} mono mono-dim`}>НАМ ДОВЕРЯЮТ</div>
+      <div data-reveal="soft" className={`${styles.label} mono mono-dim`}>НАМ ДОВЕРЯЮТ</div>
       <ul className={styles.row}>
         {clientLogos.map((c, i) => (
-          <li key={c.name} className={styles.item} style={{ height: c.h, transform: `translateY(${i % 2 ? 16 : -16}px)`, '--glow': c.glow } as CSSProperties}>
+          <li
+            key={c.name}
+            data-reveal="soft"
+            className={styles.item}
+            style={{ height: c.h, '--glow': c.glow, '--rd': `${Math.min(i * 55, 440)}ms` } as CSSProperties}
+          >
             <span
               role="img"
               aria-label={c.name}

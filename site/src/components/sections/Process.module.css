@@ -16,10 +16,7 @@
   gap: clamp(20px, 4vw, 60px);
   margin: clamp(14px, 2vh, 28px) 0 clamp(26px, 4.5vh, 52px);
 }
-.title {
-  margin: 0;
-  transform: translate3d(0, calc((1 - var(--p, 1)) * 24px), 0);
-}
+.title { margin: 0; }
 .lead {
   margin: 0 0 6px;
   max-width: 46ch;

@@ -85,7 +85,7 @@ export function Team() {
           07 / КОМАНДА
           <br />8 ИЗ 15 СПЕЦИАЛИСТОВ
         </div>
-        <h2 className={`${styles.title} h2`}>Кто это делает</h2>
+        <h2 data-reveal="display" className={`${styles.title} h2`}>Кто это делает</h2>
       </div>
 
       <div

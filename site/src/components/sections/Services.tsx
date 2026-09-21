@@ -1,5 +1,6 @@
 import { Picture } from '@/components/Picture';
 import { serviceChapters, servicesTotal } from '@/content';
+import { delay, stagger } from '@/lib/reveal';
 import styles from './Services.module.css';
 
 /**
@@ -21,15 +22,15 @@ export function Services() {
           <br />
           {servicesTotal} НАПРАВЛЕНИЙ
         </div>
-        <h2 className={`${styles.title} h2`}>Что мы снимаем</h2>
-        <p className={`${styles.lead} body-copy`}>
+        <h2 data-reveal="display" className={`${styles.title} h2`}>Что мы снимаем</h2>
+        <p data-reveal style={delay(100)} className={`${styles.lead} body-copy`}>
           Задачи от анимированного логотипа до имиджевых и презентационных роликов, съёмок мастер-классов, лекций и мероприятий.
         </p>
 
         {serviceChapters.map((ch, ci) => (
           <div key={ch.title} className={styles.chapter} data-hue={ch.hue}>
             <div className={styles.chapterHead}>
-              <div className={styles.chapterTop}>
+              <div data-reveal className={styles.chapterTop}>
                 <span aria-hidden="true" className={styles.chapterGhost}>
                   {String(ci + 1).padStart(2, '0')}
                 </span>
@@ -39,15 +40,15 @@ export function Services() {
                   <span className={styles.chapterLabel}>{ch.items.length} НАПРАВЛЕНИЙ</span>
                 </div>
               </div>
-              <figure className={styles.shot}>
+              <figure data-reveal="frame" style={delay(120)} className={styles.shot}>
                 <Picture photo={ch.photo} alt={ch.photoAlt} sizes="(max-width: 767px) 92vw, 30vw" className={styles.shotImg} />
               </figure>
             </div>
             <ul className={styles.list}>
-              {ch.items.map((item) => {
+              {ch.items.map((item, ii) => {
                 n += 1;
                 return (
-                  <li key={item} className={styles.row}>
+                  <li key={item} data-reveal="soft" style={stagger(ii, 45, 320)} className={styles.row}>
                     <span className={styles.rowNum}>{String(n).padStart(2, '0')}</span>
                     <span className={styles.rowName}>{item}</span>
                   </li>

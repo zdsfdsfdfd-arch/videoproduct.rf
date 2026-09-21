@@ -1,6 +1,7 @@
 import { Picture } from '@/components/Picture';
 import { processSteps } from '@/content';
 import { useAnchorClick } from '@/lib/hooks';
+import { delay, stagger } from '@/lib/reveal';
 import styles from './Process.module.css';
 
 const COUNT = processSteps.length;
@@ -29,17 +30,17 @@ export function Process() {
       </div>
 
       <div className={styles.intro}>
-        <h2 className={`${styles.title} h2`}>
+        <h2 data-reveal="display" className={`${styles.title} h2`}>
           Как рождается <em>ролик</em>
         </h2>
-        <p className={`${styles.lead} body-copy`}>
+        <p data-reveal style={delay(100)} className={`${styles.lead} body-copy`}>
           Каждый этап делает своя часть команды. В тариф «Старт» входит базовый набор, в «Стандарт» и «Комбо» — все семь.
         </p>
       </div>
 
       <ol className={styles.track}>
         {processSteps.map((s, i) => (
-          <li key={s.title} className={styles.card} data-hue={HUES[i % HUES.length]}>
+          <li key={s.title} data-reveal style={stagger(i, 65)} className={styles.card} data-hue={HUES[i % HUES.length]}>
             <Picture photo={s.frame.photo} alt={s.frame.alt} sizes="(max-width: 767px) 76vw, 24vw" className={styles.photo} />
             <div className={styles.veil} />
             <span aria-hidden="true" className={styles.num}>
@@ -59,7 +60,7 @@ export function Process() {
           </li>
         ))}
 
-        <li className={`${styles.card} ${styles.cardCta}`}>
+        <li data-reveal style={stagger(COUNT, 65)} className={`${styles.card} ${styles.cardCta}`}>
           <div className={styles.body}>
             <span className={`${styles.ctaLabel} mono`}>ЭТАП {String(COUNT + 1).padStart(2, '0')}</span>
             <h3 className={styles.name}>Ваш проект</h3>

@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { delay } from '@/lib/reveal';
 import { contacts } from '@/content';
 import { useAnchorClick } from '@/lib/hooks';
 import { sendLead } from '@/lib/leads';
@@ -49,14 +50,14 @@ export function Contact() {
         </span>
       </div>
 
-      <h2 className={styles.title}>
+      <h2 data-reveal="display" className={styles.title}>
         <span className={styles.t1}>Сделаем</span>
         <span className={styles.t2}>
           кадр<span className={styles.dot}>.</span>
         </span>
       </h2>
 
-      <form className={styles.consult} onSubmit={submit} noValidate>
+      <form data-reveal style={delay(120)} className={styles.consult} onSubmit={submit} noValidate>
         <div className={`${styles.consultLabel} mono`}>БЕСПЛАТНАЯ КОНСУЛЬТАЦИЯ</div>
         <label className={styles.phoneField}>
           <span className={`${styles.fieldLabel} mono`}>ВАШ ТЕЛЕФОН</span>

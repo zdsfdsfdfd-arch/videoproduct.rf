@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { getEngine, scrollToSection } from '@/lib/scroll-engine';
+import { revealInstant, scanReveals, startReveals, stopReveals } from '@/lib/reveal';
 import { pageTitle } from '@/lib/routes';
 import { useAutoHideChrome } from '@/lib/hooks';
 import { ProgressBar } from '@/components/chrome/ProgressBar';
@@ -31,7 +32,11 @@ export function App() {
   useEffect(() => {
     const engine = getEngine();
     engine.start();
-    return () => engine.stop();
+    startReveals();
+    return () => {
+      engine.stop();
+      stopReveals();
+    };
   }, []);
 
   // route change: new sections → rescan; scroll to top or to the hash; page title
@@ -41,7 +46,11 @@ export function App() {
     const t = setTimeout(() => {
       getEngine().scan();
       if (location.hash) scrollToSection(location.hash.slice(1));
-      else scrollTo({ top: 0, behavior: 'auto' });
+      else {
+        revealInstant(400);
+        scrollTo({ top: 0, behavior: 'auto' });
+      }
+      scanReveals();
     }, 0);
     return () => clearTimeout(t);
   }, [location.pathname, location.hash]);

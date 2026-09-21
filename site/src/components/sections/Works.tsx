@@ -4,6 +4,7 @@ import { SkipPin } from '@/components/chrome/SkipPin';
 import { VkPlayer } from '@/components/VkPlayer';
 import { works, allWorks } from '@/content';
 import { useAnchorClick, useIsDesktop } from '@/lib/hooks';
+import { delay } from '@/lib/reveal';
 import styles from './Works.module.css';
 
 interface Props {
@@ -77,15 +78,15 @@ export function Works({ onOpen }: Props) {
 
   const aside = (
     <div className={styles.aside}>
-      <h2 className={styles.title}>
+      <h2 data-reveal="display" className={styles.title}>
         Снятое
         <br />
         <span className={styles.titleDim}>и смонтированное</span>
       </h2>
-      <p className={`${styles.note} body-copy`}>
+      <p data-reveal style={delay(90)} className={`${styles.note} body-copy`}>
         Ознакомительные ролики, видео о продукции, имиджевые и продающие — здесь {shown.length} из архива на {total}.
       </p>
-      <div className={styles.links}>
+      <div data-reveal style={delay(170)} className={styles.links}>
         <Link to="/portfolio" className={styles.cta}>
           Все {total} роликов →
         </Link>

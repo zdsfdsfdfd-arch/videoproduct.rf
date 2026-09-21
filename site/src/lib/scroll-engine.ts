@@ -21,6 +21,8 @@
  * mouse parallax stays at 0. Pinned scenes still work — they are scroll state, not animation.
  */
 
+import { revealInstant } from './reveal';
+
 export type SceneListener = (e: number, p: number) => void;
 
 const LERP = 0.07; // "кинематографично" density from the prototype tweaks
@@ -278,5 +280,8 @@ export function getEngine(): ScrollEngine {
 export function scrollToSection(id: string) {
   const t = document.getElementById(id);
   if (!t) return;
-  scrollTo({ top: t.getBoundingClientRect().top + scrollY, behavior: getEngine().reduced ? 'auto' : 'smooth' });
+  const smooth = !getEngine().reduced;
+  // the chapter we land on should be there when we arrive, not fade up afterwards
+  revealInstant(smooth ? 1100 : 300);
+  scrollTo({ top: t.getBoundingClientRect().top + scrollY, behavior: smooth ? 'smooth' : 'auto' });
 }

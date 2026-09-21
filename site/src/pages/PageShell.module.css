@@ -14,8 +14,6 @@
   line-height: 0.86;
   letter-spacing: -0.05em;
   text-transform: uppercase;
-  transform: translate3d(calc((1 - var(--p, 1)) * -2vw), 0, 0);
-  opacity: var(--p, 1);
 }
 .title em {
   font-style: normal;

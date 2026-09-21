@@ -5,10 +5,7 @@
   padding: clamp(70px, 12vh, 150px) calc(var(--gutter) + var(--corridor)) clamp(70px, 12vh, 140px) var(--gutter);
 }
 .index { grid-column: 1 / span 3; }
-.title {
-  grid-column: 4 / span 8;
-  transform: translate3d(0, calc((1 - var(--p, 1)) * 24px), 0);
-}
+.title { grid-column: 4 / span 8; }
 .lead {
   grid-column: 4 / span 5;
   margin-top: clamp(26px, 3.4vw, 52px);

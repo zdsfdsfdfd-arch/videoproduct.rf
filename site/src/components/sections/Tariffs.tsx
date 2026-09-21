@@ -1,5 +1,6 @@
 import { tariffs } from '@/content';
 import { useAnchorClick } from '@/lib/hooks';
+import { delay, stagger } from '@/lib/reveal';
 import styles from './Tariffs.module.css';
 
 /**
@@ -17,17 +18,17 @@ export function Tariffs() {
     <section id="sp-06" data-scene className={styles.section} aria-label="06 Тарифы">
       <div className={`grid12 ${styles.head}`}>
         <div className={`${styles.index} mono mono-dim`}>06 / ТАРИФЫ</div>
-        <h2 className={`${styles.title} h2`}>
+        <h2 data-reveal="display" className={`${styles.title} h2`}>
           Ориентир
           <br />
           по бюджету
         </h2>
-        <p className={styles.lead}>Финальная стоимость индивидуальна, тарифы не фиксированные, но они могут послужить удобным ориентиром для вашего выбора.</p>
+        <p data-reveal style={delay(100)} className={styles.lead}>Финальная стоимость индивидуальна, тарифы не фиксированные, но они могут послужить удобным ориентиром для вашего выбора.</p>
       </div>
 
       <div className={styles.columns}>
-        {tariffs.map((t) => (
-          <article key={t.name} className={styles.tariff} data-accent={t.accent ? '1' : undefined}>
+        {tariffs.map((t, i) => (
+          <article key={t.name} data-reveal style={stagger(i, 90)} className={styles.tariff} data-accent={t.accent ? '1' : undefined}>
             <p className={`${styles.label} mono`}>{t.index}</p>
             <h3 className={styles.name}>{t.name}</h3>
             <p className={styles.price}>{t.price}</p>
@@ -58,7 +59,7 @@ export function Tariffs() {
         ))}
       </div>
 
-      <p className={styles.foot}>
+      <p data-reveal="soft" className={styles.foot}>
         Заполнив бриф, вы получите индивидуальный расчёт коммерческого предложения.{' '}
         <a href="#sp-09" onClick={onClick} className={styles.footLink}>
           Перейти к брифу →
