@@ -247,12 +247,16 @@ export const faq = [
 ];
 
 /**
- * A self-hosted cover clip. VK's embedded player does not run inside mobile browsers, so the only
- * way to have real moving footage on a phone is a file we serve ourselves: drop a muted, ~10-second
- * H.264 MP4 (1080p or 720p, a few MB) into `site/public/video/` and put its path here — the cover
- * plays it inline on every device and falls back to the frame reel below while it is null.
+ * The cover clip — the reel the studio runs on its own site, served from Kinescope as a plain
+ * media file, so it plays inline in a <video> on every device (VK's embedded player does not run
+ * inside mobile browsers, which is why the cover used to fall back to a frame reel on phones).
+ * `#t=0.1` starts a tenth of a second in: the first frame of the file is black.
+ *
+ * Set this to null — or a path under `site/public/video/` — and the cover falls back to the VK
+ * player on desktop and the frame reel on phones. If the file ever stops loading, the cover does
+ * the same on its own (see Cover.tsx).
  */
-export const coverVideo: string | null = null;
+export const coverVideo: string | null = 'https://kinescope.io/0TQrgNTzKbreqYdeWNtWnN/720p#t=0.1';
 
 export const coverPoster = backgrounds.coverPodcastStudio;
 

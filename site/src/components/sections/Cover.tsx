@@ -1,8 +1,10 @@
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Picture } from '@/components/Picture';
 import { VkPlayer } from '@/components/VkPlayer';
 import { cities, contacts, coverPoster, coverReel, coverVideo, heroVideoId, tariffs, vkVideoUrl } from '@/content';
 import { useAnchorClick, useIsDesktop } from '@/lib/hooks';
+import { delay } from '@/lib/reveal';
 import { getEngine } from '@/lib/scroll-engine';
 import styles from './Cover.module.css';
 
@@ -15,18 +17,24 @@ import styles from './Cover.module.css';
  * and said nothing a first-time visitor needed.
  *
  * What plays where:
- *   • a self-hosted clip (content → coverVideo), inline and muted — works on every device;
+ *   • the studio's reel (content → coverVideo), inline and muted — works on every device;
  *   • otherwise, on desktop, the VK showreel in an iframe;
  *   • otherwise, on phones, a slow cross-fade through studio frames — VK's embedded player does not
  *     run inside mobile browsers (it renders «видео недоступно»), and a motionless cover reads as a
  *     video that failed to load. The play button there opens the real showreel in the VK app.
+ *
+ * The clip is hosted elsewhere, so "it loads" is not something the page can promise. If it errors,
+ * or if nothing is decodable after a few seconds, the cover drops to the branch below it rather
+ * than holding a still poster and calling it a video.
  */
 export function Cover() {
   const onClick = useAnchorClick();
   const desktop = useIsDesktop();
   const reduced = getEngine().reduced;
-  const vkOn = !coverVideo && desktop && !reduced;
-  const reelOn = !coverVideo && !desktop && !reduced;
+  const [clipDead, setClipDead] = useState(false);
+  const clip = coverVideo && !clipDead ? coverVideo : null;
+  const vkOn = !clip && desktop && !reduced;
+  const reelOn = !clip && !desktop && !reduced;
 
   return (
     <section id="sp-00" data-scene className={styles.section} aria-label="Обложка">
@@ -40,8 +48,8 @@ export function Cover() {
         <div className={styles.stage}>
           <div className={styles.video} aria-hidden="true">
             <div className={styles.videoBox}>
-              {coverVideo ? (
-                <video className={styles.poster} poster={coverPoster.src} src={coverVideo} autoPlay muted loop playsInline preload="auto" />
+              {clip ? (
+                <CoverClip src={clip} onDead={() => setClipDead(true)} />
               ) : vkOn ? (
                 <VkPlayer id={heroVideoId} title="Шоурил студии" poster={coverPoster.src} autoplay eager holdMs={2200} className={styles.frame} />
               ) : reelOn ? (
@@ -65,19 +73,23 @@ export function Cover() {
           </div>
 
           <div className={styles.pitch}>
+            {/* the reveal sits on the lines, not on the h1: the heading's own transform is the
+                mouse parallax, and the two would overwrite each other */}
             <h1 className={styles.title}>
-              <span className={styles.line}>От идеи</span>
-              <span className={`${styles.line} ${styles.line2}`}>
+              <span data-reveal="display" className={styles.line}>
+                От идеи
+              </span>
+              <span data-reveal="display" style={delay(110)} className={`${styles.line} ${styles.line2}`}>
                 до кадра<span className={styles.dot}>.</span>
               </span>
             </h1>
 
-            <p className={styles.sub}>
+            <p data-reveal style={delay(260)} className={styles.sub}>
               Снимаем рекламные, имиджевые и корпоративные ролики для бизнеса. Сценарий, съёмка, монтаж, цвет, звук и графика — под
               ключ, своей командой и на своём оборудовании.
             </p>
 
-            <div className={styles.actions}>
+            <div data-reveal="soft" style={delay(340)} className={styles.actions}>
               <Link to="/portfolio" className={styles.cta}>
                 Смотреть работы
               </Link>
@@ -95,7 +107,7 @@ export function Cover() {
               )}
             </div>
 
-            <ul className={`${styles.marks} mono`}>
+            <ul data-reveal="soft" style={delay(420)} className={`${styles.marks} mono`}>
               <li>2500+ РОЛИКОВ</li>
               <li>25 ГОРОДОВ СЪЁМОК</li>
               <li>
@@ -106,7 +118,7 @@ export function Cover() {
         </div>
 
         <footer className={styles.footer}>
-          <div className={`${styles.cities} mono`}>
+          <div data-reveal="soft" style={delay(500)} className={`${styles.cities} mono`}>
             {cities.map((c, i) => (
               <span key={c} className={styles.city}>
                 {i > 0 && <span className={styles.cityLine} />}
@@ -120,5 +132,43 @@ export function Cover() {
         </footer>
       </div>
     </section>
+  );
+}
+
+/**
+ * The cover clip. Muted and inline so phones autoplay it too; the poster carries the first moment
+ * so there is no black rectangle while the file opens. `onDead` fires on a load error, and also if
+ * six seconds pass without a single decodable frame — a cover that never moves should hand over to
+ * the fallback instead of pretending.
+ */
+function CoverClip({ src, onDead }: { src: string; onDead: () => void }) {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    // autoplay can be refused (low power mode, a policy we do not control) — that is not a failure
+    // of the file, so it only matters that a frame arrived
+    void v.play().catch(() => {});
+    if (v.readyState >= 2) return;
+    const t = setTimeout(() => {
+      if ((ref.current?.readyState ?? 0) < 2) onDead();
+    }, 6000);
+    return () => clearTimeout(t);
+  }, [src, onDead]);
+
+  return (
+    <video
+      ref={ref}
+      className={styles.poster}
+      poster={coverPoster.src}
+      src={src}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="auto"
+      onError={onDead}
+    />
   );
 }

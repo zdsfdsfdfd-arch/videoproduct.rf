@@ -18,6 +18,8 @@ const SHOWN = 'data-shown';
 
 let io: IntersectionObserver | null = null;
 let mo: MutationObserver | null = null;
+/** Held false for the first two frames so the hidden state gets painted once. */
+let armed = false;
 
 function show(el: Element) {
   el.setAttribute(SHOWN, '');
@@ -38,12 +40,23 @@ function inSideScroller(el: Element) {
 
 /** Observe everything not yet revealed. Safe to call again after the DOM changes. */
 export function scanReveals() {
-  if (!io) return;
+  if (!io || !armed) return;
   document.querySelectorAll(`[data-reveal]:not([${SHOWN}])`).forEach((el) => {
     // already on screen when the page opened: show it without the animation running late
     if (el.getBoundingClientRect().top < innerHeight * 0.92 || inSideScroller(el)) show(el);
     else io!.observe(el);
   });
+}
+
+/**
+ * Put the page into the hidden state before React's first paint (called from main.tsx). Doing it
+ * from the mount effect instead means one painted frame with everything in place, which then
+ * vanishes and comes back — a blink on every load. The attribute is only ever set by script, so a
+ * bundle that never runs leaves the page plainly visible.
+ */
+export function primeReveals() {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.documentElement.setAttribute('data-reveal', '');
 }
 
 export function startReveals() {
@@ -60,7 +73,18 @@ export function startReveals() {
     // by the time it is properly in view rather than starting then
     { rootMargin: '0px 0px -8% 0px', threshold: 0.01 },
   );
-  scanReveals();
+
+  // Two frames before the first sweep, and nothing is shown until then (`armed`). Anything already
+  // on screen is shown immediately by scanReveals, and showing it in the same task as `data-reveal`
+  // went on means the hidden state never paints and the transition never runs — the first screen
+  // would snap in while everything below it rises. One painted frame of the hidden state and the
+  // cover comes up like the rest of the page.
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => {
+      armed = true;
+      scanReveals();
+    }),
+  );
 
   // A hard flick can carry an element from below the fold to above it between two observations,
   // and the observer never sees it cross. A sweep once the scroll settles catches those — by then
@@ -85,6 +109,7 @@ export function stopReveals() {
   mo?.disconnect();
   io = null;
   mo = null;
+  armed = false;
   document.documentElement.removeAttribute('data-reveal');
 }
 

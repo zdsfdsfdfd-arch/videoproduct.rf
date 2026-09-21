@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { getEngine, scrollToSection } from '@/lib/scroll-engine';
 import { revealInstant, scanReveals, startReveals, stopReveals } from '@/lib/reveal';
@@ -40,6 +40,7 @@ export function App() {
   }, []);
 
   // route change: new sections → rescan; scroll to top or to the hash; page title
+  const firstRoute = useRef(true);
   useEffect(() => {
     document.title = pageTitle(location.pathname);
     setCaseReq(null);
@@ -47,9 +48,13 @@ export function App() {
       getEngine().scan();
       if (location.hash) scrollToSection(location.hash.slice(1));
       else {
-        revealInstant(400);
+        // a navigation lands the reader somewhere new and the page should already be there; the
+        // very first load is not a jump, and suppressing the motion there cost the opening its
+        // entrance
+        if (!firstRoute.current) revealInstant(400);
         scrollTo({ top: 0, behavior: 'auto' });
       }
+      firstRoute.current = false;
       scanReveals();
     }, 0);
     return () => clearTimeout(t);

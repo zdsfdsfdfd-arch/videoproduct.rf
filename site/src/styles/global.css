@@ -41,6 +41,8 @@
      (ticks plus the current chapter's name); the open one draws over its own plate. */
   --corridor: 108px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* flatter at the end than --ease: a revealed line glides to a stop instead of arriving */
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Written by the scroll engine every frame. */
   --mx: 0;
@@ -100,37 +102,54 @@ h1 em, h2 em,
 
 /**
  * Scroll reveals (lib/reveal.ts). The hidden state hangs off html[data-reveal], which only that
- * module sets — no script, no hiding. Motion is a short rise and a fade on the site's own easing;
- * --rd staggers a row or a list.
+ * module sets — no script, no hiding. --rd staggers a row or a list.
+ *
+ * The motion: text comes up a short distance, out of focus, and settles. The first version rose
+ * further and faster and read as a slide; the travel is smaller now and the curve longer and
+ * flatter at the end, so a line arrives rather than stops. The blur is what makes it feel soft —
+ * it is small, it only exists while the element is hidden, and only text carries it (a frame
+ * eases out of a push-in instead, which is cheaper on a large image).
  */
 html[data-reveal] [data-reveal] {
   opacity: 0;
-  transform: translate3d(0, 20px, 0);
+  transform: translate3d(0, 14px, 0);
+  filter: blur(5px);
   /* no will-change here: there are a hundred of these on a page, and promoting every one of
      them to its own layer costs more than the transition it would help */
   transition:
-    opacity 0.6s var(--ease) var(--rd, 0ms),
-    transform 0.75s var(--ease) var(--rd, 0ms);
+    opacity 0.85s var(--ease-reveal) var(--rd, 0ms),
+    filter 0.85s var(--ease-reveal) var(--rd, 0ms),
+    transform 1.05s var(--ease-reveal) var(--rd, 0ms);
 }
-html[data-reveal] [data-reveal='soft'] { transform: translate3d(0, 10px, 0); }
-html[data-reveal] [data-reveal='display'] { transform: translate3d(0, 34px, 0); }
+html[data-reveal] [data-reveal='soft'] { transform: translate3d(0, 8px, 0); filter: blur(3px); }
+/* a display line has further to travel before the distance reads at that size */
+html[data-reveal] [data-reveal='display'] {
+  transform: translate3d(0, 26px, 0);
+  filter: blur(9px);
+  transition:
+    opacity 1s var(--ease-reveal) var(--rd, 0ms),
+    filter 1s var(--ease-reveal) var(--rd, 0ms),
+    transform 1.25s var(--ease-reveal) var(--rd, 0ms);
+}
 /* a frame settles rather than slides: it eases out of a slight push-in */
 html[data-reveal] [data-reveal='frame'] {
   transform: scale(1.035);
+  filter: none;
   transition:
-    opacity 0.7s var(--ease) var(--rd, 0ms),
-    transform 1.1s var(--ease) var(--rd, 0ms);
+    opacity 0.8s var(--ease-reveal) var(--rd, 0ms),
+    transform 1.2s var(--ease-reveal) var(--rd, 0ms);
 }
 html[data-reveal] [data-reveal][data-shown] {
   opacity: 1;
   transform: none;
+  filter: none;
 }
 
 /* during a jump the destination is simply there (lib/reveal.ts → revealInstant) */
 html[data-reveal-now] [data-reveal] { transition: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  html[data-reveal] [data-reveal] { opacity: 1; transform: none; transition: none; }
+  html[data-reveal] [data-reveal] { opacity: 1; transform: none; filter: none; transition: none; }
 }
 
 @media (max-width: 767px) {
