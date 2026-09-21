@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SkipPin } from '@/components/chrome/SkipPin';
 import { VkPlayer } from '@/components/VkPlayer';
@@ -11,13 +11,22 @@ interface Props {
 }
 
 /**
- * 02 / Работы — a horizontal portfolio wall driven by vertical scroll. The section is 340vh tall;
- * the pinned track moves by --e × --tw, where --tw is the overflow of the track measured on resize.
- * Every card carries a muted VK preview that is pre-loaded two screens ahead, behind its still frame,
- * so there is never a black card while the player spins up.
+ * 02 / Работы — a horizontal reel of the portfolio, driven by vertical scroll.
+ *
+ * The ribbon was the right idea and the wrong composition: the chapter title rode the track as its
+ * first slide, so the first screen of the section was a headline and one card cut in half at the
+ * edge, and every card had its own size and vertical offset, which read as clutter rather than as a
+ * wall. The title, the copy and the two links now hold a column of their own on the left, with a
+ * bar that shows how far along the reel you are; the cards are one size on one baseline and start
+ * on screen, so the chapter opens on the work.
+ *
+ * The track moves by --e × --tw, where --tw is the overflow measured against the reel's own width.
+ * Every card carries a muted VK preview pre-loaded two screens ahead, behind its still frame, so
+ * there is never a black card while the player spins up.
  */
 export function Works({ onOpen }: Props) {
   const section = useRef<HTMLElement>(null);
+  const reel = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const onClick = useAnchorClick();
   const desktop = useIsDesktop();
@@ -46,12 +55,13 @@ export function Works({ onOpen }: Props) {
     const tr = track.current;
     if (!sec || !tr) return;
     const measure = () => {
-      const tw = Math.max(0, tr.scrollWidth - innerWidth + (innerWidth < 768 ? 28 : 52));
-      sec.style.setProperty('--tw', `${tw}px`);
+      const view = reel.current?.clientWidth ?? innerWidth;
+      sec.style.setProperty('--tw', `${Math.max(0, tr.scrollWidth - view)}px`);
     };
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(tr);
+    if (reel.current) ro.observe(reel.current);
     addEventListener('resize', measure);
     // fonts/images can change the track width after first paint
     const t = setTimeout(measure, 600);
@@ -62,36 +72,52 @@ export function Works({ onOpen }: Props) {
     };
   }, []);
 
+  const shown = desktop ? works : works.filter((w) => w.poster);
+  const total = desktop ? allWorks.length : allWorks.filter((w) => w.poster).length;
+
+  const aside = (
+    <div className={styles.aside}>
+      <h2 className={styles.title}>
+        Снятое
+        <br />
+        <span className={styles.titleDim}>и смонтированное</span>
+      </h2>
+      <p className={`${styles.note} body-copy`}>
+        Ознакомительные ролики, видео о продукции, имиджевые и продающие — здесь {shown.length} из архива на {total}.
+      </p>
+      <div className={styles.links}>
+        <Link to="/portfolio" data-cursor="ОТКРЫТЬ" className={styles.cta}>
+          Все {total} роликов →
+        </Link>
+        <a href="#sp-09" onClick={onClick} data-cursor="ВПЕРЁД" className={`${styles.cta} ${styles.ctaGhost}`}>
+          Обсудить проект →
+        </a>
+      </div>
+      {desktop && (
+        <div aria-hidden="true" className={styles.rail}>
+          <span className={styles.railFill} />
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <section id="sp-02" ref={section} data-scene className={styles.section} aria-label="02 Работы">
       <div className={styles.sticky}>
         <div className={`${styles.head} mono mono-dim`}>
           <span>02 / РАБОТЫ</span>
-          <span>ПОРТФОЛИО 100+ · ГОРИЗОНТАЛЬНАЯ ЛЕНТА</span>
+          <span className={styles.headRight}>ПОРТФОЛИО {total}+ · ГОРИЗОНТАЛЬНАЯ ЛЕНТА</span>
         </div>
 
-        {/* phones: the title sits above the swipe track instead of being its first slide */}
-        {!desktop && <Title top />}
+        <div className={styles.body}>
+          {aside}
 
-        <div ref={track} className={styles.track}>
-          {desktop && <Title />}
-
-          {works
-            .map((w, i) => ({ w, i }))
-            // phones show stills only (no VK embed), so a project without a still has nothing to show there
-            .filter(({ w }) => desktop || w.poster)
-            .map(({ w, i }, k) => (
-              <WorkCard key={w.id} index={i} n={k + 1} work={w} desktop={desktop} armed={armed} onOpen={onOpen} />
-            ))}
-
-          <div className={styles.outro}>
-            <p className="body-copy">На сайте студии — раздел «Портфолио 100+»: ознакомительные ролики, видео о продукции, имиджевые и продающие видео.</p>
-            <Link to="/portfolio" data-cursor="ОТКРЫТЬ" className={`${styles.cta} mono`}>
-              ВСЕ {desktop ? allWorks.length : allWorks.filter((w) => w.poster).length} РОЛИКОВ →
-            </Link>
-            <a href="#sp-09" onClick={onClick} data-cursor="ВПЕРЁД" className={`${styles.cta} mono`}>
-              ОБСУДИТЬ ПРОЕКТ →
-            </a>
+          <div ref={reel} className={styles.reel}>
+            <div ref={track} className={styles.track}>
+              {shown.map((w, k) => (
+                <WorkCard key={w.id} index={works.indexOf(w)} n={k + 1} work={w} desktop={desktop} armed={armed} onOpen={onOpen} />
+              ))}
+            </div>
           </div>
         </div>
 
@@ -101,36 +127,13 @@ export function Works({ onOpen }: Props) {
   );
 }
 
-function Title({ top }: { top?: boolean }) {
-  return (
-    <h2 className={`${styles.title} ${top ? styles.titleTop : ''}`}>
-      Снятое
-      <br />
-      <span className={styles.titleDim}>и смонтированное</span>
-    </h2>
-  );
-}
-
-/** `index` opens the right case; `n` is the number the visitor sees, so the track reads 01…N. */
+/** `index` opens the right case; `n` is the number the visitor sees, so the reel reads 01…N. */
 function WorkCard({ index, n, work, desktop, armed, onOpen }: { index: number; n: number; work: (typeof works)[number]; desktop: boolean; armed: boolean; onOpen: Props['onOpen'] }) {
   const thumb = useRef<HTMLSpanElement>(null);
 
-  const style: CSSProperties = {
-    width: work.w,
-    alignSelf: work.align === 'center' ? 'center' : work.align === 'start' ? 'flex-start' : 'flex-end',
-    marginTop: work.align === 'start' ? work.offset : undefined,
-    marginBottom: work.align === 'end' ? work.offset : undefined,
-  };
-
   return (
-    <button
-      type="button"
-      data-cursor="ОТКРЫТЬ"
-      className={styles.card}
-      style={style}
-      onClick={() => thumb.current && onOpen(index, thumb.current)}
-    >
-      <span ref={thumb} className={styles.thumb} style={{ height: work.h }}>
+    <button type="button" data-cursor="ОТКРЫТЬ" className={styles.card} onClick={() => thumb.current && onOpen(index, thumb.current)}>
+      <span ref={thumb} className={styles.thumb}>
         {desktop ? (
           <VkPlayer id={work.id} title={work.title} poster={work.poster} autoplay hd={1} eager={armed} className={styles.player} />
         ) : work.poster ? (
@@ -149,11 +152,8 @@ function WorkCard({ index, n, work, desktop, armed, onOpen }: { index: number; n
       </span>
       <span className={`${styles.meta} mono`} style={{ color: work.accent ? 'var(--accent)' : undefined }}>
         {String(n).padStart(2, '0')} · {work.type}
-        {n === 1 && <span className={styles.metaRight}>2500+ РОЛИКОВ В АРХИВЕ</span>}
       </span>
-      <span className={`${styles.name} ${work.big ? styles.nameBig : ''}`} style={{ maxWidth: work.maxTitle }}>
-        {work.title}
-      </span>
+      <span className={styles.name}>{work.title}</span>
     </button>
   );
 }

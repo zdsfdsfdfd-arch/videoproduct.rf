@@ -10,44 +10,110 @@
   height: calc(100vh - var(--navh));
   height: calc(100svh - var(--navh));
   overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  padding: var(--sticky-head) 0 clamp(26px, 5vh, 54px);
 }
 .head {
-  position: absolute;
-  top: var(--sticky-head);
-  left: var(--gutter);
-  right: var(--gutter);
   display: flex;
   justify-content: space-between;
-  z-index: 3;
+  padding: 0 var(--gutter);
 }
 
+/* the chapter's own column on the left, the reel on the right */
+.body {
+  display: grid;
+  grid-template-columns: minmax(300px, 27%) 1fr;
+  gap: clamp(20px, 3vw, 54px);
+  align-items: center;
+  min-height: 0;
+  padding-left: var(--gutter);
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.8vh, 22px);
+}
+.title {
+  margin: 0;
+  font-weight: 900;
+  font-size: clamp(26px, 2.2vw, 38px);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+.titleDim { color: rgba(244, 241, 250, 0.3); }
+.note {
+  margin: 0;
+  max-width: 34ch;
+  color: var(--grey);
+}
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  background: var(--accent-grad);
+  color: var(--paper);
+  font-weight: 700;
+  font-size: clamp(13px, 0.95vw, 15px);
+  transition: filter 0.25s, border-color 0.25s;
+}
+.cta:hover { filter: brightness(1.12); }
+.ctaGhost {
+  background: none;
+  border: 1px solid var(--line-paper-22);
+  color: var(--paper);
+}
+.ctaGhost:hover { border-color: var(--accent); filter: none; }
+
+/* how far along the reel the scroll has taken you */
+.rail {
+  position: relative;
+  height: 2px;
+  margin-top: 4px;
+  background: var(--line-paper-16);
+}
+.railFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(var(--e, 0) * 100%);
+  background: var(--accent-grad);
+}
+
+.reel {
+  position: relative;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  /* cards should dissolve at both ends of the reel, not be guillotined */
+  /* the left fade only exists once the reel has moved: at the start there is nothing to fade out */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 calc(var(--e, 0) * 70px), #000 calc(100% - 90px), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 calc(var(--e, 0) * 70px), #000 calc(100% - 90px), transparent 100%);
+}
 .track {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  gap: clamp(28px, 4vw, 72px);
-  padding: 0 var(--gutter);
+  inset: 0 auto 0 0;
+  /* two rows: a single row of 16:9 stills left most of a pinned screen empty */
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: clamp(270px, 25vw, 420px);
+  grid-template-rows: auto auto;
+  align-content: center;
+  gap: clamp(16px, 1.8vh, 30px) clamp(14px, 1.5vw, 26px);
+  padding-right: var(--gutter);
   will-change: transform;
   transform: translate3d(calc(var(--e, 0) * var(--tw, 0px) * -1), 0, 0);
 }
 
-.title {
-  flex: 0 0 auto;
-  margin: 0 clamp(20px, 4vw, 60px) 0 0;
-  font-weight: 900;
-  font-size: clamp(48px, 9vw, 150px);
-  line-height: 0.86;
-  letter-spacing: -0.045em;
-  text-transform: uppercase;
-  color: var(--paper);
-}
-.titleDim { color: rgba(241,237,247, 0.22); }
-
 .card {
-  flex: 0 0 auto;
   padding: 0;
   border: 0;
   background: none;
@@ -58,11 +124,13 @@
 .thumb {
   display: block;
   position: relative;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   background: var(--panel);
-  transition: transform 0.6s var(--ease);
+  border: 1px solid var(--line-paper-14);
+  transition: border-color 0.3s, transform 0.5s var(--ease);
 }
-.card:hover .thumb { transform: scale(1.02); }
+.card:hover .thumb { border-color: var(--accent); transform: translateY(-3px); }
 .poster {
   position: absolute;
   inset: 0;
@@ -78,27 +146,27 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  gap: 10px;
-  padding: 22px 20px 52px;
+  gap: 8px;
+  padding: 18px 16px 38px;
   background:
-    radial-gradient(ellipse at 20% 15%, rgba(140, 92, 255, 0.4), transparent 55%),
-    linear-gradient(to top, rgba(10, 7, 20, 0.9), rgba(23, 15, 46, 0.4)),
+    radial-gradient(ellipse at 20% 15%, color-mix(in srgb, var(--accent) 40%, transparent), transparent 55%),
+    linear-gradient(to top, rgba(9, 7, 26, 0.9), rgba(23, 15, 46, 0.4)),
     var(--panel);
 }
 .placeholderIndex {
   position: absolute;
-  left: 14px;
-  top: 4px;
+  left: 12px;
+  top: 0;
   font-weight: 900;
-  font-size: clamp(90px, 30vw, 160px);
+  font-size: clamp(64px, 9vw, 110px);
   line-height: 1;
   letter-spacing: -0.05em;
-  color: rgba(241, 237, 247, 0.08);
+  color: rgba(244, 241, 250, 0.08);
 }
 .placeholderTitle {
   position: relative;
   font-weight: 800;
-  font-size: clamp(18px, 5vw, 26px);
+  font-size: clamp(16px, 1.4vw, 21px);
   line-height: 1.1;
   letter-spacing: -0.02em;
   color: var(--paper);
@@ -113,70 +181,59 @@
 .card:hover .player { transform: scale(1.04); }
 .badge {
   position: absolute;
-  left: 12px;
-  bottom: 12px;
+  left: 10px;
+  bottom: 10px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 10px;
-  background: rgba(10,7,20, 0.7);
+  padding: 5px 9px;
+  background: rgba(9, 7, 26, 0.72);
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 8px;
   letter-spacing: 0.16em;
   color: var(--paper);
 }
 
 .meta {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  margin-top: 14px;
+  display: block;
+  margin-top: 12px;
   letter-spacing: 0.16em;
   color: var(--dim-paper);
 }
-.metaRight { color: var(--dim-paper); }
 .name {
   display: block;
-  margin-top: 8px;
+  margin-top: 6px;
   font-weight: 700;
-  font-size: clamp(17px, 1.4vw, 24px);
+  font-size: clamp(15px, 1.15vw, 19px);
+  line-height: 1.25;
   letter-spacing: -0.02em;
   transition: transform 0.5s var(--ease);
 }
-.nameBig { font-size: clamp(19px, 1.7vw, 30px); }
-.card:hover .name { transform: translateX(6px); }
+.card:hover .name { transform: translateX(4px); }
 
-.outro {
-  flex: 0 0 auto;
-  width: min(30vw, 380px);
-  align-self: center;
-  padding-left: clamp(20px, 3vw, 48px);
-  border-left: 1px solid var(--line-paper-14);
-}
-.outro p { margin-bottom: 22px; }
-.cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0 10px 10px 0;
-  padding: 14px 20px;
-  border: 1px solid rgba(241,237,247, 0.28);
-  color: var(--paper);
-  transition: border-color 0.3s, color 0.3s;
-}
-.cta:hover { border-color: var(--accent); color: var(--accent); }
+.skip { bottom: 18px; }
 
-/* Phones: no pin, no scroll-driven transform — the track is a native swipe carousel with snap points. */
+@media (max-width: 1100px) {
+  .body { grid-template-columns: 1fr; align-items: start; gap: 18px; }
+  .reel { mask-image: none; -webkit-mask-image: none; }
+  .track { grid-template-rows: auto; }
+}
+
+/* Phones: no pin, no scroll-driven transform — the reel is a native swipe carousel with snap. */
 @media (max-width: 767px) {
   .section { min-height: 0; padding: clamp(50px, 9vh, 90px) 0 clamp(40px, 7vh, 70px); }
-  .sticky { position: static; height: auto; overflow: visible; }
-  .head { position: static; margin: 0 0 26px; padding: 0 var(--gutter); }
-  .head span:last-child { display: none; }
+  .sticky { position: static; height: auto; overflow: visible; display: block; padding: 0; }
+  .head { margin: 0 0 22px; }
+  .headRight { display: none; }
+  .body { display: block; padding-left: 0; }
+  .aside { padding: 0 var(--gutter); margin-bottom: 22px; }
+  .title { font-size: clamp(25px, 7vw, 44px); }
+  .reel { height: auto; overflow: visible; }
   .track {
     position: static;
-    height: auto;
+    display: flex;
     align-items: flex-start;
-    gap: 16px;
+    gap: 14px;
     padding: 0 var(--gutter) 6px;
     overflow-x: auto;
     overscroll-behavior-x: contain;
@@ -187,22 +244,6 @@
     transform: none;
   }
   .track::-webkit-scrollbar { display: none; }
-  .titleTop {
-    margin: 0 0 24px;
-    padding: 0 var(--gutter);
-    font-size: clamp(30px, 8.4vw, 56px);
-  }
-  .card {
-    width: 78vw !important;
-    align-self: flex-start !important;
-    margin: 0 !important;
-    scroll-snap-align: start;
-  }
-  .thumb { height: 104vw !important; }
-  .name { font-size: 16px; max-width: none !important; }
-  .metaRight { display: none; }
-  .outro { width: 78vw; align-self: center; scroll-snap-align: start; }
+  .card { flex: 0 0 78vw; scroll-snap-align: start; }
+  .name { font-size: 16px; }
 }
-
-/* the way out of the pinned track (chrome/SkipPin) */
-.skip { bottom: 18px; }

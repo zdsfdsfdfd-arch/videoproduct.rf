@@ -14,11 +14,29 @@
   list-style: none;
 }
 .item {
+  position: relative;
   flex: 0 1 auto;
   display: flex;
   align-items: center;
   min-width: 0;
 }
+/* the glow itself: a pool of the brand's colour behind the mark. A drop-shadow alone was too
+   timid on a black page — this is the light the studio asked for. */
+.item::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 150%;
+  height: 210%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, var(--glow, #F4F1FA) 0%, transparent 68%);
+  opacity: 0.34;
+  filter: blur(26px);
+  pointer-events: none;
+  transition: opacity 0.35s;
+}
+.item:hover::before { opacity: 0.55; }
 /* the monochrome cutout is the mask; the brand colour(s) are the background */
 .logo {
   display: block;
@@ -26,18 +44,15 @@
   background: var(--fill);
   -webkit-mask: var(--logo) center / contain no-repeat;
   mask: var(--logo) center / contain no-repeat;
+  position: relative;
   opacity: 1;
-  /* the marks sat flat on the black; a halo in the brand's own colour lifts each one out */
-  filter:
-    drop-shadow(0 0 10px color-mix(in srgb, var(--glow, #F4F1FA) 55%, transparent))
-    drop-shadow(0 0 34px color-mix(in srgb, var(--glow, #F4F1FA) 30%, transparent));
+  /* a tight rim on the mark itself, over the pool behind it */
+  filter: drop-shadow(0 0 7px rgba(244, 241, 250, 0.35));
   transition: filter 0.35s, transform 0.5s var(--ease);
 }
-.logo:hover {
+.item:hover .logo {
   transform: scale(1.04);
-  filter:
-    drop-shadow(0 0 12px color-mix(in srgb, var(--glow, #F4F1FA) 80%, transparent))
-    drop-shadow(0 0 46px color-mix(in srgb, var(--glow, #F4F1FA) 45%, transparent));
+  filter: drop-shadow(0 0 10px rgba(244, 241, 250, 0.6));
 }
 
 @media (max-width: 767px) {

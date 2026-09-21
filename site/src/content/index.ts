@@ -71,15 +71,6 @@ export interface Work {
   title: string;
   type: string;
   poster?: string;
-  /** Card geometry on the horizontal track (desktop). Every project has its own size — a wall, not a grid. */
-  w: string;
-  h: string;
-  align: 'center' | 'start' | 'end';
-  /** Vertical offset from the track edge for start/end-aligned cards. */
-  offset?: string;
-  /** Large title size (used by the wide cards). */
-  big?: boolean;
-  maxTitle?: string;
   accent?: boolean;
   /** Archive entry: the video is the studio's, but its title is described from the frame and awaits the studio's wording. */
   archive?: boolean;
@@ -87,16 +78,16 @@ export interface Work {
 
 /** Portfolio — VK id ↔ project pairs confirmed by the client on 17.09.2026. */
 export const works: Work[] = [
-  { id: '456239162', title: 'Рекламный ролик ЖК «Art City»', type: 'РЕКЛАМА', poster: posters['456239162'], w: 'min(42vw, 560px)', h: '62vh', align: 'center', big: true },
-  { id: '456239545', title: 'Рекламный ролик «Apple» для кинотеатров', type: 'РЕКЛАМА', poster: posters['456239545'], w: 'min(24vw, 320px)', h: '44vh', align: 'start', offset: '14vh' },
-  { id: '456239539', title: 'Рекламный видеоролик для маркетплейсов', type: 'МАРКЕТПЛЕЙСЫ', poster: posters['456239539'], w: 'min(20vw, 260px)', h: '54vh', align: 'end', offset: '12vh' },
-  { id: '456239459', title: 'Рекламный ролик для компании по производству авиационных интерьеров', type: 'ПРОИЗВОДСТВО', poster: posters['456239459'], w: 'min(48vw, 680px)', h: '52vh', align: 'center', big: true, maxTitle: '24ch' },
-  { id: '456239356', title: '3D-мультипликация об 1C для компании «ICL»', type: '3D-АНИМАЦИЯ', poster: posters['456239356'], w: 'min(26vw, 340px)', h: '40vh', align: 'start', offset: '8vh', accent: true },
-  { id: '456239359', title: 'Имиджевый ролик о компании «Технодор СК»', type: 'ИМИДЖ', poster: posters['456239359'], w: 'min(30vw, 400px)', h: '58vh', align: 'end', offset: '6vh' },
-  { id: '456239518', title: 'Документальный фильм о В.Б. Шнеппе для НИИ «Турбокомпрессор»', type: 'ДОКУМЕНТАЛЬНЫЙ ФИЛЬМ', poster: posters['456239518'], w: 'min(44vw, 620px)', h: '66vh', align: 'center', big: true, maxTitle: '26ch' },
+  { id: '456239162', title: 'Рекламный ролик ЖК «Art City»', type: 'РЕКЛАМА', poster: posters['456239162'] },
+  { id: '456239545', title: 'Рекламный ролик «Apple» для кинотеатров', type: 'РЕКЛАМА', poster: posters['456239545'] },
+  { id: '456239539', title: 'Рекламный видеоролик для маркетплейсов', type: 'МАРКЕТПЛЕЙСЫ', poster: posters['456239539'] },
+  { id: '456239459', title: 'Рекламный ролик для компании по производству авиационных интерьеров', type: 'ПРОИЗВОДСТВО', poster: posters['456239459'] },
+  { id: '456239356', title: '3D-мультипликация об 1C для компании «ICL»', type: '3D-АНИМАЦИЯ', poster: posters['456239356'], accent: true },
+  { id: '456239359', title: 'Имиджевый ролик о компании «Технодор СК»', type: 'ИМИДЖ', poster: posters['456239359'] },
+  { id: '456239518', title: 'Документальный фильм о В.Б. Шнеппе для НИИ «Турбокомпрессор»', type: 'ДОКУМЕНТАЛЬНЫЙ ФИЛЬМ', poster: posters['456239518'] },
   // No still frame was supplied for the university film — the VK preview loads straight away for it.
-  { id: '456239540', title: 'Презентационный фильм о Южно-Российском государственном политехническом университете', type: 'ПРЕЗЕНТАЦИЯ', w: 'min(22vw, 300px)', h: '38vh', align: 'start', offset: '18vh' },
-  { id: '456239538', title: 'Рекламное видео для компании «Cattoi»', type: 'РЕКЛАМА', poster: posters['456239538'], w: 'min(34vw, 460px)', h: '48vh', align: 'center' },
+  { id: '456239540', title: 'Презентационный фильм о Южно-Российском государственном политехническом университете', type: 'ПРЕЗЕНТАЦИЯ' },
+  { id: '456239538', title: 'Рекламное видео для компании «Cattoi»', type: 'РЕКЛАМА', poster: posters['456239538'] },
 ];
 
 /**
@@ -105,15 +96,15 @@ export const works: Work[] = [
  * «архив» mark and must be replaced with the studio's own wording. TODO(studio): confirm titles/clients.
  */
 export const archiveWorks: Work[] = [
-  { id: '456239369', title: 'Фильм о строительстве моста через Осипов овраг', type: 'ПРЕЗЕНТАЦИЯ', poster: posters['456239369'], w: 'min(40vw, 540px)', h: '56vh', align: 'center', big: true, maxTitle: '22ch', archive: true },
-  { id: '456239388', title: 'Видео о продукции: коробка УТН-4 для подключения тензодатчиков', type: 'ВИДЕО О ПРОДУКЦИИ', poster: posters['456239388'], w: 'min(26vw, 340px)', h: '44vh', align: 'start', offset: '12vh', archive: true },
-  { id: '456239521', title: 'Репортаж с производства «Wagenmaier»', type: 'РЕПОРТАЖ', poster: posters['456239521'], w: 'min(30vw, 400px)', h: '52vh', align: 'end', offset: '8vh', archive: true },
-  { id: '456239161', title: 'Презентационный ролик о добыче песка: земснаряд и баржи', type: 'ПРЕЗЕНТАЦИЯ', poster: posters['456239161'], w: 'min(34vw, 460px)', h: '48vh', align: 'center', archive: true },
-  { id: '456239519', title: 'Имиджевый ролик автомобиля: ночная городская съёмка', type: 'РЕКЛАМА', poster: posters['456239519'], w: 'min(28vw, 380px)', h: '46vh', align: 'start', offset: '14vh', archive: true },
-  { id: '456239159', title: 'Репортаж с выставочного стенда', type: 'РЕПОРТАЖ', poster: posters['456239159'], w: 'min(24vw, 320px)', h: '42vh', align: 'end', offset: '10vh', archive: true },
-  { id: '456239447', title: 'Интервью с командой IT-компании', type: 'ИНТЕРВЬЮ', poster: posters['456239447'], w: 'min(36vw, 480px)', h: '50vh', align: 'center', accent: true, archive: true },
-  { id: '456239354', title: 'Съёмка трактора «Stavitsky161» в поле', type: 'РЕПОРТАЖ', poster: posters['456239354'], w: 'min(26vw, 340px)', h: '44vh', align: 'start', offset: '8vh', archive: true },
-  { id: '456239353', title: 'Подкаст: запись интервью в студии', type: 'ПОДКАСТ', poster: posters['456239353'], w: 'min(28vw, 380px)', h: '48vh', align: 'end', offset: '12vh', archive: true },
+  { id: '456239369', title: 'Фильм о строительстве моста через Осипов овраг', type: 'ПРЕЗЕНТАЦИЯ', poster: posters['456239369'], archive: true },
+  { id: '456239388', title: 'Видео о продукции: коробка УТН-4 для подключения тензодатчиков', type: 'ВИДЕО О ПРОДУКЦИИ', poster: posters['456239388'], archive: true },
+  { id: '456239521', title: 'Репортаж с производства «Wagenmaier»', type: 'РЕПОРТАЖ', poster: posters['456239521'], archive: true },
+  { id: '456239161', title: 'Презентационный ролик о добыче песка: земснаряд и баржи', type: 'ПРЕЗЕНТАЦИЯ', poster: posters['456239161'], archive: true },
+  { id: '456239519', title: 'Имиджевый ролик автомобиля: ночная городская съёмка', type: 'РЕКЛАМА', poster: posters['456239519'], archive: true },
+  { id: '456239159', title: 'Репортаж с выставочного стенда', type: 'РЕПОРТАЖ', poster: posters['456239159'], archive: true },
+  { id: '456239447', title: 'Интервью с командой IT-компании', type: 'ИНТЕРВЬЮ', poster: posters['456239447'], accent: true, archive: true },
+  { id: '456239354', title: 'Съёмка трактора «Stavitsky161» в поле', type: 'РЕПОРТАЖ', poster: posters['456239354'], archive: true },
+  { id: '456239353', title: 'Подкаст: запись интервью в студии', type: 'ПОДКАСТ', poster: posters['456239353'], archive: true },
 ];
 
 /** Every openable case: confirmed works first, then the archive. Case indices are positions in this list. */

@@ -14,12 +14,12 @@ export function Clients() {
       <div className={`${styles.label} mono mono-dim`}>НАМ ДОВЕРЯЮТ</div>
       <ul className={styles.row}>
         {clientLogos.map((c, i) => (
-          <li key={c.name} className={styles.item} style={{ height: c.h, transform: `translateY(${i % 2 ? 16 : -16}px)` }}>
+          <li key={c.name} className={styles.item} style={{ height: c.h, transform: `translateY(${i % 2 ? 16 : -16}px)`, '--glow': c.glow } as CSSProperties}>
             <span
               role="img"
               aria-label={c.name}
               className={styles.logo}
-              style={{ '--logo': `url(${c.src})`, '--fill': c.fill, '--glow': c.glow, aspectRatio: c.ratio } as CSSProperties}
+              style={{ '--logo': `url(${c.src})`, '--fill': c.fill, aspectRatio: c.ratio } as CSSProperties}
             />
           </li>
         ))}
