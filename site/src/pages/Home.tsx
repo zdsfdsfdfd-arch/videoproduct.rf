@@ -1,4 +1,5 @@
 import { useOpenCase } from '@/App';
+import { useIsDesktop } from '@/lib/hooks';
 import { Cover } from '@/components/sections/Cover';
 import { Clients } from '@/components/sections/Clients';
 import { Intro } from '@/components/sections/Intro';
@@ -17,6 +18,7 @@ import { Contact } from '@/components/sections/Contact';
 /** The magazine: cover + 12 spreads, the scroll story «от идеи до кадра». */
 export function Home() {
   const openCase = useOpenCase();
+  const desktop = useIsDesktop();
   return (
     <>
       <Cover />
@@ -25,7 +27,8 @@ export function Home() {
       <Works onOpen={openCase} />
       <Process />
       <Services />
-      <Backstage />
+      {/* «За кадром» is a desktop chapter — see content → phoneHiddenSections */}
+      {desktop && <Backstage />}
       <Tariffs />
       <Team />
       <Reviews />

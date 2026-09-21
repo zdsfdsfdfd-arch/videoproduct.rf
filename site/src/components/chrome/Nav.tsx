@@ -1,9 +1,19 @@
 import { useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { navItems } from '@/content';
+import { navItems, phoneHiddenSections } from '@/content';
 import { pages } from '@/lib/routes';
-import { useActiveSection, useAnchorClick } from '@/lib/hooks';
+import { useActiveSection, useAnchorClick, useIsDesktop } from '@/lib/hooks';
 import styles from './Nav.module.css';
+
+/** «sp-07» → 7. The active chapter is matched by its own number, not by its place in the list —
+ *  the list is shorter on a phone. */
+const chapterNo = (id: string) => Number(id.slice(3));
+
+/** The chapters this device actually renders (see content → phoneHiddenSections). */
+function useChapters() {
+  const desktop = useIsDesktop();
+  return desktop ? navItems : navItems.filter((it) => !phoneHiddenSections.includes(it.id));
+}
 
 /**
  * Desktop: the vertical technical index pinned at the right edge. On the magazine it lists the
@@ -18,11 +28,12 @@ export function SideNav() {
   const onClick = useAnchorClick();
   const { pathname } = useLocation();
   const home = pathname === '/';
+  const items = useChapters();
   return (
     <nav aria-label={home ? 'Разделы журнала' : 'Страницы сайта'} className={styles.side}>
       {home
-        ? navItems.map((it, i) => (
-            <a key={it.id} href={`#${it.id}`} onClick={onClick} className={styles.sideLink} aria-current={i === active ? 'true' : undefined}>
+        ? items.map((it) => (
+            <a key={it.id} href={`#${it.id}`} onClick={onClick} className={styles.sideLink} aria-current={chapterNo(it.id) === active ? 'true' : undefined}>
               <span className={styles.tick} />
               <span className={styles.label}>{it.label}</span>
             </a>
@@ -45,6 +56,7 @@ export function MiniNav() {
   const onClick = useAnchorClick();
   const { pathname } = useLocation();
   const home = pathname === '/';
+  const items = useChapters();
   const scroller = useRef<HTMLDivElement>(null);
   // centre the active item instead of pinning it near the left edge, so the neighbours on both
   // sides stay readable and the strip never opens on a half-cut word
@@ -58,8 +70,8 @@ export function MiniNav() {
     <nav aria-label={home ? 'Разделы журнала' : 'Страницы сайта'} className={styles.mini}>
       <div ref={scroller} className={styles.miniScroll}>
         {home
-          ? navItems.map((it, i) => (
-              <a key={it.id} href={`#${it.id}`} onClick={onClick} className={styles.miniLink} aria-current={i === active ? 'true' : undefined}>
+          ? items.map((it) => (
+              <a key={it.id} href={`#${it.id}`} onClick={onClick} className={styles.miniLink} aria-current={chapterNo(it.id) === active ? 'true' : undefined}>
                 {it.label}
               </a>
             ))

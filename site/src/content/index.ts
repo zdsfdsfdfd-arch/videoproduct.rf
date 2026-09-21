@@ -48,6 +48,13 @@ export const navItems = [
   { id: 'sp-12', label: '12 КОНТАКТ' },
 ] as const;
 
+/**
+ * Chapters the phone does without. «За кадром» is a full-height frame with a word set over it —
+ * on a phone it is a screen of photograph you scroll past, so the studio asked for it to go.
+ * The section is not rendered there at all, so its images are never fetched, and the index drops
+ * the entry with it.
+ */
+export const phoneHiddenSections: readonly string[] = ['sp-05'];
 
 /**
  * Client marks. The cutouts are monochrome, so each carries its brand fill (a gradient where the
