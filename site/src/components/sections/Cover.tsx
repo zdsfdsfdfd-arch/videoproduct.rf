@@ -15,11 +15,20 @@ import styles from './Cover.module.css';
  * The director's cut-out that used to stand on the right is gone: it crowded the text on a phone
  * and said nothing a first-time visitor needed.
  *
- * The footage is the studio's own reel on Kinescope, played by Kinescope's player (content →
- * coverVideo). It runs everywhere, phones included — which is why the VK iframe and the phone
- * frame-reel that used to stand in for it are gone. The poster frame sits underneath it always,
- * so the first paint is a frame of the studio's work rather than black, and it is still there if
- * the player never arrives.
+ * The footage is the studio's own reel on Kinescope (content → coverVideo), and it is 3:4 —
+ * portrait. Rather than fight that, the cover hangs it as a portrait frame: «the gate», a tall
+ * 3:4 window on the right, tied back to the headline's left edge by a hairline. Two things fall
+ * out of it. The picture is finally sharp, because the player asks for the rendition that fits
+ * the size it is drawn at and ~470px is a downscale of the master rather than a 3.5× blow-up of
+ * it. And the screen composes — headline low left, frame high right, the rule spanning the gap
+ * between them — instead of a wide crop of a tall shot.
+ *
+ * Below 1100px the screen is itself tall, the maths invert, and the same clip covers full-bleed
+ * with no loss; the gate stretches to the bleed and the rule is dropped.
+ *
+ * The frame is never empty: the poster is punched in behind the player at the same 3:4, so a
+ * player that never loads, or a visitor who asked for no motion, gets a tight of the same room
+ * the wide shot behind is showing.
  */
 export function Cover() {
   const onClick = useAnchorClick();
@@ -37,13 +46,25 @@ export function Cover() {
           <span className={styles.since}>КАЗАНЬ · С {contacts.since} ГОДА</span>
         </header>
 
-        <div className={styles.stage}>
+        <div className={`${styles.stage} ${playing ? styles.stagePlaying : ''}`}>
           <div className={styles.video} aria-hidden="true">
             <div className={styles.videoBox}>
               <Picture photo={coverPoster} alt="" className={styles.poster} loading="eager" fetchPriority="high" />
-              {playing && (coverVideo.mode === 'embed' ? <CoverEmbed /> : <CoverFile onDead={() => setClipDead(true)} />)}
             </div>
             <div className={styles.shade} />
+          </div>
+
+          {/* the gate — the clip at its own 3:4, and the rule that ties it to the headline */}
+          <div aria-hidden="true" className={`${styles.gateBlock} ${playing ? '' : styles.gateStill}`}>
+            <div className={styles.gateRail}>
+              <span className={`${styles.railLabel} mono`}>ШОУРИЛ</span>
+              <span className={styles.railLine} />
+              <span className={styles.railTick} />
+            </div>
+            <div className={styles.gate}>
+              <Picture photo={coverPoster} alt="" className={styles.gatePoster} sizes="(max-width: 1100px) 100vw, 40vw" loading="eager" />
+              {playing && (coverVideo.mode === 'embed' ? <CoverEmbed /> : <CoverFile onDead={() => setClipDead(true)} />)}
+            </div>
           </div>
 
           <div className={styles.pitch}>

@@ -247,26 +247,24 @@ export const faq = [
 ];
 
 /**
- * The cover clip. Off for now, and the reason is the clip rather than the plumbing.
+ * The cover clip. This Kinescope id is a 3:4 video — PORTRAIT, measured off the live page: the
+ * player drew it 812px wide inside a frame 1080 tall.
  *
- * This Kinescope id is a 3:4 video — measured off the live page: the player drew it 812px wide in
- * a frame 1080 tall. The cover is full-bleed and widescreen, so covering it with a 3:4 source
- * means enlarging the picture about 3.5× across and keeping only a horizontal band of a
- * composition that was framed tall. That is the whole story of the pixelation: not the rendition,
- * the shape. Playing it through Kinescope's own player did not help either — a player fits the
- * video inside its frame, so the cover showed a tall panel with the poster either side of it.
+ * That one fact decides everything about how it is shown. Stretched across a widescreen cover it
+ * is a ~3.5× blow-up, which is what "очень пиксельное" was; handed to a player inside a
+ * widescreen box it gets fitted, which is what the tall panel with poster either side was. So on
+ * a wide screen it is not a background at all — it is hung as a 3:4 frame about 470px across
+ * (Cover.tsx → the gate), which is a *downscale* even on a retina laptop, and therefore sharp.
+ * On a phone or a tablet, where the screen is itself tall, the same clip goes full-bleed and
+ * covers honestly.
  *
- * What it needs is the widescreen reel — the one actually running on the studio's own front page —
- * either as another Kinescope id or as a file under `site/public/video/`. Until then the poster
- * frame stands on its own, which it is made for.
- *
- * With an id that is 16:9: 'embed' plays it through Kinescope's player, which negotiates its
- * rendition against the size it is drawn at; 'file' pulls the renditions below into a plain
- * <video>, which crops to fill but is stuck with whatever the direct link serves.
+ * 'embed' plays it through Kinescope's player, which negotiates its rendition against the size it
+ * is drawn at — the reason the frame being small makes the picture better, not worse. 'file'
+ * pulls the renditions below into a plain <video> instead. 'off' leaves the poster frame alone.
  */
 export const coverVideo = {
   kinescopeId: '0TQrgNTzKbreqYdeWNtWnN',
-  mode: 'off' as 'embed' | 'file' | 'off',
+  mode: 'embed' as 'embed' | 'file' | 'off',
   /** 'file' mode only, sharpest first; the browser steps down when one is missing. */
   renditions: ['1080p', '720p'],
 };
