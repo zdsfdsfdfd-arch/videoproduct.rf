@@ -84,7 +84,7 @@ export function Works({ onOpen }: Props) {
         <span className={styles.titleDim}>и смонтированное</span>
       </h2>
       <p data-reveal style={delay(90)} className={`${styles.note} body-copy`}>
-        Ознакомительные ролики, видео о продукции, имиджевые и продающие — здесь {shown.length} из архива на {total}.
+        Ознакомительные ролики, видео о продукции, имиджевые и продающие — избранное из работ студии.
       </p>
       <div data-reveal style={delay(170)} className={styles.links}>
         <Link to="/portfolio" className={styles.cta}>
