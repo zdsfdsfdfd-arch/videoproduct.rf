@@ -15,20 +15,22 @@ import styles from './Cover.module.css';
  * The director's cut-out that used to stand on the right is gone: it crowded the text on a phone
  * and said nothing a first-time visitor needed.
  *
- * The footage is the studio's own reel on Kinescope (content → coverVideo), and it is 3:4 —
- * portrait. Rather than fight that, the cover hangs it as a portrait frame: «the gate», a tall
- * 3:4 window on the right, tied back to the headline's left edge by a hairline. Two things fall
- * out of it. The picture is finally sharp, because the player asks for the rendition that fits
- * the size it is drawn at and ~470px is a downscale of the master rather than a 3.5× blow-up of
- * it. And the screen composes — headline low left, frame high right, the rule spanning the gap
- * between them — instead of a wide crop of a tall shot.
+ * The footage is the studio's own reel on Kinescope (content → coverVideo), and it runs as a
+ * plain background video: full-bleed, muted, looping, behind everything.
  *
- * Below 1100px the screen is itself tall, the maths invert, and the same clip covers full-bleed
- * with no loss; the gate stretches to the bleed and the rule is dropped.
+ * The clip is 3:4, so covering a widescreen window means cropping the sides off and enlarging
+ * what is left — on a laptop that is roughly a 3.5× blow-up of the source, and the picture is
+ * correspondingly soft. That is a property of the clip, not of the code: a portrait frame does
+ * not contain the pixels a landscape screen needs. A widescreen master, or the file itself under
+ * `site/public/video/`, is what would fix it. The studio asked for a background video, so a
+ * background video is what this is.
  *
- * The frame is never empty: the poster is punched in behind the player at the same 3:4, so a
- * player that never loads, or a visitor who asked for no motion, gets a tight of the same room
- * the wide shot behind is showing.
+ * A player cannot be cropped from outside — it fits the video inside whatever box it is given —
+ * so the crop is done by the box: .clipBox is itself 3:4 and sized to cover the window, which
+ * puts the overflow outside .video's overflow:hidden exactly the way object-fit: cover would.
+ *
+ * The poster frame lies underneath throughout, so the first paint is a frame of the studio's own
+ * work rather than black, and it is still there if the player never arrives.
  */
 export function Cover() {
   const onClick = useAnchorClick();
@@ -46,25 +48,18 @@ export function Cover() {
           <span className={styles.since}>КАЗАНЬ · С {contacts.since} ГОДА</span>
         </header>
 
-        <div className={`${styles.stage} ${playing ? styles.stagePlaying : ''}`}>
+        <div className={styles.stage}>
           <div className={styles.video} aria-hidden="true">
             <div className={styles.videoBox}>
               <Picture photo={coverPoster} alt="" className={styles.poster} loading="eager" fetchPriority="high" />
             </div>
+            {/* 3:4 and sized to cover the window: the crop a player cannot do for itself */}
+            {playing && (
+              <div className={styles.clipBox}>
+                {coverVideo.mode === 'embed' ? <CoverEmbed /> : <CoverFile onDead={() => setClipDead(true)} />}
+              </div>
+            )}
             <div className={styles.shade} />
-          </div>
-
-          {/* the gate — the clip at its own 3:4, and the rule that ties it to the headline */}
-          <div aria-hidden="true" className={`${styles.gateBlock} ${playing ? '' : styles.gateStill}`}>
-            <div className={styles.gateRail}>
-              <span className={`${styles.railLabel} mono`}>ШОУРИЛ</span>
-              <span className={styles.railLine} />
-              <span className={styles.railTick} />
-            </div>
-            <div className={styles.gate}>
-              <Picture photo={coverPoster} alt="" className={styles.gatePoster} sizes="(max-width: 1100px) 100vw, 40vw" loading="eager" />
-              {playing && (coverVideo.mode === 'embed' ? <CoverEmbed /> : <CoverFile onDead={() => setClipDead(true)} />)}
-            </div>
           </div>
 
           <div className={styles.pitch}>

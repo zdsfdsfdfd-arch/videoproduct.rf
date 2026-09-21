@@ -37,18 +37,6 @@
   grid-template-columns: repeat(12, 1fr);
   align-items: center;
   padding: 0 var(--gutter);
-  /* The gate's height leads and the width follows it, because the clip is 3:4 and the frame has
-     to be exactly that or the player puts bars inside it. Capping the height three ways keeps the
-     frame inside the stage row on a short laptop, off the headline on a narrow one, and — the
-     point of the whole exercise — small enough that the drawn size is a DOWNSCALE of the master
-     rather than a blow-up of it. ~470px across at 1920 is 0.87× even at DPR2. */
-  --gate-h: min(66vh, 660px, 45vw);
-  --gate-w: calc(var(--gate-h) * 0.75);
-}
-/* an unsupported unit inside a custom property poisons every calc downstream, so svh is only
-   ever assigned where it is known to parse */
-@supports (height: 1svh) {
-  .stage { --gate-h: min(66svh, 660px, 45vw); }
 }
 
 .video {
@@ -59,6 +47,34 @@
   bottom: -26px;
   overflow: hidden;
   background: var(--ink);
+}
+
+/**
+ * The clip is 3:4 and the window is not, and a player fits rather than crops — hand it a
+ * widescreen box and it draws bars. So the box itself is 3:4 and oversized until it covers the
+ * window on both axes; .video's overflow:hidden trims the rest. That is object-fit: cover, done
+ * one level out, which is the only place it can be done to an iframe.
+ *
+ * The cover maths must be taken against .video's own box, which bleeds past the screen edges —
+ * mixing 100% with vh gives 0.785 instead of 0.75 and the bars come back. Container units are
+ * the only exact way to say it; the viewport version is the fallback.
+ */
+.clipBox {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100%, 75vh);
+  height: max(100%, 133.34vw);
+  transform: translate(-50%, -50%);
+  /* the same grade as the poster underneath, so the cut between them is not a jump in exposure */
+  filter: brightness(0.8) contrast(1.04) saturate(0.96);
+}
+@supports (container-type: size) {
+  .video { container-type: size; }
+  .clipBox {
+    width: max(100cqw, 75cqh);
+    height: max(100cqh, 133.34cqw);
+  }
 }
 .videoBox {
   position: absolute;
@@ -76,7 +92,6 @@
   filter: brightness(0.8) contrast(1.04) saturate(0.96);
 }
 .poster,
-.gatePoster,
 .clip,
 .embed {
   position: absolute;
@@ -95,70 +110,6 @@
 }
 .embed[data-on] { opacity: 1; }
 
-/* ——— the gate: the clip is 3:4, so it is hung as a 3:4 frame ——— */
-
-.gateBlock {
-  position: absolute;
-  z-index: 1;
-  /* Left edge on the headline's. On the right, --corridor alone is not enough: the chapter rail's
-     live label («00 ОБЛОЖКА», always on for this section) has its ink 152px in from the edge,
-     past the 108px the corridor reserves, and it printed straight onto the frame's border. Text
-     elsewhere is left-aligned and never reaches that far; a hard-edged rectangle does. */
-  left: var(--gutter);
-  right: calc(var(--gutter) + var(--corridor) + 24px);
-  top: 50%;
-  height: var(--gate-h);
-  /* centred in the stage row rather than hung off a guessed offset: the air above and below the
-     frame is then equal and reads as a margin instead of a gap */
-  transform: translateY(-50%) translate3d(calc(var(--mx, 0) * -7px), 0, 0);
-  pointer-events: none;
-}
-
-.gate {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: var(--gate-w);
-  height: 100%;
-  overflow: hidden;
-  background: var(--ink);
-  border: 1px solid color-mix(in srgb, var(--violet) 38%, transparent);
-  box-shadow: 0 34px 90px rgba(6, 4, 16, 0.55);
-}
-/* the poster punched in behind the player: a tight of the same room the wide shot is showing, so
-   a clip that never loads leaves a composition rather than an empty rectangle */
-.gatePoster { filter: brightness(0.9); }
-
-/* one hairline from the headline's left edge to the frame, on the frame's top edge. It is the
-   site's own grammar — a rule, a mono label, one violet tick — and it gives the empty upper half
-   of the screen something to do. */
-.gateRail {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: calc(var(--gate-w) + 14px);
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  transform: translateY(-50%);
-}
-.railLabel {
-  flex: 0 0 auto;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  color: var(--dim-paper);
-}
-.railLine {
-  flex: 1 1 auto;
-  height: 1px;
-  background: linear-gradient(to right, rgba(243, 240, 250, 0.06), rgba(243, 240, 250, 0.36));
-}
-.railTick {
-  flex: 0 0 auto;
-  width: 7px;
-  height: 7px;
-  background: var(--violet);
-}
 .shade {
   position: absolute;
   inset: 0;
@@ -171,10 +122,7 @@
 .pitch {
   position: relative;
   z-index: 2;
-  grid-column: 1 / span 12;
-  /* the text stops where the gate starts — derived, not a guessed column count, so it holds at
-     every width the frame changes size at */
-  max-width: calc(100% - var(--corridor) - var(--gate-w) - clamp(28px, 3.4vw, 64px));
+  grid-column: 1 / span 8;
   /* anchored low: centred, it floated in the middle of a tall window with the frame empty
      above and below it */
   align-self: end;
@@ -302,74 +250,8 @@
   background: linear-gradient(var(--paper), rgba(241,237,247, 0));
 }
 
-/**
- * Below 1100 the screen is itself tall and the arithmetic inverts: a 3:4 clip covering a 3:4-ish
- * window needs almost no enlargement, so the gate drops its frame, takes the same bleed as the
- * poster layer and simply covers. It carries its own scrim, because at this size it sits over
- * the shade rather than under it.
- */
-@media (max-width: 1100px) {
-  .pitch { max-width: none; }
-  /* The gate covers the screen here, so the poster layer and its scrim underneath would be a
-     second full-screen image and a second full-screen gradient painted for nothing — that
-     doubled the cover's paint area and cost ~30ms at the 95th percentile on a throttled phone.
-     The gate carries its own poster and its own scrim, so the layer below it goes. */
-  .stagePlaying .video { display: none; }
-  .gateBlock {
-    left: calc(var(--gutter) * -1);
-    right: calc(var(--gutter) * -1);
-    top: calc(var(--sticky-head) * -1 - 22px);
-    bottom: -26px;
-    height: auto;
-    overflow: hidden;
-    transform: none;
-  }
-  /* no clip to show: the poster layer underneath is already doing this job, better cropped */
-  .gateStill { display: none; }
-  .gate {
-    left: 50%;
-    top: 50%;
-    right: auto;
-    /* 3:4, sized to cover whichever way the window is shaped */
-    width: max(100%, 75vh);
-    height: max(100%, 133.34vw);
-    transform: translate(-50%, -50%);
-    border: 0;
-    box-shadow: none;
-    background: none;
-  }
-  .gateRail { display: none; }
-  .gateBlock::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(to right, rgba(11, 8, 23, 0.88) 0%, rgba(11, 8, 23, 0.55) 40%, rgba(11, 8, 23, 0) 74%),
-      linear-gradient(to top, rgba(11, 8, 23, 0.95) 0%, rgba(11, 8, 23, 0.76) 28%, rgba(11, 8, 23, 0.2) 62%, rgba(11, 8, 23, 0.45) 100%);
-  }
-}
-/**
- * The cover maths have to be taken against the gate's OWN box, not the viewport: the block bleeds
- * past the screen edges, so `100%` and `100vh` are different numbers here and mixing them left
- * the frame at 0.785 instead of 0.75 — which a player answers with bars. Container units are the
- * only way to say "cover this box" exactly; the viewport version above stays as the fallback.
- */
-@supports (container-type: size) {
-  @media (max-width: 1100px) {
-    .gateBlock { container-type: size; }
-    .gate {
-      width: max(100cqw, 75cqh);
-      height: max(100cqh, 133.34cqw);
-    }
-  }
-}
-
 @media (max-width: 767px) {
   .sticky { padding: var(--sticky-head) 0 18px; }
-  /* the text runs the full width here, so the scrim over the clip does too */
-  .gateBlock::after {
-    background: linear-gradient(to top, rgba(9, 7, 26, 0.96) 0%, rgba(9, 7, 26, 0.9) 42%, rgba(9, 7, 26, 0.45) 72%, rgba(9, 7, 26, 0.6) 100%);
-  }
   .header { grid-template-columns: 1fr 1fr; font-size: 9px; }
   .brand { visibility: visible; }
   .issue { display: none; }
