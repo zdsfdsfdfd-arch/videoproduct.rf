@@ -60,7 +60,7 @@ export function Tariffs() {
 
       <p className={styles.foot}>
         Заполнив бриф, вы получите индивидуальный расчёт коммерческого предложения.{' '}
-        <a href="#sp-09" onClick={onClick} data-cursor="ВПЕРЁД" className={styles.footLink}>
+        <a href="#sp-09" onClick={onClick} className={styles.footLink}>
           Перейти к брифу →
         </a>
       </p>

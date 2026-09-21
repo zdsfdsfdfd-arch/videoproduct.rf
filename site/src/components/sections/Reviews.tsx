@@ -81,7 +81,7 @@ export function Reviews() {
         <div className={styles.foot}>
           <p className={styles.footNote}>
             ВИДЕООТЗЫВЫ КЛИЕНТОВ ·{' '}
-            <a href={vkVideoUrl(current.videoId)} target="_blank" rel="noopener" data-cursor="ОТКРЫТЬ">
+            <a href={vkVideoUrl(current.videoId)} target="_blank" rel="noopener">
               СМОТРЕТЬ В VK →
             </a>
           </p>

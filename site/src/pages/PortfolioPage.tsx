@@ -74,7 +74,7 @@ export function PortfolioPage() {
       <section className={styles.stories} aria-label="Истории клиентов" data-scene>
         <div className={`${styles.storiesHead} mono mono-dim`}>
           <span>ИСТОРИИ КЛИЕНТОВ</span>
-          <Link to="/otzyvy" data-cursor="ОТКРЫТЬ">ВСЕ ВИДЕООТЗЫВЫ →</Link>
+          <Link to="/otzyvy">ВСЕ ВИДЕООТЗЫВЫ →</Link>
         </div>
         <ul className={styles.storyList}>
           {reviews.map((r) => (
@@ -82,7 +82,7 @@ export function PortfolioPage() {
               <span className={`${styles.storyCompany} mono`}>{r.company}</span>
               <span className={styles.storyName}>{r.name}</span>
               <span className={styles.storyPosition}>{r.position}</span>
-              <a href={vkVideoUrl(r.videoId)} target="_blank" rel="noopener" data-cursor="ОТКРЫТЬ" className={`${styles.storyLink} mono`}>
+              <a href={vkVideoUrl(r.videoId)} target="_blank" rel="noopener" className={`${styles.storyLink} mono`}>
                 СМОТРЕТЬ ОТЗЫВ →
               </a>
             </li>
@@ -98,7 +98,7 @@ export function PortfolioPage() {
 function Tile({ i, n, size, work, desktop, onOpen }: { i: number; n: number; size: string; work: (typeof allWorks)[number]; desktop: boolean; onOpen: (i: number, el: HTMLElement) => void }) {
   const thumb = useRef<HTMLSpanElement>(null);
   return (
-    <button type="button" data-cursor="ОТКРЫТЬ" className={styles.tile} data-size={size} onClick={() => thumb.current && onOpen(i, thumb.current)}>
+    <button type="button" className={styles.tile} data-size={size} onClick={() => thumb.current && onOpen(i, thumb.current)}>
       <span ref={thumb} className={styles.thumb}>
         {desktop ? (
           <VkPlayer id={work.id} title={work.title} poster={work.poster} autoplay hd={1} prewarm="120% 0px" className={styles.player} />

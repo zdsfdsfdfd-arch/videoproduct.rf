@@ -64,7 +64,7 @@ export function Process() {
             <span className={`${styles.ctaLabel} mono`}>ЭТАП {String(COUNT + 1).padStart(2, '0')}</span>
             <h3 className={styles.name}>Ваш проект</h3>
             <p className={styles.desc}>Расскажите о задаче — предложим тариф и состав работ под неё.</p>
-            <a href="#sp-09" onClick={onClick} data-cursor="ЗАПОЛНИТЬ" className={styles.ctaLink}>
+            <a href="#sp-09" onClick={onClick} className={styles.ctaLink}>
               Рассчитать стоимость →
             </a>
           </div>

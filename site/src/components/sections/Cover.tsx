@@ -78,14 +78,14 @@ export function Cover() {
             </p>
 
             <div className={styles.actions}>
-              <Link to="/portfolio" data-cursor="СМОТРЕТЬ" className={styles.cta}>
+              <Link to="/portfolio" className={styles.cta}>
                 Смотреть работы
               </Link>
-              <a href="#sp-09" onClick={onClick} data-cursor="ЗАПОЛНИТЬ" className={`${styles.cta} ${styles.ctaGhost}`}>
+              <a href="#sp-09" onClick={onClick} className={`${styles.cta} ${styles.ctaGhost}`}>
                 Рассчитать стоимость
               </a>
               {desktop ? (
-                <a href="#sp-02" onClick={onClick} data-cursor="СМОТРЕТЬ" className={`${styles.play} mono`}>
+                <a href="#sp-02" onClick={onClick} className={`${styles.play} mono`}>
                   <span className={styles.playRing}>▶</span>ШОУРИЛ
                 </a>
               ) : (
@@ -114,7 +114,7 @@ export function Cover() {
               </span>
             ))}
           </div>
-          <a href="#sp-01" onClick={onClick} data-cursor="ВПЕРЁД" className={`${styles.next} mono`}>
+          <a href="#sp-01" onClick={onClick} className={`${styles.next} mono`}>
             ЛИСТАТЬ <span className={styles.nextLine} />
           </a>
         </footer>

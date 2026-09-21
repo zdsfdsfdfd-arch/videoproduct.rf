@@ -86,10 +86,10 @@ export function Works({ onOpen }: Props) {
         Ознакомительные ролики, видео о продукции, имиджевые и продающие — здесь {shown.length} из архива на {total}.
       </p>
       <div className={styles.links}>
-        <Link to="/portfolio" data-cursor="ОТКРЫТЬ" className={styles.cta}>
+        <Link to="/portfolio" className={styles.cta}>
           Все {total} роликов →
         </Link>
-        <a href="#sp-09" onClick={onClick} data-cursor="ВПЕРЁД" className={`${styles.cta} ${styles.ctaGhost}`}>
+        <a href="#sp-09" onClick={onClick} className={`${styles.cta} ${styles.ctaGhost}`}>
           Обсудить проект →
         </a>
       </div>
@@ -132,7 +132,7 @@ function WorkCard({ index, n, work, desktop, armed, onOpen }: { index: number; n
   const thumb = useRef<HTMLSpanElement>(null);
 
   return (
-    <button type="button" data-cursor="ОТКРЫТЬ" className={styles.card} onClick={() => thumb.current && onOpen(index, thumb.current)}>
+    <button type="button" className={styles.card} onClick={() => thumb.current && onOpen(index, thumb.current)}>
       <span ref={thumb} className={styles.thumb}>
         {desktop ? (
           <VkPlayer id={work.id} title={work.title} poster={work.poster} autoplay hd={1} eager={armed} className={styles.player} />

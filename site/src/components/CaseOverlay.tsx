@@ -96,7 +96,7 @@ export function CaseOverlay({ request, onClose }: { request: CaseRequest | null;
 
   return (
     <div role="dialog" aria-modal="true" aria-label={`Кейс ${num}: ${work.title}`} className={styles.overlay}>
-      <button ref={closeBtn} type="button" data-cursor="ЗАКРЫТЬ" aria-label="Закрыть кейс" className={styles.close} onClick={onClose}>
+      <button ref={closeBtn} type="button" aria-label="Закрыть кейс" className={styles.close} onClick={onClose}>
         ЗАКРЫТЬ ✕
       </button>
       <div ref={flyer} aria-hidden="true" className={styles.flyer} />
@@ -139,7 +139,7 @@ export function CaseOverlay({ request, onClose }: { request: CaseRequest | null;
           <div className={styles.video}>
             <div className={styles.videoHead}>
               <span>ВИДЕО</span>
-              <a href={vkVideoUrl(work.id)} target="_blank" rel="noopener" data-cursor="ОТКРЫТЬ">
+              <a href={vkVideoUrl(work.id)} target="_blank" rel="noopener">
                 СМОТРЕТЬ В VK →
               </a>
             </div>

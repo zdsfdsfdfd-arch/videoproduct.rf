@@ -28,7 +28,7 @@ export function PageShell({ index, kicker, title, lead, children }: Props) {
         <span className="mono mono-dim">ДАЛЬШЕ</span>
         <nav className={styles.footNav} aria-label="Другие страницы">
           {pages.map((p) => (
-            <Link key={p.path} to={p.path} data-cursor="ОТКРЫТЬ" className={styles.footLink}>
+            <Link key={p.path} to={p.path} className={styles.footLink}>
               {p.label}
             </Link>
           ))}

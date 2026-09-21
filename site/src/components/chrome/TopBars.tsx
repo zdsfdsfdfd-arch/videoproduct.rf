@@ -19,20 +19,20 @@ export function TopBars() {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        <Link to="/" data-cursor="ГЛАВНАЯ" aria-label="Видеопродакшн.РФ — на главную" className={styles.logo}>
+        <Link to="/" aria-label="Видеопродакшн.РФ — на главную" className={styles.logo}>
           <img src={logo} alt="" width={30} height={23} className={styles.mark} />
           <span className={styles.brand}>{contacts.brand}</span>
         </Link>
 
         <nav aria-label="Страницы сайта" className={styles.menu}>
           {pages.map((p) => (
-            <NavLink key={p.path} to={p.path} end data-cursor="ОТКРЫТЬ" className={styles.menuLink}>
+            <NavLink key={p.path} to={p.path} end className={styles.menuLink}>
               {p.label}
             </NavLink>
           ))}
         </nav>
 
-        <a href="#sp-12" onClick={onClick} data-cursor="ВНИЗ" aria-label="Связаться с нами — к контактам" className={styles.contact}>
+        <a href="#sp-12" onClick={onClick} aria-label="Связаться с нами — к контактам" className={styles.contact}>
           <span aria-hidden="true" className={styles.dotAccent} />
           <span className={styles.full}>Бесплатная консультация</span>
           <span className={styles.short}>Консультация</span>

@@ -87,7 +87,7 @@ export function Brief() {
               <ul className={styles.options}>
                 {flow[step].options.map((opt, n) => (
                   <li key={opt} className={styles.option}>
-                    <button type="button" data-cursor="ВЫБРАТЬ" className={styles.optionBtn} onClick={() => pick(opt)}>
+                    <button type="button" className={styles.optionBtn} onClick={() => pick(opt)}>
                       {opt}
                       <span className={styles.optionNum}>{String(n + 1).padStart(2, '0')}</span>
                     </button>
@@ -116,7 +116,7 @@ export function Brief() {
                 </label>
               </div>
               <div className={styles.actions}>
-                <button type="submit" data-cursor="ОТПРАВИТЬ" className={styles.submit} disabled={status === 'sending'}>
+                <button type="submit" className={styles.submit} disabled={status === 'sending'}>
                   {status === 'sending' ? 'ОТПРАВЛЯЕМ…' : 'ОТПРАВИТЬ БРИФ →'}
                 </button>
                 <button type="button" className={styles.back} onClick={back}>
@@ -159,10 +159,10 @@ export function Brief() {
                 ))}
               </ul>
               <div className={styles.resultActions}>
-                <a href={contacts.phoneHref} data-cursor="ПОЗВОНИТЬ" className={styles.callBtn}>
+                <a href={contacts.phoneHref} className={styles.callBtn}>
                   {contacts.phoneDisplay}
                 </a>
-                <a href={contacts.emailHref} data-cursor="НАПИСАТЬ" className={styles.mailBtn}>
+                <a href={contacts.emailHref} className={styles.mailBtn}>
                   {contacts.email.toUpperCase()}
                 </a>
                 <button type="button" className={styles.back} onClick={reset}>

@@ -54,11 +54,11 @@ export function Intro() {
             {sections.map((s) => (
               <li key={s.name}>
                 {s.to.startsWith('#') ? (
-                  <a href={s.to} onClick={onClick} data-cursor="ОТКРЫТЬ" className={styles.card}>
+                  <a href={s.to} onClick={onClick} className={styles.card}>
                     <Card {...s} />
                   </a>
                 ) : (
-                  <Link to={s.to} data-cursor="ОТКРЫТЬ" className={styles.card}>
+                  <Link to={s.to} className={styles.card}>
                     <Card {...s} />
                   </Link>
                 )}

@@ -124,7 +124,6 @@ export function Team() {
               }}
               data-person={i}
               tabIndex={0}
-              data-cursor="МОТОР"
               className={styles.figure}
               data-on={active === i ? '1' : undefined}
               data-dim={active != null && active !== i ? '1' : undefined}

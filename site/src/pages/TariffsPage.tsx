@@ -83,10 +83,10 @@ export function TariffsPage() {
           ))}
         </ol>
         <div className={styles.howActions}>
-          <Link to="/brif" data-cursor="ВПЕРЁД" className={`${styles.cta} mono`}>
+          <Link to="/brif" className={`${styles.cta} mono`}>
             ЗАПОЛНИТЬ БРИФ →
           </Link>
-          <Link to="/uslugi" data-cursor="ОТКРЫТЬ" className={`${styles.ctaGhost} mono`}>
+          <Link to="/uslugi" className={`${styles.ctaGhost} mono`}>
             ВСЕ 27 НАПРАВЛЕНИЙ
           </Link>
         </div>

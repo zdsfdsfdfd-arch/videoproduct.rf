@@ -30,7 +30,7 @@ export function BriefPage() {
       <section className={styles.tariffs} aria-label="Ориентиры" data-scene>
         <div className={`${styles.head} mono mono-dim`}>
           <span>КУДА ПРИВОДЯТ ОТВЕТЫ</span>
-          <Link to="/tarify" data-cursor="ОТКРЫТЬ">ПОДРОБНО О ТАРИФАХ →</Link>
+          <Link to="/tarify">ПОДРОБНО О ТАРИФАХ →</Link>
         </div>
         <div className={styles.tariffRow}>
           {tariffs.map((t) => (
@@ -47,13 +47,13 @@ export function BriefPage() {
       <section className={styles.direct} aria-label="Напрямую" data-scene>
         <h2 className={styles.directTitle}>Или сразу напрямую</h2>
         <div className={styles.directLinks}>
-          <a href={contacts.phoneHref} data-cursor="ПОЗВОНИТЬ" className={styles.directLink}>
+          <a href={contacts.phoneHref} className={styles.directLink}>
             {contacts.phoneDisplay}
           </a>
-          <a href={contacts.whatsapp} target="_blank" rel="noopener" data-cursor="ОТКРЫТЬ" className={styles.directLink}>
+          <a href={contacts.whatsapp} target="_blank" rel="noopener" className={styles.directLink}>
             WhatsApp
           </a>
-          <a href={contacts.emailHref} data-cursor="НАПИСАТЬ" className={styles.directLink}>
+          <a href={contacts.emailHref} className={styles.directLink}>
             {contacts.email}
           </a>
         </div>

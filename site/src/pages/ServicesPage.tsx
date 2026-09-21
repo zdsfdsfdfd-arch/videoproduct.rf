@@ -41,7 +41,7 @@ export function ServicesPage() {
               {serviceDetails[ci].map((s) => {
                 n += 1;
                 return (
-                  <li key={s.name} className={styles.row} data-cursor-grow>
+                  <li key={s.name} className={styles.row}>
                     <span className={`${styles.rowNum} mono`}>{String(n).padStart(2, '0')}</span>
                     <div className={styles.rowMain}>
                       <h3 className={styles.rowName}>{s.name}</h3>
@@ -103,7 +103,7 @@ export function ServicesPage() {
         </table>
         <p className={styles.matrixNote}>
           Финальная стоимость индивидуальна, тарифы не фиксированные.{' '}
-          <Link to="/brif" data-cursor="ВПЕРЁД">
+          <Link to="/brif">
             ЗАПОЛНИТЬ БРИФ И ПОЛУЧИТЬ РАСЧЁТ →
           </Link>
         </p>

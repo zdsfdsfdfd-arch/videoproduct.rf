@@ -24,7 +24,6 @@
 export type SceneListener = (e: number, p: number) => void;
 
 const LERP = 0.07; // "кинематографично" density from the prototype tweaks
-const CURSOR_LERP = 0.18;
 const REVEAL_SPAN = 0.7;
 const PARK_AFTER = 20; // frames of no change before the loop stops
 
@@ -58,16 +57,8 @@ class ScrollEngine {
   private lastSp = '';
   private docHeight = 0;
 
-  // cursor follower
-  private cx = -100;
-  private cy = -100;
-  private ccx = -100;
-  private ccy = -100;
-  private cursorShown = false;
-  private cursorEl: HTMLElement | null = null;
-  private cursorLabel: HTMLElement | null = null;
-  private cursorState = '';
-  private cursorEnabled = false;
+  /** Mouse parallax runs on a pointer that can hover, and only when motion is allowed. */
+  private parallax = false;
 
   // active section (for the index)
   private io: IntersectionObserver | null = null;
@@ -78,7 +69,7 @@ class ScrollEngine {
   start() {
     if (this.started) return;
     this.started = true;
-    this.cursorEnabled = !this.coarse && !this.reduced;
+    this.parallax = !this.coarse && !this.reduced;
     this.scan();
     this.observeSections();
     addEventListener('scroll', this.wake, { passive: true });
@@ -90,12 +81,7 @@ class ScrollEngine {
     } else {
       this.wake();
     }
-    if (this.cursorEnabled) {
-      addEventListener('pointermove', this.onMove, { passive: true });
-      addEventListener('pointerover', this.onOver, { passive: true });
-      document.addEventListener('pointerleave', this.onLeave);
-      addEventListener('blur', this.onLeave);
-    }
+    if (this.parallax) addEventListener('pointermove', this.onMove, { passive: true });
   }
 
   stop() {
@@ -108,12 +94,8 @@ class ScrollEngine {
     removeEventListener('orientationchange', this.remeasure);
     removeEventListener('load', this.remeasure);
     removeEventListener('pointermove', this.onMove);
-    removeEventListener('pointerover', this.onOver);
-    document.removeEventListener('pointerleave', this.onLeave);
-    removeEventListener('blur', this.onLeave);
     this.io?.disconnect();
     this.ro?.disconnect();
-    document.body.classList.remove('no-cursor');
   }
 
   /** Re-collect scenes after the DOM changed (called by hooks on mount). */
@@ -147,11 +129,6 @@ class ScrollEngine {
     return () => {
       this.activeSubs.delete(fn);
     };
-  }
-
-  attachCursor(el: HTMLElement | null, label: HTMLElement | null) {
-    this.cursorEl = el;
-    this.cursorLabel = label;
   }
 
   /** The progress bar reads its own property, not one on <html>. */
@@ -239,7 +216,7 @@ class ScrollEngine {
 
     let changed = false;
 
-    if (!this.reduced && !this.coarse) {
+    if (this.parallax) {
       this.mx += (this.tmx - this.mx) * LERP;
       this.my += (this.tmy - this.my) * LERP;
       const sx = this.mx.toFixed(3);
@@ -251,16 +228,6 @@ class ScrollEngine {
       if (sy !== this.lastMy) {
         this.root.style.setProperty('--my', (this.lastMy = sy));
         changed = true;
-      }
-      if (this.cursorEl) {
-        const dx = this.cx - this.ccx;
-        const dy = this.cy - this.ccy;
-        if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
-          this.ccx += dx * CURSOR_LERP;
-          this.ccy += dy * CURSOR_LERP;
-          this.cursorEl.style.transform = `translate3d(${this.ccx.toFixed(1)}px,${this.ccy.toFixed(1)}px,0)`;
-          changed = true; // the follower is still flying: don't park the loop under it
-        }
       }
     }
 
@@ -297,55 +264,8 @@ class ScrollEngine {
   private onMove = (e: PointerEvent) => {
     this.tmx = (e.clientX / innerWidth - 0.5) * 2;
     this.tmy = (e.clientY / innerHeight - 0.5) * 2;
-    this.cx = e.clientX;
-    this.cy = e.clientY;
-    if (!this.cursorShown) {
-      // first appearance: snap under the physical cursor, no flight from the corner
-      this.cursorShown = true;
-      this.ccx = this.cx;
-      this.ccy = this.cy;
-      this.root.style.setProperty('--cur-o', '1');
-      document.body.classList.add('no-cursor');
-    }
     this.wake();
   };
-
-  private onLeave = () => {
-    this.cursorShown = false;
-    this.root.style.setProperty('--cur-o', '0');
-    document.body.classList.remove('no-cursor');
-  };
-
-  private onOver = (e: PointerEvent) => {
-    const target = e.target as Element | null;
-    if (!target?.closest) return;
-    const labelled = target.closest<HTMLElement>('[data-cursor]');
-    const grow = !labelled && target.closest('[data-cursor-grow]');
-    const label = labelled ? labelled.dataset.cursor ?? '' : grow ? '\u0000grow' : '';
-    if (label === this.cursorState) return;
-    this.cursorState = label;
-    const el = this.cursorEl;
-    const lb = this.cursorLabel;
-    if (!el || !lb) return;
-    if (label === '\u0000grow') {
-      this.sizeCursor(el, 26, '#8C5CFF');
-      lb.style.opacity = '0';
-    } else if (label) {
-      this.sizeCursor(el, Math.max(58, label.length * 7 + 26), 'rgba(140,92,255,0.92)');
-      lb.textContent = label;
-      lb.style.opacity = '1';
-    } else {
-      this.sizeCursor(el, 12, '#8C5CFF');
-      lb.style.opacity = '0';
-    }
-  };
-
-  private sizeCursor(el: HTMLElement, size: number, bg: string) {
-    el.style.width = `${size}px`;
-    el.style.height = `${size}px`;
-    el.style.margin = `${-size / 2}px 0 0 ${-size / 2}px`;
-    el.style.background = bg;
-  }
 }
 
 let instance: ScrollEngine | null = null;

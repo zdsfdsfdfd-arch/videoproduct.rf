@@ -4,7 +4,6 @@ import { getEngine, scrollToSection } from '@/lib/scroll-engine';
 import { pageTitle } from '@/lib/routes';
 import { useAutoHideChrome } from '@/lib/hooks';
 import { ProgressBar } from '@/components/chrome/ProgressBar';
-import { Cursor } from '@/components/chrome/Cursor';
 import { TopBars } from '@/components/chrome/TopBars';
 import { SideNav, MiniNav } from '@/components/chrome/Nav';
 import { MobileMenu } from '@/components/chrome/MobileMenu';
@@ -68,7 +67,6 @@ export function App() {
     <CaseContext.Provider value={openCase}>
       <div className={styles.root}>
         <ProgressBar />
-        <Cursor />
         <TopBars />
         <MobileMenu />
         <SideNav />

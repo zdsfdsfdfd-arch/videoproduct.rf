@@ -10,22 +10,22 @@ export function ContactsPage() {
   return (
     <PageShell index="07" kicker="КАЗАНЬ · МОСКВА · САНКТ-ПЕТЕРБУРГ · ВСЯ РОССИЯ" title={<>Контак<em>ты</em></>}>
       <section className={styles.cards} aria-label="Как связаться" data-scene>
-        <a href={contacts.phoneHref} data-cursor="ПОЗВОНИТЬ" className={styles.card}>
+        <a href={contacts.phoneHref} className={styles.card}>
           <span className={`${styles.cardLabel} mono`}>ТЕЛЕФОН</span>
           <span className={styles.cardValue}>{contacts.phoneDisplay}</span>
           <span className={`${styles.cardHint} mono`}>ЗВОНОК ИЛИ СМС</span>
         </a>
-        <a href={contacts.whatsapp} target="_blank" rel="noopener" data-cursor="ОТКРЫТЬ" className={styles.card}>
+        <a href={contacts.whatsapp} target="_blank" rel="noopener" className={styles.card}>
           <span className={`${styles.cardLabel} mono`}>WHATSAPP</span>
           <span className={styles.cardValue}>Написать</span>
           <span className={`${styles.cardHint} mono`}>ОТКРОЕТСЯ ЧАТ</span>
         </a>
-        <a href={contacts.emailHref} data-cursor="НАПИСАТЬ" className={styles.card}>
+        <a href={contacts.emailHref} className={styles.card}>
           <span className={`${styles.cardLabel} mono`}>E-MAIL</span>
           <span className={`${styles.cardValue} ${styles.cardMail}`}>{contacts.email}</span>
           <span className={`${styles.cardHint} mono`}>БРИФ, РЕФЕРЕНСЫ, ФАЙЛЫ</span>
         </a>
-        <a href={address.mapUrl} target="_blank" rel="noopener" data-cursor="КАРТА" className={styles.card}>
+        <a href={address.mapUrl} target="_blank" rel="noopener" className={styles.card}>
           <span className={`${styles.cardLabel} mono`}>СТУДИЯ</span>
           <span className={styles.cardValue}>
             {address.city},<br />

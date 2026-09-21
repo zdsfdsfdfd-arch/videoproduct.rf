@@ -72,7 +72,7 @@ export function Contact() {
             disabled={status === 'sent'}
           />
         </label>
-        <button type="submit" data-cursor="ОТПРАВИТЬ" className={styles.submit} disabled={status !== 'idle'}>
+        <button type="submit" className={styles.submit} disabled={status !== 'idle'}>
           {status === 'sent' ? 'ОТПРАВЛЕНО ✓' : status === 'sending' ? 'ОТПРАВЛЯЕМ…' : 'ПОЛУЧИТЬ БЕСПЛАТНУЮ КОНСУЛЬТАЦИЮ →'}
         </button>
         <label className={styles.agree}>
@@ -102,25 +102,25 @@ export function Contact() {
       <div className={styles.grid}>
         <div>
           <div className={`${styles.cellLabel} mono`}>ТЕЛЕФОН</div>
-          <a href={contacts.phoneHref} data-cursor="ПОЗВОНИТЬ" className={`${styles.big} ${styles.link}`}>
+          <a href={contacts.phoneHref} className={`${styles.big} ${styles.link}`}>
             {contacts.phoneDisplay}
           </a>
         </div>
         <div>
           <div className={`${styles.cellLabel} mono`}>E-MAIL</div>
-          <a href={contacts.emailHref} data-cursor="НАПИСАТЬ" className={`${styles.mail} ${styles.link}`}>
+          <a href={contacts.emailHref} className={`${styles.mail} ${styles.link}`}>
             {contacts.email}
           </a>
         </div>
         <div>
           <div className={`${styles.cellLabel} mono`}>МЕССЕНДЖЕРЫ</div>
           <div className={styles.stack}>
-            <a href={contacts.whatsapp} target="_blank" rel="noopener" data-cursor="ОТКРЫТЬ" className={`${styles.mid} ${styles.link}`}>
+            <a href={contacts.whatsapp} target="_blank" rel="noopener" className={`${styles.mid} ${styles.link}`}>
               WhatsApp
             </a>
             {/* The studio has not given a Telegram link yet — the line appears as soon as contacts.telegram is set. */}
             {contacts.telegram && (
-              <a href={contacts.telegram} target="_blank" rel="noopener" data-cursor="ОТКРЫТЬ" className={`${styles.mid} ${styles.link}`}>
+              <a href={contacts.telegram} target="_blank" rel="noopener" className={`${styles.mid} ${styles.link}`}>
                 Telegram
               </a>
             )}
@@ -129,10 +129,10 @@ export function Contact() {
         <div>
           <div className={`${styles.cellLabel} mono`}>ДАЛЬШЕ</div>
           <div className={styles.stack}>
-            <a href="#sp-09" onClick={onClick} data-cursor="ВПЕРЁД" className={`${styles.mid} ${styles.link}`}>
+            <a href="#sp-09" onClick={onClick} className={`${styles.mid} ${styles.link}`}>
               Заполнить бриф
             </a>
-            <a href="#sp-02" onClick={onClick} data-cursor="ВПЕРЁД" className={`${styles.mid} ${styles.link}`}>
+            <a href="#sp-02" onClick={onClick} className={`${styles.mid} ${styles.link}`}>
               Портфолио
             </a>
           </div>

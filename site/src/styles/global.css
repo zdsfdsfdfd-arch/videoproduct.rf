@@ -46,7 +46,6 @@
   --mx: 0;
   --my: 0;
   --sp: 0;
-  --cur-o: 0;
 }
 
 /**
@@ -99,11 +98,6 @@ h1 em, h2 em,
   color: var(--violet-soft);
 }
 
-/* the cover gets a violet cast instead of flat black */
-#sp-00 [class*='shade'] {
-  background: linear-gradient(to top, rgba(11, 8, 23, 0.9) 0%, rgba(62, 38, 118, 0.42) 45%, rgba(38, 28, 96, 0.55) 100%);
-}
-
 @media (max-width: 767px) {
   :root {
     --navh: 47px;
@@ -134,7 +128,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-body.no-cursor, body.no-cursor * { cursor: none !important; }
 body.scroll-locked { overflow: hidden; }
 
 ::selection { background: var(--accent); color: var(--paper); }

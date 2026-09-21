@@ -11,7 +11,7 @@ export function Faq() {
         <div className={styles.list}>
           {faq.map((item) => (
             <details key={item.q} className={styles.item}>
-              <summary data-cursor="ОТКРЫТЬ" className={styles.summary}>
+              <summary className={styles.summary}>
                 {item.q}
                 <span className={styles.sign} aria-hidden="true">
                   +

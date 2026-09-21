@@ -38,11 +38,11 @@ export function ReviewsPage() {
                 <h2 className={styles.name}>{r.name}</h2>
                 <p className={styles.position}>{r.position}</p>
                 <div className={styles.links}>
-                  <a href={vkVideoUrl(r.videoId)} target="_blank" rel="noopener" data-cursor="ОТКРЫТЬ" className={`${styles.link} mono`}>
+                  <a href={vkVideoUrl(r.videoId)} target="_blank" rel="noopener" className={`${styles.link} mono`}>
                     СМОТРЕТЬ В VK →
                   </a>
                   {related && (
-                    <Link to="/portfolio" data-cursor="ОТКРЫТЬ" className={`${styles.related} mono`}>
+                    <Link to="/portfolio" className={`${styles.related} mono`}>
                       ПРОЕКТ: {related.title.toUpperCase()} →
                     </Link>
                   )}
@@ -76,10 +76,10 @@ export function ReviewsPage() {
           <em>ваш</em>.
         </h2>
         <div className={styles.ctaActions}>
-          <Link to="/brif" data-cursor="ВПЕРЁД" className={`${styles.ctaBtn} mono`}>
+          <Link to="/brif" className={`${styles.ctaBtn} mono`}>
             ЗАПОЛНИТЬ БРИФ →
           </Link>
-          <Link to="/portfolio" data-cursor="ОТКРЫТЬ" className={`${styles.ctaGhost} mono`}>
+          <Link to="/portfolio" className={`${styles.ctaGhost} mono`}>
             СМОТРЕТЬ РАБОТЫ
           </Link>
         </div>
