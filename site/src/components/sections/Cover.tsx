@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Picture } from '@/components/Picture';
-import { VkPlayer } from '@/components/VkPlayer';
-import { cities, contacts, coverPoster, coverReel, coverVideoSources, heroVideoId, tariffs, vkVideoUrl } from '@/content';
+import { cities, contacts, coverPoster, coverVideo, heroVideoId, kinescopeEmbedUrl, kinescopeFileUrl, tariffs, vkVideoUrl } from '@/content';
 import { useAnchorClick, useIsDesktop } from '@/lib/hooks';
 import { delay } from '@/lib/reveal';
 import { getEngine } from '@/lib/scroll-engine';
@@ -16,25 +15,18 @@ import styles from './Cover.module.css';
  * The director's cut-out that used to stand on the right is gone: it crowded the text on a phone
  * and said nothing a first-time visitor needed.
  *
- * What plays where:
- *   • the studio's reel (content → coverVideoSources), inline and muted — works on every device;
- *   • otherwise, on desktop, the VK showreel in an iframe;
- *   • otherwise, on phones, a slow cross-fade through studio frames — VK's embedded player does not
- *     run inside mobile browsers (it renders «видео недоступно»), and a motionless cover reads as a
- *     video that failed to load. The play button there opens the real showreel in the VK app.
- *
- * The clip is hosted elsewhere, so "it loads" is not something the page can promise. If it errors,
- * or if nothing is decodable after a few seconds, the cover drops to the branch below it rather
- * than holding a still poster and calling it a video.
+ * The footage is the studio's own reel on Kinescope, played by Kinescope's player (content →
+ * coverVideo). It runs everywhere, phones included — which is why the VK iframe and the phone
+ * frame-reel that used to stand in for it are gone. The poster frame sits underneath it always,
+ * so the first paint is a frame of the studio's work rather than black, and it is still there if
+ * the player never arrives.
  */
 export function Cover() {
   const onClick = useAnchorClick();
   const desktop = useIsDesktop();
   const reduced = getEngine().reduced;
   const [clipDead, setClipDead] = useState(false);
-  const clip = coverVideoSources.length > 0 && !clipDead;
-  const vkOn = !clip && desktop && !reduced;
-  const reelOn = !clip && !desktop && !reduced;
+  const playing = coverVideo.mode !== 'off' && !reduced && !clipDead;
 
   return (
     <section id="sp-00" data-scene className={styles.section} aria-label="Обложка">
@@ -48,26 +40,8 @@ export function Cover() {
         <div className={styles.stage}>
           <div className={styles.video} aria-hidden="true">
             <div className={styles.videoBox}>
-              {clip ? (
-                <CoverClip onDead={() => setClipDead(true)} />
-              ) : vkOn ? (
-                <VkPlayer id={heroVideoId} title="Шоурил студии" poster={coverPoster.src} autoplay eager holdMs={2200} className={styles.frame} />
-              ) : reelOn ? (
-                coverReel.map((photo, i) => (
-                  <Picture
-                    key={photo.src}
-                    photo={photo}
-                    alt=""
-                    className={styles.reelFrame}
-                    style={{ animationDelay: `${i * 4.5}s` }}
-                    sizes="100vw"
-                    loading={i === 0 ? 'eager' : 'lazy'}
-                    fetchPriority={i === 0 ? 'high' : 'low'}
-                  />
-                ))
-              ) : (
-                <Picture photo={coverPoster} alt="" className={styles.poster} loading="eager" fetchPriority="high" />
-              )}
+              <Picture photo={coverPoster} alt="" className={styles.poster} loading="eager" fetchPriority="high" />
+              {playing && (coverVideo.mode === 'embed' ? <CoverEmbed /> : <CoverFile onDead={() => setClipDead(true)} />)}
             </div>
             <div className={styles.shade} />
           </div>
@@ -136,8 +110,46 @@ export function Cover() {
 }
 
 /**
- * The cover clip. Muted and inline so phones autoplay it too; the poster carries the first moment
- * so there is no black rectangle while the file opens.
+ * Kinescope's player as a backdrop: muted, looping, no controls, and `pointer-events: none` so it
+ * never takes a click or a hover meant for the page. Unlike a direct file link it negotiates its
+ * rendition against the size it is drawn at, which is the whole reason it is here — a cover this
+ * size needs far more than the 720p the direct link was serving.
+ *
+ * A frame that cannot load draws the browser's own error page, and that page is opaque: on a
+ * network where Kinescope is unreachable — a blocker, an office firewall — the cover would be a
+ * blank grey rectangle instead of the poster underneath. So the frame starts invisible and is
+ * faded in only once a no-cors request has shown that the host answers at all. It loads the whole
+ * time regardless, so nothing is waiting on the check.
+ */
+function CoverEmbed() {
+  const [reachable, setReachable] = useState(false);
+
+  useEffect(() => {
+    let live = true;
+    // opaque response: we cannot read it, and do not need to — that it came back is the answer
+    fetch(kinescopeEmbedUrl(coverVideo.kinescopeId), { mode: 'no-cors', cache: 'no-store' })
+      .then(() => live && setReachable(true))
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
+  }, []);
+
+  return (
+    <iframe
+      src={kinescopeEmbedUrl(coverVideo.kinescopeId)}
+      title=""
+      tabIndex={-1}
+      allow="autoplay; encrypted-media"
+      frameBorder="0"
+      className={styles.embed}
+      data-on={reachable ? '' : undefined}
+    />
+  );
+}
+
+/**
+ * The plain-file path (content → coverVideo.mode = 'file'), kept as a way back.
  *
  * The renditions go in as <source> children, sharpest first: the browser walks the list by itself
  * and steps down when one is missing. With a list rather than a single src the element does not
@@ -149,7 +161,7 @@ export function Cover() {
 const NO_SOURCE = 3; // HTMLMediaElement.NETWORK_NO_SOURCE — every candidate was refused
 const GIVE_UP = 20000; // downloading all this time without a frame is not a cover either
 
-function CoverClip({ onDead }: { onDead: () => void }) {
+function CoverFile({ onDead }: { onDead: () => void }) {
   const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -177,9 +189,9 @@ function CoverClip({ onDead }: { onDead: () => void }) {
   }, [onDead]);
 
   return (
-    <video ref={ref} className={styles.poster} poster={coverPoster.src} autoPlay muted loop playsInline preload="auto">
-      {coverVideoSources.map((src) => (
-        <source key={src} src={src} type="video/mp4" />
+    <video ref={ref} className={styles.clip} autoPlay muted loop playsInline preload="auto">
+      {coverVideo.renditions.map((q) => (
+        <source key={q} src={kinescopeFileUrl(coverVideo.kinescopeId, q)} type="video/mp4" />
       ))}
     </video>
   );

@@ -247,30 +247,33 @@ export const faq = [
 ];
 
 /**
- * The cover clip — the reel the studio runs on its own site, served from Kinescope as a plain
- * media file, so it plays inline in a <video> on every device (VK's embedded player does not run
- * inside mobile browsers, which is why the cover used to fall back to a frame reel on phones).
- * `#t=0.1` starts a tenth of a second in: the first frame of the file is black.
+ * The cover clip — the reel the studio runs on its own site, hosted on Kinescope.
  *
- * Renditions, sharpest first: the browser takes the first one it can load and steps down the list
- * when a file is missing. The cover is full-bleed and cropped to the window, so the picture is
- * blown up well past its own size — about 2.5× on a laptop and 3.5× on a phone, where a 16:9 frame
- * has to cover a tall screen. 720p visibly falls apart at that size; 1080p is the same clip with
- * half again as many pixels to spend on it. Kinescope only has a rendition if the master was at
- * least that big, hence the ladder rather than a single link — and hence the real fix, if this is
- * still soft: the original file from the studio, served from `site/public/video/`.
+ * The direct file link was the first attempt and it came out soft. The studio's own page is sharp
+ * at the same width, so Kinescope holds a master of at least 1080p; `…/1080p` did not serve one,
+ * and the browser fell back to 720p. On a full-bleed cover the frame is enlarged roughly 2.5× on a
+ * laptop and 3.5× on a phone — where 16:9 footage has to cover a tall screen — and 720p does not
+ * survive that. Their page uses Kinescope's player, which negotiates the rendition against the
+ * size it is actually drawn at, so that is what we use as well.
  *
- * Empty list — or a path under `site/public/video/` — and the cover falls back to the VK player on
- * desktop and the frame reel on phones. If nothing here loads, the cover does the same on its own
- * (see Cover.tsx).
+ * 'file' keeps the old path (renditions below in a plain <video>) for the case where the embed
+ * turns out to misbehave, and 'off' leaves the poster frame alone.
  */
-export const coverVideoSources: readonly string[] = [
-  'https://kinescope.io/0TQrgNTzKbreqYdeWNtWnN/1080p#t=0.1',
-  'https://kinescope.io/0TQrgNTzKbreqYdeWNtWnN/720p#t=0.1',
-];
+export const coverVideo = {
+  kinescopeId: '0TQrgNTzKbreqYdeWNtWnN',
+  mode: 'embed' as 'embed' | 'file' | 'off',
+  /** 'file' mode only, sharpest first; the browser steps down when one is missing. */
+  renditions: ['1080p', '720p'],
+};
+
+/** Muted, looping, no controls, not interactive: a moving backdrop rather than a player. */
+export const kinescopeEmbedUrl = (id: string) =>
+  `https://kinescope.io/embed/${id}?autoplay=1&muted=1&loop=1&controls=0&playsinline=1`;
+
+export const kinescopeFileUrl = (id: string, rendition: string) =>
+  // #t=0.1 — the first frame of the file is black
+  `https://kinescope.io/${id}/${rendition}#t=0.1`;
 
 export const coverPoster = backgrounds.coverPodcastStudio;
 
-/** Frames the phone cover cross-fades through while there is no cover clip. All studio shots. */
-export const coverReel = [backgrounds.coverPodcastStudio, process.studioCrane, process.factoryJib, process.loftInterview];
 export const caseFallbackFrames = { a: process.boardroomSlider, b: process.factoryJib };

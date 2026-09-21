@@ -59,43 +59,29 @@
      to another 12 %, which is what turned soft into pixelated; 5 % still reads as a slow move in.
      The 1.01 is a seam guard: at exactly 1 a subpixel edge can show along the crop. */
   transform: translate(-50%, -50%) scale(calc(1.01 + var(--e, 0) * 0.045));
-  /* daylight footage came through washed out under the old violet cast */
-  filter: brightness(0.76) saturate(0.94);
+  /* daylight footage came through washed out under the old violet cast. The contrast is nudged
+     up because low contrast is read as softness, and the scrim over it does the darkening. */
+  filter: brightness(0.8) contrast(1.04) saturate(0.96);
 }
-.poster {
+/* the poster lies under the player, so the first paint is a frame and not black */
+.poster,
+.clip,
+.embed {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  border: 0;
   object-fit: cover;
 }
-/* the phone cover reel: four studio frames, each held for a beat with a slow push-in */
-.reelFrame {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* the player is a backdrop, not a control surface, and it stays out of sight until the host has
+   answered — an unreachable frame draws an opaque error page over the poster (see Cover.tsx) */
+.embed {
+  pointer-events: none;
   opacity: 0;
-  will-change: opacity, transform;
-  animation: coverReel 18s linear infinite;
+  transition: opacity 0.6s var(--ease);
 }
-@keyframes coverReel {
-  0% { opacity: 0; transform: scale(1.03); }
-  3% { opacity: 1; }
-  22% { opacity: 1; }
-  25% { opacity: 0; transform: scale(1.12); }
-  100% { opacity: 0; transform: scale(1.03); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .reelFrame { animation: none; opacity: 1; }
-}
-.frame {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
+.embed[data-on] { opacity: 1; }
 .shade {
   position: absolute;
   inset: 0;
