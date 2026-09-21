@@ -247,21 +247,26 @@ export const faq = [
 ];
 
 /**
- * The cover clip — the reel the studio runs on its own site, hosted on Kinescope.
+ * The cover clip. Off for now, and the reason is the clip rather than the plumbing.
  *
- * The direct file link was the first attempt and it came out soft. The studio's own page is sharp
- * at the same width, so Kinescope holds a master of at least 1080p; `…/1080p` did not serve one,
- * and the browser fell back to 720p. On a full-bleed cover the frame is enlarged roughly 2.5× on a
- * laptop and 3.5× on a phone — where 16:9 footage has to cover a tall screen — and 720p does not
- * survive that. Their page uses Kinescope's player, which negotiates the rendition against the
- * size it is actually drawn at, so that is what we use as well.
+ * This Kinescope id is a 3:4 video — measured off the live page: the player drew it 812px wide in
+ * a frame 1080 tall. The cover is full-bleed and widescreen, so covering it with a 3:4 source
+ * means enlarging the picture about 3.5× across and keeping only a horizontal band of a
+ * composition that was framed tall. That is the whole story of the pixelation: not the rendition,
+ * the shape. Playing it through Kinescope's own player did not help either — a player fits the
+ * video inside its frame, so the cover showed a tall panel with the poster either side of it.
  *
- * 'file' keeps the old path (renditions below in a plain <video>) for the case where the embed
- * turns out to misbehave, and 'off' leaves the poster frame alone.
+ * What it needs is the widescreen reel — the one actually running on the studio's own front page —
+ * either as another Kinescope id or as a file under `site/public/video/`. Until then the poster
+ * frame stands on its own, which it is made for.
+ *
+ * With an id that is 16:9: 'embed' plays it through Kinescope's player, which negotiates its
+ * rendition against the size it is drawn at; 'file' pulls the renditions below into a plain
+ * <video>, which crops to fill but is stuck with whatever the direct link serves.
  */
 export const coverVideo = {
   kinescopeId: '0TQrgNTzKbreqYdeWNtWnN',
-  mode: 'embed' as 'embed' | 'file' | 'off',
+  mode: 'off' as 'embed' | 'file' | 'off',
   /** 'file' mode only, sharpest first; the browser steps down when one is missing. */
   renditions: ['1080p', '720p'],
 };
