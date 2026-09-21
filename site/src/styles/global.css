@@ -1,77 +1,77 @@
-/* Design tokens — cinematic dark base, three brand hues, one accent per chapter. */
+/* Design tokens — one violet family on a near-black ground. Nothing else is coloured. */
 :root {
-  --ink: #09071A;          /* deep blue-violet black — the photography needs a dark base */
-  --ink-2: #130E2B;        /* the spreads: a step lighter, still dark */
-  --paper: #F4F1FA;        /* text only — no light backgrounds anywhere */
-  --grey: #C9C0DE;
+  --ink: #0B0817;          /* near-black with a violet cast — the photography needs a dark ground */
+  --ink-2: #141026;        /* the spreads: a step lighter, still dark */
+  --paper: #F3F0FA;        /* text only — no light backgrounds anywhere */
+  --grey: #C6BEDA;
 
-  /* the three hues the page moves through; every chapter picks one as its --accent */
-  --violet: #9B72FF;
-  --cyan: #45B8FF;
-  --coral: #FF6B7E;
-  --amber: #FFB14E;
+  /* The page used to travel through violet, cyan, coral and amber, which read as four brands
+     rather than one. One family now, from blue-violet to pink-violet: chapters shift along it
+     instead of jumping to another hue. */
+  --violet: #9B7CFF;       /* the brand's violet */
+  --violet-soft: #C3ADFF;  /* light tint — display accents */
+  --violet-deep: #6E4CD8;  /* deep — shadows and the far end of gradients */
+  --indigo: #7A6BFF;       /* blue end of the family */
+  --orchid: #C271FF;       /* pink end of the family */
 
   --accent: var(--violet);
-  --accent-2: #CBB4FF;
-  --accent-warm: var(--coral);
-  --accent-cool: var(--cyan);
-  --accent-grad: linear-gradient(100deg, var(--cyan) 0%, var(--violet) 52%, var(--coral) 100%);
-  --panel: #1B1338;
-  --panel-hover: #221844;
+  --accent-2: var(--violet-soft);
+  --accent-warm: var(--orchid);
+  --accent-cool: var(--indigo);
+  --accent-grad: linear-gradient(100deg, var(--indigo) 0%, var(--violet) 52%, var(--orchid) 100%);
+  --panel: #1A1434;
+  --panel-hover: #211940;
   --rec: #ff3b30;
-  --photo-dim: brightness(0.8) saturate(1.1);
+  --photo-dim: brightness(0.8) saturate(1.02);
 
-  --line-paper-14: rgba(244, 241, 250, 0.14);
-  --line-paper-16: rgba(244, 241, 250, 0.18);
-  --line-paper-22: rgba(244, 241, 250, 0.24);
-  --dim-paper: rgba(244, 241, 250, 0.56);
+  --line-paper-14: rgba(243, 240, 250, 0.13);
+  --line-paper-16: rgba(243, 240, 250, 0.17);
+  --line-paper-22: rgba(243, 240, 250, 0.24);
+  --dim-paper: rgba(243, 240, 250, 0.56);
 
   --sans: 'Golos Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --gutter: clamp(14px, 3vw, 44px);
   --gap: clamp(16px, 2vw, 32px);
-  --perf: 26px;
   --navh: 0px;
-  /* Section labels inside pinned spreads sit below the two fixed plates (top 12px + ~40px). */
-  --sticky-head: 62px;
+  /* Section labels inside pinned spreads sit below the 56px header, with air under it. */
+  --sticky-head: 78px;
   /* Right-hand corridor kept clear of the side index. It only has to clear the closed index
      (ticks plus the current chapter's name); the open one draws over its own plate. */
   --corridor: 108px;
-  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* Written by the scroll engine every frame. */
   --mx: 0;
   --my: 0;
   --sp: 0;
-  --perf-y: 0;
   --cur-o: 0;
 }
 
 /**
- * Colour per chapter. Each spread re-points --accent at one of the three hues, so its labels,
- * active states, rules and numbers all shift together and the page travels through colour as you
- * read it. Everything stays light-on-dark, so nothing gets harder to read.
+ * Colour per chapter — a step along the violet family, not a change of hue. Labels, rules,
+ * active states and numbers shift together, and the page still reads as one brand.
  */
 #sp-00, #sp-02, #sp-07, #sp-11 { --accent: var(--violet); }
-#sp-01, #sp-04, #sp-08, #sp-10 { --accent: var(--cyan); }
-#sp-05, #sp-09, #sp-12 { --accent: var(--coral); }
-#sp-03, #sp-06 { --accent: var(--amber); }
+#sp-01, #sp-04, #sp-08, #sp-10 { --accent: var(--indigo); }
+#sp-05, #sp-09, #sp-12 { --accent: var(--orchid); }
+#sp-03, #sp-06 { --accent: var(--violet-soft); }
 
 /* A wash in the two far corners of the flat spreads — colour where there is no text.
    The id selector outranks the section's own `background` shorthand in its module. */
 html #sp-01, html #sp-04, html #sp-06, html #sp-07, html #sp-09, html #sp-11 {
   background-image:
-    radial-gradient(78% 58% at 100% -12%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 62%),
-    radial-gradient(66% 52% at -8% 108%, color-mix(in srgb, var(--accent-cool) 14%, transparent), transparent 60%);
+    radial-gradient(78% 58% at 100% -12%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 62%),
+    radial-gradient(66% 52% at -8% 108%, color-mix(in srgb, var(--violet-deep) 16%, transparent), transparent 60%);
 }
 html #sp-12 {
   background-image:
-    radial-gradient(70% 55% at 6% 105%, color-mix(in srgb, var(--coral) 18%, transparent), transparent 62%),
-    radial-gradient(60% 50% at 100% -8%, color-mix(in srgb, var(--cyan) 14%, transparent), transparent 60%);
+    radial-gradient(70% 55% at 6% 105%, color-mix(in srgb, var(--orchid) 14%, transparent), transparent 62%),
+    radial-gradient(60% 50% at 100% -8%, color-mix(in srgb, var(--indigo) 12%, transparent), transparent 60%);
 }
 
-/* a hairline of colour on the seam between chapters */
+/* a hairline on the seam between chapters */
 section[id^='sp-'] { position: relative; }
 section[id^='sp-']::before {
   content: '';
@@ -79,36 +79,33 @@ section[id^='sp-']::before {
   top: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background: var(--accent-grad);
-  opacity: 0.45;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 70%, transparent) 30%, color-mix(in srgb, var(--accent) 70%, transparent) 70%, transparent);
+  opacity: 0.5;
   z-index: 4;
   pointer-events: none;
 }
 
 /* the primary buttons stop being flat white plates */
 button[type='submit'] {
-  background: var(--accent-grad);
-  color: var(--paper);
+  background: var(--violet);
+  color: #120C22;
 }
 
-/* big numerals and the accented half of every headline run through the three hues */
+/* The accented half of a headline and the big numerals: one colour, not a gradient across three
+   hues. A rainbow inside a word is the cheapest thing a page can do. */
 h1 em, h2 em,
 [class*='factValue'], [class*='storyName'] {
-  background: linear-gradient(100deg, var(--accent-cool) 0%, var(--accent) 55%, var(--accent-warm) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--violet-soft);
 }
 
-/* the cover gets a colour cast instead of flat black */
+/* the cover gets a violet cast instead of flat black */
 #sp-00 [class*='shade'] {
-  background: linear-gradient(to top, rgba(9, 7, 26, 0.9) 0%, rgba(72, 32, 122, 0.4) 45%, rgba(20, 34, 92, 0.55) 100%);
+  background: linear-gradient(to top, rgba(11, 8, 23, 0.9) 0%, rgba(62, 38, 118, 0.42) 45%, rgba(38, 28, 96, 0.55) 100%);
 }
 
 @media (max-width: 767px) {
   :root {
-    --perf: 14px;
     --navh: 47px;
     --corridor: 0px;
   }
@@ -117,6 +114,8 @@ h1 em, h2 em,
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  /* anchors land below the fixed header, not under it */
+  scroll-padding-top: 56px;
 }
 
 @media (prefers-reduced-motion: reduce) {

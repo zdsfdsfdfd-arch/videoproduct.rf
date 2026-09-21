@@ -4,7 +4,7 @@ import { useAnchorClick } from '@/lib/hooks';
 import styles from './Process.module.css';
 
 const COUNT = processSteps.length;
-const HUES = ['violet', 'cyan', 'amber', 'coral'] as const;
+const HUES = ['violet', 'indigo', 'soft', 'orchid'] as const;
 
 /**
  * 03 / Процесс — the seven stages of a shoot, as seven frames.

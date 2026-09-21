@@ -45,9 +45,9 @@
   transition: border-color 0.3s, transform 0.4s var(--ease);
 }
 .card[data-hue='violet'] { --accent: var(--violet); }
-.card[data-hue='cyan'] { --accent: var(--cyan); }
-.card[data-hue='amber'] { --accent: var(--amber); }
-.card[data-hue='coral'] { --accent: var(--coral); }
+.card[data-hue='indigo'] { --accent: var(--indigo); }
+.card[data-hue='soft'] { --accent: var(--violet-soft); }
+.card[data-hue='orchid'] { --accent: var(--orchid); }
 .card:hover { border-color: var(--accent); transform: translateY(-3px); }
 
 .photo {
@@ -149,8 +149,8 @@
   align-items: center;
   min-height: 42px;
   padding: 0 14px;
-  background: var(--accent-grad);
-  color: var(--paper);
+  background: var(--violet);
+  color: #120C22;
   font-weight: 700;
   font-size: clamp(13px, 0.95vw, 15px);
   transition: filter 0.25s;

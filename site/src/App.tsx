@@ -3,7 +3,6 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { getEngine, scrollToSection } from '@/lib/scroll-engine';
 import { pageTitle } from '@/lib/routes';
 import { useAutoHideChrome } from '@/lib/hooks';
-import { Perforation } from '@/components/chrome/Perforation';
 import { ProgressBar } from '@/components/chrome/ProgressBar';
 import { Cursor } from '@/components/chrome/Cursor';
 import { TopBars } from '@/components/chrome/TopBars';
@@ -68,8 +67,6 @@ export function App() {
   return (
     <CaseContext.Provider value={openCase}>
       <div className={styles.root}>
-        <Perforation side="left" />
-        <Perforation side="right" />
         <ProgressBar />
         <Cursor />
         <TopBars />

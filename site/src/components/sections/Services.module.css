@@ -27,11 +27,12 @@
 }
 .chapter:first-of-type { margin-top: clamp(46px, 8vh, 100px); }
 
-/* each chapter takes one of the palette hues, so the five blocks stop looking alike */
+/* each chapter takes a step along the violet family, so the five blocks differ without the page
+   turning into four brands */
 .chapter[data-hue='violet'] { --accent: var(--violet); }
-.chapter[data-hue='cyan'] { --accent: var(--cyan); }
-.chapter[data-hue='coral'] { --accent: var(--coral); }
-.chapter[data-hue='amber'] { --accent: var(--amber); }
+.chapter[data-hue='indigo'] { --accent: var(--indigo); }
+.chapter[data-hue='orchid'] { --accent: var(--orchid); }
+.chapter[data-hue='soft'] { --accent: var(--violet-soft); }
 .chapter { border-top-color: color-mix(in srgb, var(--accent) 55%, transparent); }
 
 /* the head stays with its list while the list scrolls past */

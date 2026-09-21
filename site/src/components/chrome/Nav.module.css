@@ -1,7 +1,7 @@
 /* Side index (≥768px) — closed to ticks, opens under the pointer */
 .side {
   position: fixed;
-  right: var(--perf);
+  right: clamp(10px, 1.6vw, 22px);
   top: 50%;
   transform: translateY(-50%);
   z-index: 55;
@@ -68,8 +68,8 @@
 /* Bottom strip (<768px) */
 .mini {
   position: fixed;
-  left: var(--perf);
-  right: var(--perf);
+  left: 0;
+  right: 0;
   bottom: 0;
   z-index: 56;
   display: none;

@@ -1,107 +1,109 @@
-.bar {
+/* One bar across the top. The page scrolls under it; nothing shows between its parts. */
+.header {
   position: fixed;
-  top: 12px;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 58;
+  background: rgba(11, 8, 23, 0.88);
+  backdrop-filter: saturate(150%) blur(20px);
+  -webkit-backdrop-filter: saturate(150%) blur(20px);
+  border-bottom: 1px solid var(--line-paper-14);
+  transition: transform 0.35s var(--ease), opacity 0.25s;
+}
+.inner {
   display: flex;
   align-items: center;
-  min-height: 42px;
-  /* nearly opaque: page text used to bleed through the plates and make both unreadable */
-  background: rgba(10,7,20, 0.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--line-paper-22);
+  justify-content: space-between;
+  gap: clamp(12px, 2vw, 32px);
+  height: 56px;
+  padding: 0 clamp(14px, 3vw, 44px);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  flex: 0 0 auto;
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.16em;
   color: var(--paper);
-  transition: border-color 0.3s, background 0.3s, transform 0.35s var(--ease), opacity 0.25s;
+  transition: opacity 0.25s;
 }
-.bar:hover {
-  border-color: var(--accent);
-  background: rgba(10,7,20, 0.96);
-  color: var(--paper);
-}
-
-.logo {
-  left: 40px;
-  gap: 12px;
-  padding: 7px 14px 7px 9px;
-}
+.logo:hover { opacity: 0.75; }
 /* the mark is wider than tall (615 × 470 in its own units) */
 .mark { width: 30px; height: 23px; }
 
-.contact {
-  right: 40px;
-  gap: 14px;
-  padding: 10px 16px;
-}
-
 .menu {
-  left: 50%;
-  transform: translateX(-50%);
-  gap: 2px;
-  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  gap: clamp(2px, 0.6vw, 10px);
+  min-width: 0;
 }
 .menuLink {
   display: flex;
   align-items: center;
-  height: 40px;
-  padding: 0 11px;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  letter-spacing: -0.01em;
   color: var(--grey);
-  transition: color 0.3s, background 0.3s;
   white-space: nowrap;
+  transition: color 0.25s, background 0.25s;
 }
-.menuLink:hover { color: var(--paper); }
-.menuLink[aria-current] {
-  color: var(--accent);
-  background: rgba(140, 92, 255, 0.12);
-}
-.scrim { display: none; }
+.menuLink:hover { color: var(--paper); background: rgba(243, 240, 250, 0.06); }
+.menuLink[aria-current] { color: var(--paper); background: color-mix(in srgb, var(--violet) 22%, transparent); }
 
-@media (max-width: 1279px) {
-  .menu { display: none; }
-  /* the «МЕНЮ» plate (78px) takes the right corner; the CTA moves left of it */
-  .contact { right: calc(40px + 78px + 8px); }
-  /* scrolling down lifts the plates off the text (see useAutoHideChrome) */
-  :global(:root[data-chrome='up']) .bar {
-    transform: translateY(-170%);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: transform 0.35s var(--ease), opacity 0.25s, visibility 0s 0.35s;
-  }
+.contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  flex: 0 0 auto;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 6px;
+  border: 1px solid var(--line-paper-22);
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+  white-space: nowrap;
+  transition: border-color 0.25s, background 0.25s;
 }
+.contact:hover { border-color: color-mix(in srgb, var(--violet) 70%, transparent); background: color-mix(in srgb, var(--violet) 14%, transparent); }
 .dotAccent {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--violet);
 }
 .short { display: none; }
 
-@media (max-width: 767px) {
-  .scrim {
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 66px;
-    z-index: 57;
-    background: linear-gradient(to bottom, var(--ink) 0 72%, rgba(10, 7, 20, 0.88) 88%, rgba(10, 7, 20, 0) 100%);
-    pointer-events: none;
-    transition: transform 0.35s var(--ease), opacity 0.25s;
+@media (max-width: 1279px) {
+  .menu { display: none; }
+  /* the «МЕНЮ» button takes the right end of the bar, so the link sits to its left */
+  .contact { margin-right: 86px; }
+  /* scrolling down lifts the whole bar off the text (see useAutoHideChrome) */
+  :global(:root[data-chrome='up']) .header {
+    transform: translateY(-100%);
+    opacity: 0;
   }
-  :global(:root[data-chrome='up']) .scrim { transform: translateY(-100%); opacity: 0; }
-  .logo { left: calc(var(--perf) + 8px); padding: 6px 10px 6px 7px; gap: 8px; }
-  .contact { right: calc(var(--perf) + 8px + 78px + 8px); padding: 9px 12px; gap: 9px; }
+}
+
+@media (max-width: 767px) {
+  .inner { height: 52px; padding: 0 var(--gutter); }
   .brand { display: none; }
   .full { display: none; }
   .short { display: inline; }
+  .contact { height: 32px; padding: 0 11px; font-size: 12px; margin-right: 80px; }
 }
 
-/* Touch devices: a blurred backdrop under a fixed plate is re-rastered on every scroll frame.
-   The plates are all but opaque anyway, so on phones they go fully opaque and the blur goes. */
+@media (max-width: 359px) {
+  .contact { display: none; }
+}
+
+/* Touch devices: a blurred backdrop is re-rastered on every scroll frame for no visible gain. */
 @media (pointer: coarse) {
-  .bar { background: #0a0714; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .header { background: #0b0817; backdrop-filter: none; -webkit-backdrop-filter: none; }
 }

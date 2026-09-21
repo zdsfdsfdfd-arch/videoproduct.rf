@@ -134,18 +134,18 @@ export interface ServiceChapter {
   side: 'left' | 'right';
   items: string[];
   /** One of the palette hues (global.css) — the chapter's colour on the page. */
-  hue: 'violet' | 'cyan' | 'coral' | 'amber';
+  hue: 'violet' | 'indigo' | 'orchid' | 'soft';
   /** A still from the studio's own shoots, so the list is not five identical blocks of text. */
   photo: Photo;
   photoAlt: string;
 }
 
 export const serviceChapters: ServiceChapter[] = [
-  { title: 'Реклама и продажи', side: 'left', items: ['Рекламный видеоролик', 'Информационный ролик', 'Видео для маркетплейсов', 'Видео для соцсетей', 'Видеоролики для B2B', 'Видеоролик для выставок'], hue: 'cyan', photo: process.studioSet, photoAlt: 'Съёмочная площадка в студии' },
+  { title: 'Реклама и продажи', side: 'left', items: ['Рекламный видеоролик', 'Информационный ролик', 'Видео для маркетплейсов', 'Видео для соцсетей', 'Видеоролики для B2B', 'Видеоролик для выставок'], hue: 'indigo', photo: process.studioSet, photoAlt: 'Съёмочная площадка в студии' },
   { title: 'Имидж и компания', side: 'right', items: ['Имиджевый ролик', 'Презентационное видео', 'Корпоративные ролики', 'Видеообращение от CEO', 'HR-видео', 'Создание фильма на юбилей компании', 'Документальный фильм'], hue: 'violet', photo: process.boardroomSlider, photoAlt: 'Съёмка в переговорной со слайдером' },
-  { title: 'Производство и объекты', side: 'left', items: ['Производственные видео', 'Видеосъёмка недвижимости', 'Предметная съёмка', 'Аэросъёмка с дроном', 'Отчётные ролики'], hue: 'amber', photo: process.factoryJib, photoAlt: 'Съёмка на производстве с крана' },
-  { title: 'События и эфир', side: 'right', items: ['Видеосъёмка мероприятий', 'Видеосъёмка форумов', 'Съёмка интервью и подкастов', 'Видеосъёмка для YouTube', 'Запись вебинаров'], hue: 'coral', photo: process.podcastStudio, photoAlt: 'Подкаст-студия во время записи' },
-  { title: 'Обучение и постпродакшн', side: 'left', items: ['Обучающие видео и видеокурсы', 'Видеоинструкции для бизнеса', 'Монтаж видеороликов', '2D-анимация'], hue: 'cyan', photo: process.loftInterview, photoAlt: 'Интервью в лофте, свет и камера' },
+  { title: 'Производство и объекты', side: 'left', items: ['Производственные видео', 'Видеосъёмка недвижимости', 'Предметная съёмка', 'Аэросъёмка с дроном', 'Отчётные ролики'], hue: 'soft', photo: process.factoryJib, photoAlt: 'Съёмка на производстве с крана' },
+  { title: 'События и эфир', side: 'right', items: ['Видеосъёмка мероприятий', 'Видеосъёмка форумов', 'Съёмка интервью и подкастов', 'Видеосъёмка для YouTube', 'Запись вебинаров'], hue: 'orchid', photo: process.podcastStudio, photoAlt: 'Подкаст-студия во время записи' },
+  { title: 'Обучение и постпродакшн', side: 'left', items: ['Обучающие видео и видеокурсы', 'Видеоинструкции для бизнеса', 'Монтаж видеороликов', '2D-анимация'], hue: 'indigo', photo: process.loftInterview, photoAlt: 'Интервью в лофте, свет и камера' },
 ];
 
 export const servicesTotal = serviceChapters.reduce((n, c) => n + c.items.length, 0);
@@ -191,14 +191,14 @@ export interface Person {
 }
 
 export const people: Person[] = [
-  { name: 'Булат', role: 'ХУДОЖНИК ПО СВЕТУ', src: team.bulat, left: 2, height: 66, z: 1, captionBottom: 28, mx: -14, lift: 60, fx: { word: 'Свет', color: '#FF3B3B', meta: 'КРАСНЫЙ ФИЛЬТР · 3200K' } },
-  { name: 'Алексей', role: 'ПИЛОТ КВАДРОКОПТЕРА', src: team.aleksey, left: 11.5, height: 92, z: 2, captionBottom: 38, mx: 0, lift: 70, fx: { word: 'Дрон', color: '#E8FF3A', meta: 'ALT 42 m · GPS 14 · REC' } },
-  { name: 'Николай', role: 'ВИДЕООПЕРАТОР', src: team.nikolay, left: 23.5, height: 78, z: 1, captionBottom: 28, mx: -14, lift: 80, fx: { word: 'Камера', color: '#45B8FF', meta: '4K · 50p · STAB ON' } },
-  { name: 'Семён', role: 'КИНООПЕРАТОР', src: team.semen, left: 35, height: 100, z: 3, captionBottom: 38, mx: 14, lift: 90, fx: { word: 'Кино', color: '#FFB14E', meta: '24 FPS · 2.39:1 · ISO 800' } },
-  { name: 'Роман', role: 'РЕЖИССЁР', src: team.roman, left: 47, height: 86, z: 2, captionBottom: 28, mx: 0, lift: 100, accent: true, fx: { word: 'Мотор!', color: '#9B72FF', meta: 'SCENE 04 · TAKE 01 · ACTION' } },
-  { name: 'Аниса', role: 'ГРИМЁР', src: team.anisa, left: 58.5, height: 96, z: 3, captionBottom: 38, mx: 14, lift: 110, fx: { word: 'Грим', color: '#FF6B9D', meta: 'SOFT LIGHT · 5600K' } },
-  { name: 'Исхак', role: 'ЗВУКОРЕЖИССЁР', src: team.iskhak, left: 70, height: 80, z: 1, captionBottom: 28, mx: -14, lift: 120, fx: { word: 'Звук', color: '#3DE0B0', meta: '48 kHz · 24 bit · -12 dB' } },
-  { name: 'Ирина', role: 'РЕЖИССЁР МОНТАЖА', src: team.irina, left: 82, height: 94, z: 2, captionBottom: 38, mx: 0, lift: 130, fx: { word: 'Монтаж', color: '#FF8AE2', meta: 'CUT 01:24:12 → 01:26:03' } },
+  { name: 'Булат', role: 'ХУДОЖНИК ПО СВЕТУ', src: team.bulat, left: 2, height: 66, z: 1, captionBottom: 28, mx: -14, lift: 60, fx: { word: 'Свет', color: '#CBB3FF', meta: 'КРАСНЫЙ ФИЛЬТР · 3200K' } },
+  { name: 'Алексей', role: 'ПИЛОТ КВАДРОКОПТЕРА', src: team.aleksey, left: 11.5, height: 92, z: 2, captionBottom: 38, mx: 0, lift: 70, fx: { word: 'Дрон', color: '#7A6BFF', meta: 'ALT 42 m · GPS 14 · REC' } },
+  { name: 'Николай', role: 'ВИДЕООПЕРАТОР', src: team.nikolay, left: 23.5, height: 78, z: 1, captionBottom: 28, mx: -14, lift: 80, fx: { word: 'Камера', color: '#9B7CFF', meta: '4K · 50p · STAB ON' } },
+  { name: 'Семён', role: 'КИНООПЕРАТОР', src: team.semen, left: 35, height: 100, z: 3, captionBottom: 38, mx: 14, lift: 90, fx: { word: 'Кино', color: '#A489FF', meta: '24 FPS · 2.39:1 · ISO 800' } },
+  { name: 'Роман', role: 'РЕЖИССЁР', src: team.roman, left: 47, height: 86, z: 2, captionBottom: 28, mx: 0, lift: 100, accent: true, fx: { word: 'Мотор!', color: '#B48CFF', meta: 'SCENE 04 · TAKE 01 · ACTION' } },
+  { name: 'Аниса', role: 'ГРИМЁР', src: team.anisa, left: 58.5, height: 96, z: 3, captionBottom: 38, mx: 14, lift: 110, fx: { word: 'Грим', color: '#D48BFF', meta: 'SOFT LIGHT · 5600K' } },
+  { name: 'Исхак', role: 'ЗВУКОРЕЖИССЁР', src: team.iskhak, left: 70, height: 80, z: 1, captionBottom: 28, mx: -14, lift: 120, fx: { word: 'Звук', color: '#6E4CD8', meta: '48 kHz · 24 bit · -12 dB' } },
+  { name: 'Ирина', role: 'РЕЖИССЁР МОНТАЖА', src: team.irina, left: 82, height: 94, z: 2, captionBottom: 38, mx: 0, lift: 130, fx: { word: 'Монтаж', color: '#C271FF', meta: 'CUT 01:24:12 → 01:26:03' } },
 ];
 
 export interface Review {

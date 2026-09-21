@@ -142,8 +142,8 @@
   align-items: center;
   min-height: 50px;
   padding: 0 clamp(18px, 1.6vw, 26px);
-  background: var(--accent-grad);
-  color: var(--paper);
+  background: var(--violet);
+  color: #120C22;
   font-weight: 700;
   font-size: clamp(14px, 1vw, 17px);
   letter-spacing: -0.01em;

@@ -2,37 +2,24 @@ import { useEffect, useRef, useState } from 'react';
 import { Picture } from '@/components/Picture';
 import { SkipPin } from '@/components/chrome/SkipPin';
 import { backstage } from '@/content';
-import { useScene, useSceneIndex } from '@/lib/hooks';
+import { useSceneIndex } from '@/lib/hooks';
 import { getEngine } from '@/lib/scroll-engine';
 import styles from './Backstage.module.css';
 
 const WORDS = backstage.words;
-const FPS = 25;
-const SECONDS = 90;
-
-function timecode(e: number) {
-  const total = Math.round(e * SECONDS * FPS);
-  const fr = total % FPS;
-  const s = Math.floor(total / FPS) % 60;
-  const m = Math.floor(total / (FPS * 60));
-  return `00:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}:${String(fr).padStart(2, '0')}`;
-}
 
 /**
- * 05 / За кадром — the viewfinder of a running A-cam. Three backstage frames stack on top of each
- * other through clip-path wipes while the camera slowly pushes in; REC blinks, the timecode runs
- * with the scroll (25 fps), the take number follows the clapper word, which is set letter by letter.
+ * 05 / За кадром — three frames from the studio's shoots dissolving into each other with a slow
+ * push-in, and the clapper word set letter by letter over them.
+ *
+ * It used to carry a whole fake camera interface on top: corner brackets, a crosshair, a blinking
+ * REC dot, a running timecode, «A-CAM · 4K 25P», a take number. Six pieces of small type scattered
+ * over a photograph — a gimmick that fought the picture and collided with itself on narrow screens.
+ * The photography carries the chapter now.
  */
 export function Backstage() {
   const section = useRef<HTMLElement>(null);
   const idx = useSceneIndex(section, WORDS.length);
-  const tc = useRef<HTMLDivElement>(null);
-
-  // timecode is high-frequency: written straight to the DOM, never through state
-  useScene(section, (e) => {
-    const next = timecode(e);
-    if (tc.current && tc.current.textContent !== next) tc.current.textContent = next;
-  });
 
   return (
     <section id="sp-05" ref={section} data-scene className={styles.section} aria-label="05 За кадром">
@@ -45,24 +32,6 @@ export function Backstage() {
         </div>
         <div className={`${styles.layer} ${styles.layer3}`}>
           <Picture photo={backstage.layers[2]} alt="" className={styles.photo} />
-        </div>
-
-        <div aria-hidden="true" className={styles.finder}>
-          <span className={`${styles.corner} ${styles.tl}`} />
-          <span className={`${styles.corner} ${styles.tr}`} />
-          <span className={`${styles.corner} ${styles.bl}`} />
-          <span className={`${styles.corner} ${styles.br}`} />
-          <span className={styles.crossH} />
-          <span className={styles.crossV} />
-          <div className={styles.rec}>
-            <span className={styles.recDot} />
-            REC
-          </div>
-          <div ref={tc} className={styles.tc}>
-            00:00:00:00
-          </div>
-          <div className={styles.cam}>A-CAM · 4K 25P</div>
-          <div className={styles.take}>СЦЕНА 05 · ДУБЛЬ {String(idx + 1).padStart(2, '0')}</div>
         </div>
 
         <div className={styles.wordWrap}>

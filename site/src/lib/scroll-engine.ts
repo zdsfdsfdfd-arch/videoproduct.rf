@@ -3,7 +3,7 @@
  *
  * Every frame it writes a handful of custom properties that the stylesheets read:
  *   on <html>:            --mx --my (lerped mouse, −1…1)
- *   on the progress bar:  --sp (page progress 0…1)   on the perforation rails: --perf-y
+ *   on the progress bar:  --sp (page progress 0…1)
  *   on each [data-scene]: --p (reveal progress: saturates when the top rises 70 % of the viewport)
  *                         --e (pin progress: 0…1 while a taller-than-viewport section scrolls through)
  * Components that need discrete state (which process step, which review) subscribe to a scene and
@@ -53,11 +53,9 @@ class ScrollEngine {
   private lastMx = '';
   private lastMy = '';
 
-  // page progress, written on the elements that read it instead of on <html>
+  // page progress, written on the element that reads it instead of on <html>
   private progressEl: HTMLElement | null = null;
-  private perfEls = new Set<HTMLElement>();
   private lastSp = '';
-  private lastPerf = '';
   private docHeight = 0;
 
   // cursor follower
@@ -156,18 +154,11 @@ class ScrollEngine {
     this.cursorLabel = label;
   }
 
-  /** The progress bar and the perforation rails read their own property, not one on <html>. */
+  /** The progress bar reads its own property, not one on <html>. */
   attachProgress(el: HTMLElement | null) {
     this.progressEl = el;
     this.lastSp = '';
     this.wake();
-  }
-
-  attachPerf(el: HTMLElement) {
-    this.perfEls.add(el);
-    this.lastPerf = '';
-    this.wake();
-    return () => this.perfEls.delete(el);
   }
 
   private observeSections() {
@@ -279,13 +270,6 @@ class ScrollEngine {
       this.progressEl?.style.setProperty('--sp', sp);
       changed = true;
     }
-    const perf = (y * 0.35).toFixed(1);
-    if (perf !== this.lastPerf) {
-      this.lastPerf = perf;
-      this.perfEls.forEach((el) => el.style.setProperty('--perf-y', perf));
-      changed = true;
-    }
-
     for (let i = 0; i < this.scenes.length; i++) {
       const g = this.geom[i];
       if (!g) continue;

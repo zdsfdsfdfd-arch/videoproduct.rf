@@ -1,33 +1,34 @@
-/* «МЕНЮ» plate — rightmost of the fixed top plates below 1280px */
+/* «МЕНЮ» — the right end of the header bar below 1280px (it rides on top of the bar, at its
+   height, so the row reads as one piece of chrome) */
 .btn {
   position: fixed;
-  top: 12px;
-  right: 40px;
-  z-index: 58;
+  top: 11px;
+  right: clamp(14px, 3vw, 44px);
+  z-index: 59;
   display: none;
   align-items: center;
-  gap: 9px;
-  width: 78px;
-  height: 42px;
-  padding: 0 12px;
+  gap: 8px;
+  width: 74px;
+  height: 34px;
+  padding: 0 11px;
+  border-radius: 6px;
   border: 1px solid var(--line-paper-22);
-  background: rgba(10, 7, 20, 0.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: transparent;
   color: var(--paper);
-  letter-spacing: 0.16em;
+  font-size: 12px;
+  letter-spacing: 0.04em;
   cursor: pointer;
-  transition: border-color 0.3s, background 0.3s, transform 0.35s var(--ease), opacity 0.25s;
+  transition: border-color 0.25s, background 0.25s, transform 0.35s var(--ease), opacity 0.25s;
 }
-/* scrolling down lifts the plate off the text (see useAutoHideChrome) */
+/* scrolling down lifts the bar, and the button with it (see useAutoHideChrome) */
 :global(:root[data-chrome='up']) .btn {
-  transform: translateY(-170%);
+  transform: translateY(-160%);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: transform 0.35s var(--ease), opacity 0.25s, visibility 0s 0.35s;
 }
-.btn:hover, .btn:active { border-color: var(--accent); background: rgba(10, 7, 20, 0.85); }
+.btn:hover, .btn:active { border-color: color-mix(in srgb, var(--violet) 70%, transparent); background: color-mix(in srgb, var(--violet) 14%, transparent); }
 .burger { display: flex; flex-direction: column; gap: 3px; width: 14px; }
 .burger > i { display: block; height: 1px; background: currentColor; }
 .burger > i:nth-child(2) { width: 70%; }
@@ -36,7 +37,7 @@
   .btn { display: inline-flex; }
 }
 @media (max-width: 767px) {
-  .btn { right: calc(var(--perf) + 8px); }
+  .btn { right: var(--gutter); }
 }
 
 /* the sheet */
@@ -46,7 +47,7 @@
   z-index: 70;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  padding: 14px calc(var(--perf) + 14px) max(18px, env(safe-area-inset-bottom));
+  padding: 14px var(--gutter) max(18px, env(safe-area-inset-bottom));
   background:
     radial-gradient(ellipse at 100% 0%, rgba(140, 92, 255, 0.28), transparent 55%),
     var(--ink);
@@ -130,6 +131,4 @@
 .contacts a { color: var(--grey); }
 .contacts a:active { color: var(--accent); }
 
-@media (pointer: coarse) {
-  .btn { background: #0a0714; backdrop-filter: none; -webkit-backdrop-filter: none; }
-}
+
