@@ -84,6 +84,8 @@
   position: relative;
   margin: 0;
   aspect-ratio: 16 / 10;
+  /* capped: a taller frame made the head column, not the list, set the chapter's height */
+  max-height: clamp(140px, 15vw, 210px);
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
 }
@@ -152,6 +154,7 @@
   .chapter { margin-top: 26px; padding-top: 16px; gap: 12px; }
   .chapter:first-of-type { margin-top: 32px; }
   .chapterHead, .list { grid-column: 1 / span 12; }
+  .shot { aspect-ratio: 21 / 9; max-height: 132px; }
   .row { padding: 11px 0; grid-template-columns: 28px 1fr; }
   .rowName { font-size: 15px; }
 }

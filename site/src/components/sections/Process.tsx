@@ -1,89 +1,75 @@
-import { useEffect, useRef, useState } from 'react';
 import { Picture } from '@/components/Picture';
 import { processSteps } from '@/content';
+import { useAnchorClick } from '@/lib/hooks';
 import styles from './Process.module.css';
 
 const COUNT = processSteps.length;
+const HUES = ['violet', 'cyan', 'amber', 'coral'] as const;
 
 /**
- * 03 / Процесс — the seven stages of a shoot.
+ * 03 / Процесс — the seven stages of a shoot, as seven frames.
  *
- * This used to be pinned for 460vh: one stage at a time, the other six greyed out, and four and a
- * half screens of scrolling to get past it. Now all seven are readable at once as a list — number,
- * name, what happens, which tariffs include it — and the frame beside them (sticky, not pinned)
- * follows whichever stage is level with the middle of the screen. The whole chapter is about a
- * screen and a half, and the page never holds the scroll.
+ * Two earlier versions did not hold up. The first pinned the page for 460vh and lit one stage at a
+ * time. The second read the stages down a column beside a sticky photograph — readable, but seven
+ * identical text rows next to one picture, and the studio said as much. This one gives every stage
+ * its own frame: its still from their shoots, its number, its colour and the tariffs it belongs to
+ * as chips you can actually scan. The eighth card is the way out of the chapter — the brief.
+ *
+ * Desktop lays the eight out four across; a phone swipes through them like a film strip, the same
+ * gesture the portfolio uses. Nothing is pinned and nothing runs per frame.
  */
 export function Process() {
-  const section = useRef<HTMLElement>(null);
-  const rows = useRef<(HTMLLIElement | null)[]>([]);
-  const [active, setActive] = useState(0);
-
-  // which stage is level with the middle of the viewport — an observer, so nothing runs per frame
-  useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const en of entries) {
-          if (!en.isIntersecting) continue;
-          const i = rows.current.indexOf(en.target as HTMLLIElement);
-          if (i >= 0) setActive(i);
-        }
-      },
-      { rootMargin: '-45% 0px -45% 0px' },
-    );
-    rows.current.forEach((el) => el && io.observe(el));
-    return () => io.disconnect();
-  }, []);
+  const onClick = useAnchorClick();
 
   return (
-    <section id="sp-03" ref={section} data-scene className={styles.section} aria-label="03 Процесс">
+    <section id="sp-03" data-scene className={styles.section} aria-label="03 Процесс">
       <div className={`${styles.head} mono mono-dim`}>
         <span>03 / ПРОЦЕСС</span>
-        <span>
-          <span className={styles.headLong}>ЭТАПЫ ПРОИЗВОДСТВА · </span>
-          {String(COUNT).padStart(2, '0')} ЭТАПОВ
-        </span>
+        <span className={styles.headLong}>ПОЛНЫЙ ЦИКЛ · {String(COUNT).padStart(2, '0')} ЭТАПОВ</span>
       </div>
 
-      <h2 className={`${styles.title} h2`}>
-        Как рождается <em>ролик</em>
-      </h2>
+      <div className={styles.intro}>
+        <h2 className={`${styles.title} h2`}>
+          Как рождается <em>ролик</em>
+        </h2>
+        <p className={`${styles.lead} body-copy`}>
+          Каждый этап делает своя часть команды. В тариф «Старт» входит базовый набор, в «Стандарт» и «Комбо» — все семь.
+        </p>
+      </div>
 
-      <div className={styles.body}>
-        <div className={styles.frameCol}>
-          <div className={styles.frameBox} aria-hidden="true">
-            {processSteps.map((s, i) => (
-              <div key={s.title} className={styles.frame} data-on={i === active ? '1' : undefined}>
-                <Picture photo={s.frame.photo} alt="" className={styles.photo} />
-              </div>
-            ))}
-            <div className={styles.frameShade} />
-            <span className={`${styles.frameTag} mono`}>
-              ЭТАП {String(active + 1).padStart(2, '0')} · {processSteps[active].title.toUpperCase()}
+      <ol className={styles.track}>
+        {processSteps.map((s, i) => (
+          <li key={s.title} className={styles.card} data-hue={HUES[i % HUES.length]}>
+            <Picture photo={s.frame.photo} alt={s.frame.alt} sizes="(max-width: 767px) 76vw, 24vw" className={styles.photo} />
+            <div className={styles.veil} />
+            <span aria-hidden="true" className={styles.num}>
+              {String(i + 1).padStart(2, '0')}
             </span>
-          </div>
-        </div>
+            <div className={styles.body}>
+              <h3 className={styles.name}>{s.title}</h3>
+              <p className={styles.desc}>{s.description}</p>
+              <ul className={`${styles.chips} mono`}>
+                {s.tariffs.split('·').map((t) => (
+                  <li key={t} className={styles.chip}>
+                    {t.trim()}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </li>
+        ))}
 
-        <ol className={styles.list}>
-          {processSteps.map((s, i) => (
-            <li
-              key={s.title}
-              ref={(el) => {
-                rows.current[i] = el;
-              }}
-              className={styles.step}
-              data-on={i === active ? '1' : undefined}
-            >
-              <span className={styles.stepNum}>{String(i + 1).padStart(2, '0')}</span>
-              <div className={styles.stepBody}>
-                <h3 className={styles.stepName}>{s.title}</h3>
-                <p className={styles.stepDesc}>{s.description}</p>
-                <p className={`${styles.stepTariffs} mono`}>{s.tariffs}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </div>
+        <li className={`${styles.card} ${styles.cardCta}`}>
+          <div className={styles.body}>
+            <span className={`${styles.ctaLabel} mono`}>ЭТАП {String(COUNT + 1).padStart(2, '0')}</span>
+            <h3 className={styles.name}>Ваш проект</h3>
+            <p className={styles.desc}>Расскажите о задаче — предложим тариф и состав работ под неё.</p>
+            <a href="#sp-09" onClick={onClick} data-cursor="ЗАПОЛНИТЬ" className={styles.ctaLink}>
+              Рассчитать стоимость →
+            </a>
+          </div>
+        </li>
+      </ol>
     </section>
   );
 }
