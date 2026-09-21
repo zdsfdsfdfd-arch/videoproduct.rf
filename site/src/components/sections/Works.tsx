@@ -79,9 +79,9 @@ export function Works({ onOpen }: Props) {
   const aside = (
     <div className={styles.aside}>
       <h2 data-reveal="display" className={styles.title}>
-        Снятое
+        Что мы
         <br />
-        <span className={styles.titleDim}>и смонтированное</span>
+        <span className={styles.titleDim}>уже сняли</span>
       </h2>
       <p data-reveal style={delay(90)} className={`${styles.note} body-copy`}>
         Ознакомительные ролики, видео о продукции, имиджевые и продающие — избранное из работ студии.
