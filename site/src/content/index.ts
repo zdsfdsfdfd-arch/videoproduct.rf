@@ -252,11 +252,22 @@ export const faq = [
  * inside mobile browsers, which is why the cover used to fall back to a frame reel on phones).
  * `#t=0.1` starts a tenth of a second in: the first frame of the file is black.
  *
- * Set this to null — or a path under `site/public/video/` — and the cover falls back to the VK
- * player on desktop and the frame reel on phones. If the file ever stops loading, the cover does
- * the same on its own (see Cover.tsx).
+ * Renditions, sharpest first: the browser takes the first one it can load and steps down the list
+ * when a file is missing. The cover is full-bleed and cropped to the window, so the picture is
+ * blown up well past its own size — about 2.5× on a laptop and 3.5× on a phone, where a 16:9 frame
+ * has to cover a tall screen. 720p visibly falls apart at that size; 1080p is the same clip with
+ * half again as many pixels to spend on it. Kinescope only has a rendition if the master was at
+ * least that big, hence the ladder rather than a single link — and hence the real fix, if this is
+ * still soft: the original file from the studio, served from `site/public/video/`.
+ *
+ * Empty list — or a path under `site/public/video/` — and the cover falls back to the VK player on
+ * desktop and the frame reel on phones. If nothing here loads, the cover does the same on its own
+ * (see Cover.tsx).
  */
-export const coverVideo: string | null = 'https://kinescope.io/0TQrgNTzKbreqYdeWNtWnN/720p#t=0.1';
+export const coverVideoSources: readonly string[] = [
+  'https://kinescope.io/0TQrgNTzKbreqYdeWNtWnN/1080p#t=0.1',
+  'https://kinescope.io/0TQrgNTzKbreqYdeWNtWnN/720p#t=0.1',
+];
 
 export const coverPoster = backgrounds.coverPodcastStudio;
 

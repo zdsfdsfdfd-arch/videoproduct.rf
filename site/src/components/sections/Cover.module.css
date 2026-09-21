@@ -54,7 +54,11 @@
   top: 50%;
   width: max(100%, 177.78vh);
   height: max(100%, 56.25vw);
-  transform: translate(-50%, -50%) scale(calc(1.02 + var(--e, 0) * 0.1));
+  /* The frame is already blown up by the crop — 16:9 footage covering a tall window is enlarged
+     well past its own resolution — so the push-in comes off that same budget. It used to add up
+     to another 12 %, which is what turned soft into pixelated; 5 % still reads as a slow move in.
+     The 1.01 is a seam guard: at exactly 1 a subpixel edge can show along the crop. */
+  transform: translate(-50%, -50%) scale(calc(1.01 + var(--e, 0) * 0.045));
   /* daylight footage came through washed out under the old violet cast */
   filter: brightness(0.76) saturate(0.94);
 }

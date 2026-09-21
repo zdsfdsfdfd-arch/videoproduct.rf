@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Picture } from '@/components/Picture';
 import { VkPlayer } from '@/components/VkPlayer';
-import { cities, contacts, coverPoster, coverReel, coverVideo, heroVideoId, tariffs, vkVideoUrl } from '@/content';
+import { cities, contacts, coverPoster, coverReel, coverVideoSources, heroVideoId, tariffs, vkVideoUrl } from '@/content';
 import { useAnchorClick, useIsDesktop } from '@/lib/hooks';
 import { delay } from '@/lib/reveal';
 import { getEngine } from '@/lib/scroll-engine';
@@ -17,7 +17,7 @@ import styles from './Cover.module.css';
  * and said nothing a first-time visitor needed.
  *
  * What plays where:
- *   • the studio's reel (content → coverVideo), inline and muted — works on every device;
+ *   • the studio's reel (content → coverVideoSources), inline and muted — works on every device;
  *   • otherwise, on desktop, the VK showreel in an iframe;
  *   • otherwise, on phones, a slow cross-fade through studio frames — VK's embedded player does not
  *     run inside mobile browsers (it renders «видео недоступно»), and a motionless cover reads as a
@@ -32,7 +32,7 @@ export function Cover() {
   const desktop = useIsDesktop();
   const reduced = getEngine().reduced;
   const [clipDead, setClipDead] = useState(false);
-  const clip = coverVideo && !clipDead ? coverVideo : null;
+  const clip = coverVideoSources.length > 0 && !clipDead;
   const vkOn = !clip && desktop && !reduced;
   const reelOn = !clip && !desktop && !reduced;
 
@@ -49,7 +49,7 @@ export function Cover() {
           <div className={styles.video} aria-hidden="true">
             <div className={styles.videoBox}>
               {clip ? (
-                <CoverClip src={clip} onDead={() => setClipDead(true)} />
+                <CoverClip onDead={() => setClipDead(true)} />
               ) : vkOn ? (
                 <VkPlayer id={heroVideoId} title="Шоурил студии" poster={coverPoster.src} autoplay eager holdMs={2200} className={styles.frame} />
               ) : reelOn ? (
@@ -137,11 +137,19 @@ export function Cover() {
 
 /**
  * The cover clip. Muted and inline so phones autoplay it too; the poster carries the first moment
- * so there is no black rectangle while the file opens. `onDead` fires on a load error, and also if
- * six seconds pass without a single decodable frame — a cover that never moves should hand over to
- * the fallback instead of pretending.
+ * so there is no black rectangle while the file opens.
+ *
+ * The renditions go in as <source> children, sharpest first: the browser walks the list by itself
+ * and steps down when one is missing. With a list rather than a single src the element does not
+ * fire `error` once the candidates run out — it goes to networkState NETWORK_NO_SOURCE instead,
+ * which is what the poll below watches for. That is a statement of fact, not a deadline, so a slow
+ * connection is never mistaken for a dead file; the long stop after it only covers the other case,
+ * a file that arrives but never yields a frame.
  */
-function CoverClip({ src, onDead }: { src: string; onDead: () => void }) {
+const NO_SOURCE = 3; // HTMLMediaElement.NETWORK_NO_SOURCE — every candidate was refused
+const GIVE_UP = 20000; // downloading all this time without a frame is not a cover either
+
+function CoverClip({ onDead }: { onDead: () => void }) {
   const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -151,24 +159,28 @@ function CoverClip({ src, onDead }: { src: string; onDead: () => void }) {
     // of the file, so it only matters that a frame arrived
     void v.play().catch(() => {});
     if (v.readyState >= 2) return;
-    const t = setTimeout(() => {
-      if ((ref.current?.readyState ?? 0) < 2) onDead();
-    }, 6000);
-    return () => clearTimeout(t);
-  }, [src, onDead]);
+
+    const started = Date.now();
+    const poll = setInterval(() => {
+      const el = ref.current;
+      if (!el) return;
+      if (el.readyState >= 2) {
+        clearInterval(poll);
+        return;
+      }
+      if (el.networkState === NO_SOURCE || Date.now() - started > GIVE_UP) {
+        clearInterval(poll);
+        onDead();
+      }
+    }, 400);
+    return () => clearInterval(poll);
+  }, [onDead]);
 
   return (
-    <video
-      ref={ref}
-      className={styles.poster}
-      poster={coverPoster.src}
-      src={src}
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="auto"
-      onError={onDead}
-    />
+    <video ref={ref} className={styles.poster} poster={coverPoster.src} autoPlay muted loop playsInline preload="auto">
+      {coverVideoSources.map((src) => (
+        <source key={src} src={src} type="video/mp4" />
+      ))}
+    </video>
   );
 }
