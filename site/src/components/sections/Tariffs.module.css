@@ -16,87 +16,121 @@
 }
 
 .columns {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(10px, 1.2vw, 20px);
   margin-top: clamp(46px, 8vh, 100px);
-  background: var(--line-paper-14);
 }
 .tariff {
-  flex: 1 1 260px;
-  min-width: 260px;
-  background: var(--ink);
-  padding: clamp(24px, 3vw, 44px);
-  transition: flex-grow 0.6s var(--ease), background 0.5s;
-}
-.tariff:hover {
-  flex-grow: 2.2;
-  background: var(--panel-hover);
-}
-.meta {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+  flex-direction: column;
+  padding: clamp(22px, 2.4vw, 36px);
+  border: 1px solid var(--line-paper-14);
+  background: var(--ink-2);
+  transition: border-color 0.3s, background 0.3s;
+}
+.tariff:hover { border-color: color-mix(in srgb, var(--violet) 45%, transparent); }
+/* the middle plan carries every stage; it is marked, not advertised */
+.tariff[data-accent] { border-color: color-mix(in srgb, var(--violet) 55%, transparent); }
+
+.label {
+  margin: 0 0 10px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
   color: var(--dim-paper);
 }
-.price {
-  margin: clamp(26px, 4vw, 54px) 0 0;
+.name {
+  margin: 0;
   font-weight: 800;
-  font-size: clamp(30px, 3.2vw, 64px);
+  font-size: clamp(26px, 2.5vw, 40px);
   line-height: 1;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.03em;
+}
+.price {
+  margin: 8px 0 0;
+  font-weight: 700;
+  font-size: clamp(19px, 1.5vw, 25px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--violet-soft);
   white-space: nowrap;
 }
-.stages {
-  margin: clamp(22px, 3vw, 40px) 0 0;
-  padding: 0;
-  list-style: none;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  line-height: 2.3;
-  color: var(--grey);
-  border-top: 1px solid var(--line-paper-14);
-}
+.tariff[data-accent] .price { color: var(--violet); }
+
 .desc {
-  margin: clamp(22px, 3vw, 38px) 0 0;
-  font-size: 15px;
+  margin: clamp(16px, 1.8vw, 24px) 0 0;
+  font-size: clamp(14px, 1.05vw, 16px);
   line-height: 1.55;
   color: var(--grey);
   text-wrap: pretty;
 }
-.fits {
-  margin: 18px 0 0;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  line-height: 2;
+
+.block {
+  margin-top: clamp(20px, 2.2vw, 30px);
+  padding-top: clamp(14px, 1.5vw, 20px);
+  border-top: 1px solid var(--line-paper-14);
+}
+/* «подойдёт для» sits on the card's bottom edge, so the three cards line up there */
+.blockLast { margin-top: auto; }
+.blockHead {
+  margin: 0 0 12px;
+  font-size: 9px;
+  letter-spacing: 0.18em;
   color: var(--dim-paper);
 }
+
+.stages, .fits {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* was 11px uppercase mono at 0.08em tracking — the studio could not read its own plans */
+.stage {
+  position: relative;
+  padding: 3px 0 3px 18px;
+  font-size: clamp(13.5px, 1vw, 15px);
+  line-height: 1.5;
+  color: var(--paper);
+}
+.stage::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 8px;
+  height: 1px;
+  background: var(--violet);
+}
+.fit {
+  padding: 3px 0;
+  font-size: clamp(12.5px, 0.92vw, 14px);
+  line-height: 1.45;
+  color: var(--grey);
+}
+
 .foot {
   margin: clamp(26px, 4vh, 48px) 0 0;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--dim-paper);
+  font-size: clamp(13px, 1vw, 15px);
+  line-height: 1.6;
+  color: var(--grey);
+}
+.footLink { color: var(--paper); border-bottom: 1px solid color-mix(in srgb, var(--violet) 60%, transparent); }
+.footLink:hover { color: var(--violet-soft); }
+
+@media (max-width: 1100px) {
+  .columns { grid-template-columns: 1fr; }
+  .blockLast { margin-top: clamp(20px, 2.2vw, 30px); }
 }
 
 @media (max-width: 767px) {
   /* PHONE-TRIM: the desktop vertical rhythm reads as dead black bands on a phone */
-  .section, .strip, .stories, .where, .matrix, .compare, .how { padding-top: clamp(46px, 7vh, 80px); padding-bottom: clamp(46px, 7vh, 80px); }
+  .section { padding-top: clamp(46px, 7vh, 80px); padding-bottom: clamp(46px, 7vh, 80px); }
 
   .index, .title, .lead { grid-column: 1 / span 12; }
   .lead { margin-top: 16px; }
-  /* phones: the three tariffs stack — nothing is cut off, nothing needs a sideways swipe */
-  .columns { flex-direction: column; margin-top: 36px; }
-  .tariff {
-    flex: 1 1 auto;
-    min-width: 0;
-    padding: 22px;
-  }
-  .tariff:hover { flex-grow: 1; }
-  .price { font-size: 34px; }
-  .stages { line-height: 2.1; }
-  .foot { line-height: 1.9; }
+  .columns { margin-top: 32px; gap: 10px; }
+  .tariff { padding: 20px; }
+  .name { font-size: 26px; }
+  .price { font-size: 19px; }
   .foot a { display: inline-flex; align-items: center; min-height: 44px; }
 }

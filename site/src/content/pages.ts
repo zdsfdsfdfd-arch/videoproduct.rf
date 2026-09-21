@@ -62,9 +62,11 @@ export const serviceDetails: ServiceDetail[][] = serviceChapters.map((ch) =>
 /** Stages × tariffs matrix, built from the verified stage lists of each tariff. */
 export const allStages = ['Сценарий', 'Раскадровка', 'Видеосъёмка', 'Видеомонтаж', 'Цветокоррекция', 'Саунд-дизайн', 'Графика'];
 export function stageIn(t: Tariff, stage: string): 'full' | 'basic' | 'none' {
-  const up = stage.toUpperCase();
-  if (t.stages.includes(up)) return 'full';
-  if (t.stages.includes(`БАЗОВЫЙ ${up}`)) return 'basic';
+  // the stage lists are written for reading, so match on case-folded text, not on exact strings
+  const norm = (s: string) => s.trim().toLowerCase();
+  const list = t.stages.map(norm);
+  if (list.includes(norm(stage))) return 'full';
+  if (list.includes(`базовый ${norm(stage)}`)) return 'basic';
   return 'none';
 }
 export { tariffs };

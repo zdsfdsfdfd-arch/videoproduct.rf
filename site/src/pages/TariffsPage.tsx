@@ -54,7 +54,7 @@ export function TariffsPage() {
               Для каких задач
             </div>
             {tariffs.map((t) => (
-              <div key={t.name} className={`${styles.cell} ${styles.cellText} mono`} data-accent={t.accent ? '1' : undefined}>
+              <div key={t.name} className={`${styles.cell} ${styles.cellText}`} data-accent={t.accent ? '1' : undefined}>
                 <span className={styles.cellTariff}>{t.name.toUpperCase()}</span>
                 {t.fits}
               </div>

@@ -32,12 +32,13 @@
 .stageNum { color: var(--dim-paper); }
 .cell { display: flex; align-items: center; gap: 10px; }
 .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(241, 237, 247, 0.12); }
-.cell[data-v='full'] .dot { background: var(--accent); box-shadow: 0 0 14px rgba(140, 92, 255, 0.6); }
+.cell[data-v='full'] .dot { background: var(--accent); box-shadow: 0 0 14px color-mix(in srgb, var(--violet) 55%, transparent); }
 .cell[data-v='basic'] .dot { background: transparent; border: 1px solid var(--accent); }
 .cellLabel { color: var(--grey); letter-spacing: 0.14em; }
 .cell[data-v='none'] .cellLabel { color: rgba(241, 237, 247, 0.3); }
 .cellTariff { display: none; }
-.cellText { align-items: flex-start; line-height: 1.9; letter-spacing: 0.1em; color: var(--grey); font-size: 10px; }
+/* the «для каких задач» row is prose, not a label: set it to be read */
+.cellText { align-items: flex-start; line-height: 1.5; letter-spacing: 0; color: var(--grey); font-size: 13px; font-family: var(--sans); }
 
 .howTitle {
   margin: 0;
@@ -64,12 +65,12 @@
 .howActions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: clamp(30px, 5vh, 56px); }
 .cta {
   padding: 16px 24px;
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--violet);
+  color: #120C22;
   letter-spacing: 0.16em;
-  transition: background 0.3s, color 0.3s;
+  transition: filter 0.25s;
 }
-.cta:hover { background: var(--accent); color: var(--paper); }
+.cta:hover { filter: brightness(1.12); }
 .ctaGhost {
   padding: 16px 24px;
   border: 1px solid rgba(241, 237, 247, 0.28);
@@ -101,6 +102,6 @@
   .cell[data-accent] .cellTariff { color: var(--accent); }
   .cellLabel { font-size: 10px; }
   .cell[data-v='none'] .cellLabel { color: rgba(241, 237, 247, 0.5); }
-  .cellText { font-size: 10px; line-height: 1.7; }
+  .cellText { font-size: 12.5px; line-height: 1.5; }
   .steps { grid-template-columns: 1fr; }
 }
