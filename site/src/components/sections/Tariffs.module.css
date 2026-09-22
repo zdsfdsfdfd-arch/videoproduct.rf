@@ -22,16 +22,44 @@
   margin-top: clamp(46px, 8vh, 100px);
 }
 .tariff {
+  position: relative;
   display: flex;
   flex-direction: column;
   padding: clamp(22px, 2.4vw, 36px);
-  border: 1px solid var(--line-paper-14);
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent);
   background: var(--ink-2);
-  transition: border-color 0.3s, background 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.35s var(--ease);
 }
-.tariff:hover { border-color: color-mix(in srgb, var(--violet) 45%, transparent); }
-/* the middle plan carries every stage; it is marked, not advertised */
-.tariff[data-accent] { border-color: color-mix(in srgb, var(--violet) 55%, transparent); }
+/* each plan on its own step of the violet family — three identical columns read as one wall */
+.tariff[data-hue='indigo'] { --accent: var(--indigo); }
+.tariff[data-hue='violet'] { --accent: var(--violet); }
+.tariff[data-hue='orchid'] { --accent: var(--orchid); }
+.tariff:hover {
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  transform: translateY(-3px);
+}
+
+/**
+ * The plan the studio calls its «хит». Three equal columns leave the choosing entirely to the
+ * visitor; this one is lit — a brighter edge and a pool of its own colour under the card — and
+ * tagged. The tag is the studio's own word, not a claim of ours.
+ */
+.tariff[data-accent] {
+  border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent), 0 30px 70px -28px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+.hit {
+  position: absolute;
+  top: 0;
+  right: clamp(18px, 2vw, 30px);
+  transform: translateY(-50%);
+  padding: 5px 11px;
+  background: var(--accent);
+  color: #120c22;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
 
 .label {
   margin: 0 0 10px;
@@ -52,10 +80,9 @@
   font-size: clamp(19px, 1.5vw, 25px);
   line-height: 1.2;
   letter-spacing: -0.02em;
-  color: var(--violet-soft);
+  color: var(--accent);
   white-space: nowrap;
 }
-.tariff[data-accent] .price { color: var(--violet); }
 
 .desc {
   margin: clamp(16px, 1.8vw, 24px) 0 0;
@@ -79,6 +106,21 @@
   color: var(--dim-paper);
 }
 
+/* crew, shooting days, timeline — the comparison happens here, so it sits above the stage list
+   and is set at the size of the card's own prose rather than as a footnote */
+.facts {
+  margin: clamp(16px, 1.8vw, 22px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.fact {
+  position: relative;
+  padding: 5px 0 5px 24px;
+  font-size: clamp(13.5px, 1vw, 15px);
+  line-height: 1.45;
+  color: var(--paper);
+}
+
 .stages, .fits {
   margin: 0;
   padding: 0;
@@ -87,26 +129,59 @@
 /* was 11px uppercase mono at 0.08em tracking — the studio could not read its own plans */
 .stage {
   position: relative;
-  padding: 3px 0 3px 18px;
+  padding: 3px 0 3px 24px;
   font-size: clamp(13.5px, 1vw, 15px);
   line-height: 1.5;
   color: var(--paper);
 }
+/* a tick drawn from two borders: no icon font, no extra markup, and it takes the card's colour */
+.fact::before,
 .stage::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 0.72em;
-  width: 8px;
-  height: 1px;
-  background: var(--violet);
+  left: 3px;
+  top: 0.42em;
+  width: 5px;
+  height: 9px;
+  border: solid var(--accent);
+  border-width: 0 1.6px 1.6px 0;
+  transform: rotate(45deg);
 }
+.fact::before { top: 0.6em; }
 .fit {
   padding: 3px 0;
   font-size: clamp(12.5px, 0.92vw, 14px);
   line-height: 1.45;
   color: var(--grey);
 }
+
+/* every card carries its own way out, so choosing a plan and acting on it is one movement */
+.order {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  margin-top: clamp(20px, 2.2vw, 28px);
+  padding: 0 clamp(18px, 1.6vw, 26px);
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  color: var(--paper);
+  font-weight: 700;
+  font-size: clamp(14px, 1vw, 16px);
+  letter-spacing: -0.01em;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+.order:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #120c22;
+}
+/* the marked plan's button is filled from the start — it is the one being recommended */
+.tariff[data-accent] .order {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #120c22;
+}
+.tariff[data-accent] .order:hover { filter: brightness(1.12); }
 
 .foot {
   margin: clamp(26px, 4vh, 48px) 0 0;
